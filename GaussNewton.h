@@ -2,11 +2,12 @@
 #include <iostream> 
 #include <cmath>
 #include "FNS.h"
-#include "HEIV.h"
-#include "Renorm.h"
-
-#include <Eigen/Dense>
-#include <Eigen/Eigenvalues>
 
 typedef libNumerics::matrix<double> Mat;
 typedef libNumerics::vector<double> Vec;
+
+Mat ComputeP(const Vec& u);
+
+Mat computePseudoInverse(const Mat& A);
+
+Mat GaussNewton(const Vec& u, const Mat& Eall);
