@@ -27,12 +27,12 @@ set(SOURCE_FILES
 )
 
 # 5. Define the Executable
-add_executable(triangulation_runner ${SOURCE_FILES})
+add_executable(F_estimator ${SOURCE_FILES})
 
 # 6. Link Libraries
 # We link GSL and its required CBLAS component
-target_link_libraries(triangulation_runner PRIVATE GSL::gsl GSL::gslcblas)
+target_link_libraries(F_estimator PRIVATE GSL::gsl GSL::gslcblas)
 
 if(UNIX)
-    target_link_libraries(triangulation_runner PRIVATE m)
+    target_link_libraries(F_estimator PRIVATE m)
 endif()
