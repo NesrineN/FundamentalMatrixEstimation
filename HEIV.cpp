@@ -216,7 +216,12 @@ Mat HEIV(const Vec& v, const Mat& Zall, const Mat& Ztall, Vec Zbar, double f0){
 
     // the solution is vnew
     double F33= - (dot(vnew,Zbar)) / (f0*f0);
-    Vec unew(vnew(0), vnew(1), vnew(2), vnew(3), vnew(4), vnew(5), vnew(6), vnew(7), F33);
+    Vec unew(9);
+
+    for (int i = 0; i < 8; ++i)
+        unew(i) = vnew(i);
+
+    unew(8) = F33;
 
     // normalizing unew to have unit length
     double norm = std::sqrt(unew.qnorm());
