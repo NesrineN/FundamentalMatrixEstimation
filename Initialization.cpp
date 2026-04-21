@@ -3,6 +3,8 @@
 #include <iostream> 
 #include <cmath>
 #include <random>
+#include <Eigen/Dense>
+#include <Eigen/Eigenvalues>
 
 typedef libNumerics::matrix<double> Mat;
 typedef libNumerics::vector<double> Vec;
