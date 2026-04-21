@@ -144,7 +144,7 @@ Mat ComputeLTilde(const Vec& v, const Mat& Zall, const Mat& Ztall) {
     return L;
 }
 
-Vec solveEigen(const Mat& Mt, const Mat& Lt){
+Vec solveGeneralizedEigen(const Mat& Mt, const Mat& Lt){
 
     Eigen::MatrixXd eigenM(Mt.nrow(), Mt.ncol());
 
@@ -206,7 +206,7 @@ Mat HEIV(const Vec& v, const Mat& Zall, const Mat& Ztall, Vec Zbar, double f0){
         Mat Lt=ComputeLTilde(vold, Zall, Ztall);
 
         // standard eigen value problem: 
-        vnew = solveEigen(Mt, Lt);
+        vnew = solveGeneralizedEigen(Mt, Lt);
 
         if((vnew-vold).qnorm()<1e-10){break;}
 
