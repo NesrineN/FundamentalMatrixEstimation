@@ -101,18 +101,58 @@ Mat ComputeV0Z(const Vec& E){
 
 }
 
-Mat ComputeMTilde(const Vec& v, const Mat& Zall, const Mat& Ztall) {
-    int n=Zall.ncol();
+Vec ComputeZbar(const Vec& v, const Mat& Eall){
+    int n=Eall.ncol();
+    double sum=0;
+    for(int i=0; i<n; i++){
+        Vec E=Eall.col(i);
+        Mat V0Z=ComputeV0Z(E);
+        Vec V0Zv= V0Z*v;
+
+        double vV0Zv= dot(v, V0Zv);
+        if(std::abs(vV0Zv) < 1e-15){
+            vV0Zv+=1e-9;
+        }
+        sum+=(1/vV0Zv);
+    }
+
+    Vec Zbar(8);
+    for(int j=0; j<8; j++){
+        Zbar(j)=0;
+    }
+
+    for(int i=0; i<n; i++){
+        Vec Z=Eall.col(i).copy(0,7);
+        Mat V0Z=ComputeV0Z(E);
+        Vec V0Zv= V0Z*v;
+        
+        double vV0Zv=dot(v, V0Zv);
+        if(std::abs(vV0Zv) < 1e-15){
+            vV0Zv+=1e-9;
+        }
+
+        Vec S=(Z/vV0Zv)/sum;
+        Zbar=Zbar+S;
+    }
+
+    return Zbar;
+
+}
+
+Mat ComputeMTilde(const Vec& v, const Mat& Eall, const Vec& Zbar) {
+    int n=Eall.ncol();
     Mat M=Mat::zeros(8);
 
     for(int i=0; i<n; i++){
-        Vec Z=Zall.col(i);
-        Vec Zt=Ztall.col(i);
+        Vec Z=Eall.col(i).copy(0,7);
+        Vec Zt=Z-Zbar;
 
         Mat V0Z=ComputeV0Z(Z); // remove this later and compute V0 for each point correspondence once and store it in a vector of matrices for efficiency 
         Vec V0Zv= V0Z*v;
         double vV0Zv= dot(v,V0Zv);
-        
+        if(std::abs(vV0Zv) < 1e-15){
+            vV0Zv+=1e-9;
+        }
         Mat S= Zt*Zt.t();
         S=S/vV0Zv;
         M=M+S;
@@ -121,13 +161,13 @@ Mat ComputeMTilde(const Vec& v, const Mat& Zall, const Mat& Ztall) {
     return M;
 }
 
-Mat ComputeLTilde(const Vec& v, const Mat& Zall, const Mat& Ztall) {
-    int n=Zall.ncol();
+Mat ComputeLTilde(const Vec& v, const Mat& Eall, const Vec& Zbar) {
+    int n=Eall.ncol();
     Mat L=Mat::zeros(8);
 
     for(int i=0; i<n; i++){
-        Vec Z=Zall.col(i);
-        Vec Zt=Ztall.col(i);
+        Vec Z=Eall.col(i).copy(0,7);
+        Vec Zt=Z-Zbar;
         
         Mat V0Z=ComputeV0Z(Z);
         Vec V0Zv= V0Z*v;
@@ -135,6 +175,10 @@ Mat ComputeLTilde(const Vec& v, const Mat& Zall, const Mat& Ztall) {
         double vV0Zv= dot(v,V0Zv);
         double vZt=dot(v,Zt);
         Mat S= V0Z;
+
+        if(std::abs(vV0Zv) < 1e-15){
+            vV0Zv+=1e-9;
+        }
 
         S=S*((vZt)*(vZt));
         S=S/((vV0Zv)*(vV0Zv));
@@ -144,7 +188,7 @@ Mat ComputeLTilde(const Vec& v, const Mat& Zall, const Mat& Ztall) {
     return L;
 }
 
-Vec solveGeneralizedEigen(const Mat& Mt, const Mat& Lt){
+Vec SolveGeneralizedEigen(const Mat& Mt, const Mat& Lt){
 
     Eigen::MatrixXd eigenM(Mt.nrow(), Mt.ncol());
 
@@ -162,7 +206,10 @@ Vec solveGeneralizedEigen(const Mat& Mt, const Mat& Lt){
         }
     }
 
-    Eigen::GeneralizedEigenSolver<Eigen::MatrixXd> solver(eigenM, eigenL);
+    Eigen::MatrixXd epsI = Eigen::MatrixXd::Identity(8, 8) * 1e-10; // adding a small epsilon to make sure the Ltilde matrix is positive definite
+
+
+    Eigen::GeneralizedSelfAdjointEigenSolver<Eigen::MatrixXd> solver(eigenM, eigenL+epsI);
 
     if (solver.info() != Eigen::Success) {
         throw std::runtime_error("Eigen decomposition failed");
@@ -171,24 +218,13 @@ Vec solveGeneralizedEigen(const Mat& Mt, const Mat& Lt){
     auto eigenvalues = solver.eigenvalues();
     auto eigenvectors = solver.eigenvectors();
 
-    int bestIndex = 0;
-    double bestDist = std::abs(eigenvalues[0] - std::complex<double>(1.0, 0.0));
-
-    for (int i = 1; i < eigenvalues.size(); ++i) {
-        double dist = std::abs(eigenvalues[i] - std::complex<double>(1.0, 0.0));
-        if (dist < bestDist) {
-            bestDist = dist;
-            bestIndex = i;
-        }
-    }
-
-    Eigen::VectorXcd v = eigenvectors.col(bestIndex);
+    Eigen::VectorXd v = eigenvectors.col(0);
     v.normalize();
 
     Vec vnew(v.size());
 
     for (int i = 0; i < v.size(); ++i) {
-        vnew(i) = v[i].real();
+        vnew(i) = v(i);
     }
 
     return vnew;
@@ -196,25 +232,34 @@ Vec solveGeneralizedEigen(const Mat& Mt, const Mat& Lt){
 }
 
 // takes in the initial guess of v and Zall and Ztall and applies the HEIV algorithm to estimate the fundamental matrix F
-Mat HEIV(const Vec& v, const Mat& Zall, const Mat& Ztall, Vec Zbar, double f0){
+Mat HEIV(const Vec& v, const Mat& Eall){
     
     Vec vold=v;
     Vec vnew=v;
 
+    Vec Zbar=ComputeZbar(v, Eall);
+
     for(int i=0; i<100; i++){
-        Mat Mt=ComputeMTilde(vold, Zall, Ztall);
-        Mat Lt=ComputeLTilde(vold, Zall, Ztall);
+        Mat Mt=ComputeMTilde(vold, Eall, Zbar);
+        Mat Lt=ComputeLTilde(vold, Eall, Zbar);
 
         // standard eigen value problem: 
-        vnew = solveGeneralizedEigen(Mt, Lt);
+        vnew = SolveGeneralizedEigen(Mt, Lt);
+        Zbar=ComputeZbar(vnew, Eall);
 
-        if((vnew-vold).qnorm()<1e-10){break;}
+        // because u and -u represent the same fundamental matrix F 
+        double d1 = (vnew - vold).qnorm();
+        double d2 = (vnew + vold).qnorm();
+
+        if(std::min(d1,d2) < 1e-10) {break;}
 
         vold=vnew;
 
     }
 
     // the solution is vnew
+    Vec firstcol=Eall.col(0);
+    double f0=std::sqrt(firstcol(8));
     double F33= - (dot(vnew,Zbar)) / (f0*f0);
     Vec unew(9);
 

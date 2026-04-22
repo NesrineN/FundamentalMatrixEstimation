@@ -57,13 +57,21 @@ Mat GaussNewton(const Vec& u, const Mat& Eall){
 
         Mat ML=M-L;
 
-        unew=uold-((PuMPu_s*ML)*uold);
+        // unew=uold- delta u
+        unew=uold-(PuMPu_s*(ML*uold));
 
         // normalizing unew to have unit length
         double norm = std::sqrt(unew.qnorm());
         unew /= norm;
 
-        if((unew-uold).qnorm()<1e-10){break;}
+        if (dot(unew, uold) < 0) {
+            unew = -unew;
+        }
+
+        // because u and -u represent the same fundamental matrix F 
+        double d = (unew - uold).qnorm();
+
+        if(d < 1e-10) {break;}
 
         uold=unew;
 

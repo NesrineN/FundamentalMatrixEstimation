@@ -11,8 +11,8 @@ typedef libNumerics::vector<double> Vec;
 
 // returns a random initialization of the vector u where each component is a random nbr sampled from a gaussian distribution of mean 0 and sdv 1.
 Vec RandomInit(){
-    std::random_device rd;
-    std::mt19937 gen(rd());
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
     std::normal_distribution<double> dist(0.0, 1.0);
 
     Vec u(9);
@@ -39,13 +39,14 @@ Mat ComputeMLS(const Mat& Eall) {
     return M_LS;
 }
 
-Mat ComputeMLSt(const Mat& Ztall) {
+Mat ComputeMLSt(const Mat& Eall, const Vec& Zbar) {
     
-    int n=Ztall.ncol();
+    int n=Eall.ncol();
     Mat M_LSt=Mat::zeros(8);
 
     for(int i=0; i<n; i++){
-        Vec Zt=Ztall.col(i);
+        Vec Z=Eall.col(i).copy(0,7);
+        Vec Zt=Z-Zbar;
         Mat S= Zt*Zt.t();
         M_LSt=M_LSt+S;
     }
@@ -59,7 +60,7 @@ Mat ComputeNTBt(const Mat& Eall) {
     Mat NTBt=Mat::zeros(8);
 
     for(int i=0; i<n; i++){
-        Vec E=Eall(i);
+        Vec E=Eall.col(i);
         Mat V0z=ComputeV0Z(E);
         Mat S=V0z;
         NTBt=NTBt+S;
@@ -89,13 +90,24 @@ Vec LeastSquares(const Mat& Eall){
     return u;
 }
 
-Vec Taubin(const Mat& Eall, const Mat& Ztall, double f0, Vec Zbar){
+Vec Taubin(const Mat& Eall){
 
-    Mat MLSt=ComputeMLSt(Ztall);
+    Vec firstcol=Eall.col(0);
+    double f0=std::sqrt(firstcol(8));
+
+    Vec Zbar(8);
+    for(int i=0; i<8; i++){
+        Zbar(i)=0
+    }
+    for(int i=0; i<Eall.ncol(); i++){
+        Zbar=Zbar+(Eall.col(i).copy(0,7));
+    }
+    Zbar=Zbar/Eall.ncol();
+ 
+    Mat MLSt=ComputeMLSt(Eall, Zbar);
     Mat NTBt=ComputeNTBt(Eall);
 
-    Vec v=solveGeneralizedEigen(MLSt, NTBt); // chooses vector with lambda closest to 1 instead of smallest. might wanna try smallest later
-
+    Vec v=solveGeneralizedEigen(MLSt, NTBt); // chooses vector with smallest lambda.
     double F33=-(dot(v,Zbar))/(f0*f0);
 
     Vec u(9);

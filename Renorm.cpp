@@ -2,6 +2,8 @@
 #include <iostream> 
 #include <cmath>
 #include "FNS.h"
+#include <Eigen/Dense>
+#include <Eigen/Eigenvalues>
 
 typedef libNumerics::matrix<double> Mat;
 typedef libNumerics::vector<double> Vec;
@@ -15,6 +17,9 @@ Mat ComputeN(const Vec& u, const Mat& Eall) {
         Mat V0=ComputeV0(E);
         Vec V0u= V0*u;
         double uV0u= dot(u,V0u);
+        if(std::abs(uV0u) < 1e-15){
+            uV0u+=1e-9;
+        }
         Mat S= V0;
         S=S/uV0u;
         N=N+S;
@@ -37,21 +42,33 @@ Mat Renorm(const Vec& u, const Mat& Eall){
 
         Mat McN=M-(c*N);
 
-        Mat U(9,9);
-        Mat V(9,9);
-        Vec S(9);
-        McN.SVD(U,S,V);
+        Eigen::MatrixXd eigenMcN(9, 9);
 
-        int minIndex = 0;
-        for (int i = 1; i < 9; ++i)
-            if (S(i) < S(minIndex))
-                minIndex = i;
+        for (int j = 0; j < McN.nrow(); ++j) {
+            for (int k = 0; k < McN.ncol(); ++k) {
+                eigenMcN(j, k) = McN(j, k);
+            }
+        }
 
-        unew = V.col(minIndex);
-        lambda= S(minIndex);
+        Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> es(eigenMcN);
 
-        if(lambda<1e-9){break;}
+        int closestIdx = 0;
+        double minAbsLambda = std::abs(es.eigenvalues()(0));
 
+        for(int j = 1; j < 9; ++j) {
+            if(std::abs(es.eigenvalues()(j)) < minAbsLambda) {
+                minAbsLambda = std::abs(es.eigenvalues()(j));
+                closestIdx = j;
+            }
+        }
+
+        double lambda = es.eigenvalues()(closestIdx); // SIGNED value
+        Eigen::VectorXd u_eig = es.eigenvectors().col(closestIdx);
+
+        for(int k=0; k<9; ++k) unew(k) = u_eig(k);
+
+        if (std::abs(lambda) < 1e-9) break;
+        
         Vec Nunew= N*unew;
         double unewNunew=dot(unew, Nunew);
         c=c+(lambda/unewNunew);

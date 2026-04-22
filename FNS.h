@@ -8,4 +8,5 @@ typedef libNumerics::vector<double> Vec;
 Mat ComputeV0(const Vec& E);
 Mat ComputeM(const Vec& u, const Mat& Eall);
 Mat ComputeL(const Vec& u, const Mat& Eall);
+Vec SolveEigen(const Mat& A);
 Mat FNS(const Vec& u, const Mat& Eall);

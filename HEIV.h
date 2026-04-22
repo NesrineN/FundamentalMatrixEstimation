@@ -9,10 +9,14 @@ typedef libNumerics::vector<double> Vec;
 
 Mat ComputeV0Z(const Vec& E);
 
-Mat ComputeMTilde(const Vec& v, const Mat& Zall, const Mat& Ztall);
+Vec ComputeZbar(const Vec& v, const Mat& Eall);
 
-Mat ComputeLTilde(const Vec& v, const Mat& Zall, const Mat& Ztall);
+Mat ComputeMTilde(const Vec& v, const Mat& Eall, const Vec& Zbar);
 
-Vec solveGeneralizedEigen(const Mat& Mt, const Mat& Lt);
 
-Mat HEIV(const Vec& v, const Mat& Zall, const Mat& Ztall, Vec Zbar, double f0);
+Mat ComputeLTilde(const Vec& v, const Mat& Eall, const Vec& Zbar);
+
+Vec SolveGeneralizedEigen(const Mat& Mt, const Mat& Lt);
+
+
+Mat HEIV(const Vec& v, const Mat& Eall);

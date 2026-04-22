@@ -1,6 +1,8 @@
 #include "libOrsa/libNumerics/matrix.h"
 #include <iostream> 
 #include <cmath>
+#include <Eigen/Dense>
+#include <Eigen/Eigenvalues>
 
 typedef libNumerics::matrix<double> Mat;
 typedef libNumerics::vector<double> Vec;
@@ -129,6 +131,9 @@ Mat ComputeM(const Vec& u, const Mat& Eall) {
         Vec V0u= V0*u;
         double uV0u= dot(u,V0u);
         Mat S= E*E.t();
+        if(std::abs(uV0u) < 1e-15){
+            uV0u+=1e-9;
+        }
         S=S/uV0u;
         M=M+S;
     }
@@ -145,6 +150,9 @@ Mat ComputeL(const Vec& u, const Mat& Eall) {
         Mat V0=ComputeV0(E);
         Vec V0u= V0*u;
         double uV0u= dot(u,V0u);
+        if(std::abs(uV0u) < 1e-15){
+            uV0u+=1e-9;
+        }
         double uE=dot(u,E);
         Mat S= V0;
 
@@ -154,6 +162,38 @@ Mat ComputeL(const Vec& u, const Mat& Eall) {
     }
 
     return L;
+}
+
+// returns the vector u corresponding to the smallest eigen value of the matrix A (M-L) (modified FNS)
+// M-L is symmetric --> SelfAdjointEigenSolver should be more stable numerically   
+Vec SolveEigen(const Mat& A){
+
+    Eigen::MatrixXd eigenA(A.nrow(), A.ncol());
+
+    for (int i = 0; i < A.nrow(); ++i) {
+        for (int j = 0; j < A.ncol(); ++j) {
+            eigenA(i, j) = A(i, j);
+        }
+    }
+
+    Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> es(eigenA);
+
+    if (es.info() != Eigen::Success) {
+        throw std::runtime_error("Eigen decomposition failed");
+    }
+
+    //Pick the algebraically smallest eigenvalue
+    // Because they are sorted, this is always index 0.
+    Eigen::VectorXd u = es.eigenvectors().col(0);
+    u.normalize();
+
+    Vec unew(u.size());
+
+    for (int i = 0; i < u.size(); ++i) {
+        unew(i) = u(i);
+    }
+
+    return unew;
 }
 
 // takes in the initial guess of u, V0, and Eall and applies the FNS algorithm and returns the final Fundamental Matrix F
@@ -167,26 +207,19 @@ Mat FNS(const Vec& u, const Mat& Eall){
         Mat L=ComputeL(uold,Eall);
 
         Mat ML=M-L;
+        unew = SolveEigen(ML);
 
-        Mat U(9,9);
-        Mat V(9,9);
-        Vec S(9);
-        ML.SVD(U,S,V);
+        // because u and -u represent the same fundamental matrix F 
+        double d1 = (unew - uold).qnorm();
+        double d2 = (unew + uold).qnorm();
 
-        int minIndex = 0;
-        for (int i = 1; i < 9; ++i)
-            if (S(i) < S(minIndex))
-                minIndex = i;
-
-        unew = V.col(minIndex);
-
-        if((unew-uold).qnorm()<1e-10){break;}
+        if(std::min(d1,d2) < 1e-10) {break;}
 
         uold=unew;
 
     }
 
-    // normalizing unew to have unit length
+    // normalizing unew to have unit length just in case
     double norm = std::sqrt(unew.qnorm());
     unew /= norm;
     
@@ -221,6 +254,7 @@ Mat FNS(const Vec& u, const Mat& Eall){
     return F;
 }
 
+// CFNS is when we force det(F)=0 during the iterations and not as a post-processing step
 // Mat CFNS(const Vec& u, const Mat& Eall){
     
 //     Vec uold=u;
