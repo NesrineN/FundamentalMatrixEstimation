@@ -71,7 +71,7 @@ Mat GaussNewton(const Vec& u, const Mat& Eall){
         // because u and -u represent the same fundamental matrix F 
         double d = (unew - uold).qnorm();
 
-        if(d < 1e-10) {break;}
+        if(d < 1e-6) {break;}
 
         uold=unew;
 

@@ -213,7 +213,7 @@ Mat FNS(const Vec& u, const Mat& Eall){
         double d1 = (unew - uold).qnorm();
         double d2 = (unew + uold).qnorm();
 
-        if(std::min(d1,d2) < 1e-10) {break;}
+        if(std::min(d1,d2) < 1e-6) {break;}
 
         uold=unew;
 

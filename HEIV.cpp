@@ -251,7 +251,7 @@ Mat HEIV(const Vec& v, const Mat& Eall){
         double d1 = (vnew - vold).qnorm();
         double d2 = (vnew + vold).qnorm();
 
-        if(std::min(d1,d2) < 1e-10) {break;}
+        if(std::min(d1,d2) < 1e-6) {break;}
 
         vold=vnew;
 
