@@ -123,6 +123,7 @@ Vec ComputeZbar(const Vec& v, const Mat& Eall){
 
     for(int i=0; i<n; i++){
         Vec Z=Eall.col(i).copy(0,7);
+        Vec E=Eall.col(i);
         Mat V0Z=ComputeV0Z(E);
         Vec V0Zv= V0Z*v;
         
@@ -221,7 +222,8 @@ Vec SolveGeneralizedEigen(const Mat& Mt, const Mat& Lt){
     Eigen::VectorXd v = eigenvectors.col(0);
     v.normalize();
 
-    Vec vnew(v.size());
+    int size=v.size();
+    Vec vnew(size);
 
     for (int i = 0; i < v.size(); ++i) {
         vnew(i) = v(i);
@@ -272,7 +274,7 @@ Mat HEIV(const Vec& v, const Mat& Eall){
     double norm = std::sqrt(unew.qnorm());
     unew /= norm;
 
-    Mat F=Mat::zeros(9);
+    Mat F=Mat::zeros(3);
 
     for(int i=0;i<3; i++){
         for(int j=0; j<3; j++){

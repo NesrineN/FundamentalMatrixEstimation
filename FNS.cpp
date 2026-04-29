@@ -11,11 +11,11 @@ Mat ComputeV0(const Vec& E){
     
     Mat V0=Mat::zeros(9);
 
-    double f0=std::sqrt(E(8));
-    double x=E(2)/f0;
-    double y=E(5)/f0;
-    double xp=E(6)/f0;
-    double yp=E(7)/f0;
+    double f0= std::sqrt(E(8));
+    double x=E(2);
+    double y=E(5);
+    double xp=E(6);
+    double yp=E(7);
 
     // R0
     V0(0,0)= (x*x) + (xp*xp);
@@ -132,6 +132,7 @@ Mat ComputeM(const Vec& u, const Mat& Eall) {
         double uV0u= dot(u,V0u);
         Mat S= E*E.t();
         if(std::abs(uV0u) < 1e-15){
+            std::cout << "uV0u was near 0" << std::endl; 
             uV0u+=1e-9;
         }
         S=S/uV0u;
@@ -187,7 +188,8 @@ Vec SolveEigen(const Mat& A){
     Eigen::VectorXd u = es.eigenvectors().col(0);
     u.normalize();
 
-    Vec unew(u.size());
+    int size=u.size();
+    Vec unew(size);
 
     for (int i = 0; i < u.size(); ++i) {
         unew(i) = u(i);
@@ -213,9 +215,10 @@ Mat FNS(const Vec& u, const Mat& Eall){
         double d1 = (unew - uold).qnorm();
         double d2 = (unew + uold).qnorm();
 
+        uold=unew;
+
         if(std::min(d1,d2) < 1e-6) {break;}
 
-        uold=unew;
 
     }
 
@@ -224,7 +227,7 @@ Mat FNS(const Vec& u, const Mat& Eall){
     unew /= norm;
     
     // the solution is unew
-    Mat F=Mat::zeros(9);
+    Mat F=Mat::zeros(3);
 
     for(int i=0;i<3; i++){
         for(int j=0; j<3; j++){

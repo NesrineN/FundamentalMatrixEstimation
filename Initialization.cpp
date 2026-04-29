@@ -97,7 +97,7 @@ Vec Taubin(const Mat& Eall){
 
     Vec Zbar(8);
     for(int i=0; i<8; i++){
-        Zbar(i)=0
+        Zbar(i)=0;
     }
     for(int i=0; i<Eall.ncol(); i++){
         Zbar=Zbar+(Eall.col(i).copy(0,7));
@@ -107,7 +107,7 @@ Vec Taubin(const Mat& Eall){
     Mat MLSt=ComputeMLSt(Eall, Zbar);
     Mat NTBt=ComputeNTBt(Eall);
 
-    Vec v=solveGeneralizedEigen(MLSt, NTBt); // chooses vector with smallest lambda.
+    Vec v=SolveGeneralizedEigen(MLSt, NTBt); // chooses vector with smallest lambda.
     double F33=-(dot(v,Zbar))/(f0*f0);
 
     Vec u(9);

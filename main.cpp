@@ -28,8 +28,6 @@ const double PI = 3.14159265358979323846;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-
 struct Point2D
 {
     double x;
@@ -70,7 +68,7 @@ Point2D projectPoint(const Vec& X, const Mat& K, const Mat& R, const Vec& t)
 
 // computing the ground truth of the fundamental matrix
 
-// returns the skew symmetric matric of t
+// returns the skew symmetric matrix of t
 Mat skew(const Vec& t){
     Mat S(3,3);
 
@@ -119,6 +117,56 @@ Vec fillE(const Point2D& p1, const Point2D& p2, double f0){
     E(8)= f0*f0;
 
     return E;
+}
+
+// Hartley Normalization of the image points:
+Mat HartleyNormalize(const std::vector<Point2D>& imgpoints){
+    double xbar=0;
+    double ybar=0;
+
+    for(const auto& X : imgpoints){
+        double x=X.x;
+        double y=X.y;
+        xbar+=x;
+        ybar+=y;
+    }
+
+    xbar/=imgpoints.size();
+    ybar/=imgpoints.size();
+
+    std::vector<double> xtilde;
+    std::vector<double> ytilde;
+
+    for(const auto& X : imgpoints){
+        double x=X.x;
+        double y=X.y;
+        
+        xtilde.push_back(x-xbar);
+        ytilde.push_back(y-ybar);
+    }
+
+    double distance=0;
+
+    for(int i=0; i<xtilde.size(); i++){
+        distance+= std::sqrt((xtilde[i]*xtilde[i])+(ytilde[i]*ytilde[i]));
+    }
+
+    distance/=xtilde.size();
+
+    if(distance<1e-10){distance+=1e-6;}
+
+    double s=std::sqrt(2)/distance;
+
+    Mat T=Mat::zeros(3);
+    T(0,0)=s;
+    T(1,1)=s;
+    T(2,2)=1;
+
+    T(0,2)=-s*xbar;
+    T(1,2)=-s*ybar;
+
+    return T;
+    
 }
 
 // Adding Gaussian noise
@@ -214,7 +262,9 @@ int main()
     Mat Rc2 =rotationY(5.0 * PI / 180.0);
     Vec tc2(-0.5, 0.0, 0.0);
 
-    // First, trying with sigma = 0 : no noise
+    Vec t2 = -Rc2 * tc2;
+
+    // First, trying without adding noise 
     // in order to test if the Fundamental Matrix Estimators work. 
 
     // Generating image correspondences
@@ -222,7 +272,7 @@ int main()
     std::vector<Point2D> img1Pts;
     std::vector<Point2D> img2Pts;
 
-    double sigma = 0.0;
+    double sigma = 1.0;
 
     std::mt19937 rng(0);
 
@@ -230,18 +280,42 @@ int main()
     {
         Point2D p1 = projectPoint(X, K, Rc1, tc1);
 
-        Point2D p2 = projectPoint(X, K, Rc2, tc2);
+        Point2D p2 = projectPoint(X, K, Rc2, t2);
 
-        p1 = addNoise(p1, sigma, rng);
-        p2 = addNoise(p2, sigma, rng);
+        // p1 = addNoise(p1, sigma, rng);
+        // p2 = addNoise(p2, sigma, rng);
 
         img1Pts.push_back(p1);
         img2Pts.push_back(p2);
     }
 
+    // Here, we normalize the image points: Hartley Normalization so that the centroid is at the origin and the average distance from origin is sqrt 2
+    Mat T1=HartleyNormalize(img1Pts);
+    Mat T2=HartleyNormalize(img2Pts);
 
     // Ground truth F
-    Mat F_gt = computeGroundTruthF(K,Rc2,tc2); 
+    Mat F_gt = computeGroundTruthF(K,Rc2,t2);
+    
+    // // checking if F_gt is correct
+    // for(int i=0; i<img1Pts.size(); i++){
+    //     Mat v1=Mat::zeros(3,1);
+    //     Mat v2=Mat::zeros(3,1);
+
+    //     v1(0)=img1Pts[i].x;
+    //     v1(1)=img1Pts[i].y;
+    //     v1(2)=1.0;
+
+    //     v2(0)=img2Pts[i].x;
+    //     v2(1)=img2Pts[i].y;
+    //     v2(2)=1.0;
+
+    //     // Should be very close to 0
+    //     Mat v2tF=v2.t()*F_gt; // 1x3 matrix
+    //     Mat error = v2tF*v1;
+    //     std::cout << "Epipolar error: " << error(0) << std::endl;
+    // }
+
+    // it is correct
 
     // Estimating F
 
@@ -257,7 +331,30 @@ int main()
         Point2D p1=img1Pts[i];
         Point2D p2=img2Pts[i];
 
-        E=fillE(p1,p2,f0);
+        Vec x1(3);
+        x1(0)=p1.x;
+        x1(1)=p1.y;
+        x1(2)=1;
+
+        Vec x2(3);
+        x2(0)=p2.x;
+        x2(1)=p2.y;
+        x2(2)=1;
+
+        Vec x1_norm=T1*x1;
+        Vec x2_norm=T2*x2;
+
+        Point2D p1_norm;
+        Point2D p2_norm;
+
+        p1_norm.x=x1_norm(0);
+        p1_norm.y=x1_norm(1);
+
+        p2_norm.x=x2_norm(0);
+        p2_norm.y=x2_norm(1);
+
+        // Vec E=fillE(p1,p2,f0);
+        Vec E=fillE(p1_norm,p2_norm,f0);
 
         for(int j = 0; j < 9; ++j)
         {
@@ -267,6 +364,28 @@ int main()
     }
     
     Mat F =FNS(uinit, Eall);
+
+    // Finally, we de-normalize F:
+    F=(T2.t()*F)*T1;
+
+    // checking if F estimated is correct
+    for(int i=0; i<img1Pts.size(); i++){
+        Mat v1=Mat::zeros(3,1);
+        Mat v2=Mat::zeros(3,1);
+
+        v1(0)=img1Pts[i].x;
+        v1(1)=img1Pts[i].y;
+        v1(2)=1.0;
+
+        v2(0)=img2Pts[i].x;
+        v2(1)=img2Pts[i].y;
+        v2(2)=1.0;
+
+        // Should be very close to 0
+        Mat v2tF=v2.t()*F; // 1x3 matrix
+        Mat error = v2tF*v1;
+        std::cout << "Epipolar error: " << error(0) << std::endl;
+    }
 
     // Printing the results
 

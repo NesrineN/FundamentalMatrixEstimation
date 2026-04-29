@@ -1,0 +1,3 @@
+C:\ENPC\Tools\CMake_64\bin\cmake.exe -E rm -f CMakeFiles\F_estimator.dir/objects.a
+C:\msys64\mingw64\bin\ar.exe qc CMakeFiles\F_estimator.dir/objects.a @CMakeFiles\F_estimator.dir\objects1.rsp
+C:\msys64\mingw64\bin\g++.exe -g -Wl,--whole-archive CMakeFiles\F_estimator.dir/objects.a -Wl,--no-whole-archive -o F_estimator.exe -Wl,--out-implib,libF_estimator.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\F_estimator.dir\linkLibs.rsp

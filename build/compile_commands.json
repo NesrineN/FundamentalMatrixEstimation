@@ -1,0 +1,68 @@
+[
+{
+  "directory": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe  @CMakeFiles/F_estimator.dir/includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\F_estimator.dir\\main.cpp.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\main.cpp",
+  "file": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/main.cpp",
+  "output": "CMakeFiles/F_estimator.dir/main.cpp.obj"
+},
+{
+  "directory": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe  @CMakeFiles/F_estimator.dir/includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\F_estimator.dir\\FNS.cpp.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\FNS.cpp",
+  "file": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/FNS.cpp",
+  "output": "CMakeFiles/F_estimator.dir/FNS.cpp.obj"
+},
+{
+  "directory": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe  @CMakeFiles/F_estimator.dir/includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\F_estimator.dir\\HEIV.cpp.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\HEIV.cpp",
+  "file": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/HEIV.cpp",
+  "output": "CMakeFiles/F_estimator.dir/HEIV.cpp.obj"
+},
+{
+  "directory": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe  @CMakeFiles/F_estimator.dir/includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\F_estimator.dir\\Renorm.cpp.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\Renorm.cpp",
+  "file": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/Renorm.cpp",
+  "output": "CMakeFiles/F_estimator.dir/Renorm.cpp.obj"
+},
+{
+  "directory": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe  @CMakeFiles/F_estimator.dir/includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\F_estimator.dir\\GaussNewton.cpp.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\GaussNewton.cpp",
+  "file": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/GaussNewton.cpp",
+  "output": "CMakeFiles/F_estimator.dir/GaussNewton.cpp.obj"
+},
+{
+  "directory": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe  @CMakeFiles/F_estimator.dir/includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\F_estimator.dir\\Initialization.cpp.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\Initialization.cpp",
+  "file": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/Initialization.cpp",
+  "output": "CMakeFiles/F_estimator.dir/Initialization.cpp.obj"
+},
+{
+  "directory": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe  @CMakeFiles/F_estimator.dir/includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\F_estimator.dir\\CppUnitLite\\Test.cpp.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\CppUnitLite\\Test.cpp",
+  "file": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/CppUnitLite/Test.cpp",
+  "output": "CMakeFiles/F_estimator.dir/CppUnitLite/Test.cpp.obj"
+},
+{
+  "directory": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe  @CMakeFiles/F_estimator.dir/includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\F_estimator.dir\\CppUnitLite\\TestResult.cpp.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\CppUnitLite\\TestResult.cpp",
+  "file": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/CppUnitLite/TestResult.cpp",
+  "output": "CMakeFiles/F_estimator.dir/CppUnitLite/TestResult.cpp.obj"
+},
+{
+  "directory": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe  @CMakeFiles/F_estimator.dir/includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\F_estimator.dir\\CppUnitLite\\TestRegistry.cpp.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\CppUnitLite\\TestRegistry.cpp",
+  "file": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/CppUnitLite/TestRegistry.cpp",
+  "output": "CMakeFiles/F_estimator.dir/CppUnitLite/TestRegistry.cpp.obj"
+},
+{
+  "directory": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe  @CMakeFiles/F_estimator.dir/includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\F_estimator.dir\\CppUnitLite\\Failure.cpp.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\CppUnitLite\\Failure.cpp",
+  "file": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/CppUnitLite/Failure.cpp",
+  "output": "CMakeFiles/F_estimator.dir/CppUnitLite/Failure.cpp.obj"
+},
+{
+  "directory": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe  @CMakeFiles/F_estimator.dir/includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\F_estimator.dir\\CppUnitLite\\SimpleString.cpp.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\CppUnitLite\\SimpleString.cpp",
+  "file": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/CppUnitLite/SimpleString.cpp",
+  "output": "CMakeFiles/F_estimator.dir/CppUnitLite/SimpleString.cpp.obj"
+}
+]
