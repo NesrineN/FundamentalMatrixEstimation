@@ -116,10 +116,9 @@ Mat FNS(const Vec& u, const Mat& Eall, const std::vector<Mat>& Vall){
     
     // the solution is unew
     Mat F=Mat::zeros(3);
-
-    for(int i=0;i<3; i++){
+    for(int i=0; i<3; i++){
         for(int j=0; j<3; j++){
-            F(i, j) = unew(i * 3 + j);
+            F(j, i) = unew(i * 3 + j); // Swapped i and j
         }
     }
 

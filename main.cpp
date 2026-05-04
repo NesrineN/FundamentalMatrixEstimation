@@ -500,9 +500,15 @@ int main()
 
     // we initialize uinit using Taubin method
     Vec uinit= Taubin(Eall);
+    // Vec uinit=RandomInit();
+    // Vec uinit = LeastSquares(Eall);
 
     // we estimate F using FNS method
-    Mat F =FNS(uinit, Eall, Vall);
+    // Mat F =FNS(uinit, Eall, Vall);
+
+    Vec vinit=uinit.copy(0,7);
+
+    Mat F =HEIV(vinit, Eall, 1.0);
 
     // Finally, we de-normalize F:
     F=(T2.t()*F)*T1;
@@ -528,29 +534,29 @@ int main()
 
     // Printing the results
 
-    // std::cout << "Ground Truth Fundamental Matrix:\n";
+    std::cout << "Ground Truth Fundamental Matrix:\n";
 
-    // for(int i = 0; i < 3; ++i)
-    // {
-    //     for(int j = 0; j < 3; ++j)
-    //     {
-    //         std::cout << F_gt(i,j) << " ";
-    //     }
+    for(int i = 0; i < 3; ++i)
+    {
+        for(int j = 0; j < 3; ++j)
+        {
+            std::cout << F_gt(i,j) << " ";
+        }
 
-    //     std::cout << std::endl;
-    // }
+        std::cout << std::endl;
+    }
 
-    // std::cout << "Estimated Fundamental Matrix:\n";
+    std::cout << "Estimated Fundamental Matrix:\n";
 
-    // for(int i = 0; i < 3; ++i)
-    // {
-    //     for(int j = 0; j < 3; ++j)
-    //     {
-    //         std::cout << F(i,j) << " ";
-    //     }
+    for(int i = 0; i < 3; ++i)
+    {
+        for(int j = 0; j < 3; ++j)
+        {
+            std::cout << F(i,j) << " ";
+        }
 
-    //     std::cout << std::endl;
-    // }
+        std::cout << std::endl;
+    }
 
     return 0;
 }

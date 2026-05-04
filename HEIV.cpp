@@ -7,11 +7,11 @@
 typedef libNumerics::matrix<double> Mat;
 typedef libNumerics::vector<double> Vec;
 
-Mat ComputeV0Z(const Vec& E){
-    
+Mat ComputeV0Z(const Vec& E, double f0){
+
+    assert(E.nrow() == 9);
     Mat V0=Mat::zeros(8);
 
-    double f0=std::sqrt(E(8));
     double x=E(2)/f0;
     double y=E(5)/f0;
     double xp=E(6)/f0;
@@ -101,12 +101,13 @@ Mat ComputeV0Z(const Vec& E){
 
 }
 
-Vec ComputeZbar(const Vec& v, const Mat& Eall){
+Vec ComputeZbar(const Vec& v, const Mat& Eall, double f0){
     int n=Eall.ncol();
     double sum=0;
     for(int i=0; i<n; i++){
         Vec E=Eall.col(i);
-        Mat V0Z=ComputeV0Z(E);
+        assert(E.nrow() == 9);
+        Mat V0Z=ComputeV0Z(E, f0);
         Vec V0Zv= V0Z*v;
 
         double vV0Zv= dot(v, V0Zv);
@@ -122,9 +123,14 @@ Vec ComputeZbar(const Vec& v, const Mat& Eall){
     }
 
     for(int i=0; i<n; i++){
-        Vec Z=Eall.col(i).copy(0,7);
         Vec E=Eall.col(i);
-        Mat V0Z=ComputeV0Z(E);
+        assert(E.nrow() == 9);
+        Vec Z(8);
+        for(int k=0; k<8; k++){
+            Z(k)=E(k);
+        }
+
+        Mat V0Z=ComputeV0Z(E, f0);
         Vec V0Zv= V0Z*v;
         
         double vV0Zv=dot(v, V0Zv);
@@ -140,15 +146,20 @@ Vec ComputeZbar(const Vec& v, const Mat& Eall){
 
 }
 
-Mat ComputeMTilde(const Vec& v, const Mat& Eall, const Vec& Zbar) {
+Mat ComputeMTilde(const Vec& v, const Mat& Eall, const Vec& Zbar, double f0) {
     int n=Eall.ncol();
     Mat M=Mat::zeros(8);
 
     for(int i=0; i<n; i++){
-        Vec Z=Eall.col(i).copy(0,7);
+        Vec E=Eall.col(i);
+        Vec Z(8);
+        assert(E.nrow() == 9);
+        for(int k=0; k<8; k++){
+            Z(k)=E(k);
+        }
         Vec Zt=Z-Zbar;
 
-        Mat V0Z=ComputeV0Z(Z); // remove this later and compute V0 for each point correspondence once and store it in a vector of matrices for efficiency 
+        Mat V0Z=ComputeV0Z(Z, f0); // remove this later and compute V0 for each point correspondence once and store it in a vector of matrices for efficiency 
         Vec V0Zv= V0Z*v;
         double vV0Zv= dot(v,V0Zv);
         if(std::abs(vV0Zv) < 1e-15){
@@ -162,15 +173,20 @@ Mat ComputeMTilde(const Vec& v, const Mat& Eall, const Vec& Zbar) {
     return M;
 }
 
-Mat ComputeLTilde(const Vec& v, const Mat& Eall, const Vec& Zbar) {
+Mat ComputeLTilde(const Vec& v, const Mat& Eall, const Vec& Zbar, double f0) {
     int n=Eall.ncol();
     Mat L=Mat::zeros(8);
 
     for(int i=0; i<n; i++){
-        Vec Z=Eall.col(i).copy(0,7);
+        Vec E=Eall.col(i);
+        assert(E.nrow() == 9);
+        Vec Z(8);
+        for(int k=0; k<8; k++){
+            Z(k)=E(k);
+        }
         Vec Zt=Z-Zbar;
         
-        Mat V0Z=ComputeV0Z(Z);
+        Mat V0Z=ComputeV0Z(Z, f0);
         Vec V0Zv= V0Z*v;
 
         double vV0Zv= dot(v,V0Zv);
@@ -233,21 +249,22 @@ Vec SolveGeneralizedEigen(const Mat& Mt, const Mat& Lt){
 
 }
 
-// takes in the initial guess of v and Zall and Ztall and applies the HEIV algorithm to estimate the fundamental matrix F
-Mat HEIV(const Vec& v, const Mat& Eall){
-    
+// takes in the initial guess of v and Eall and applies the HEIV algorithm to estimate the fundamental matrix F
+Mat HEIV(const Vec& v, const Mat& Eall, double f0){
+    std::cout << "size of v: " << v.nrow() << std::endl;  
     Vec vold=v;
     Vec vnew=v;
 
-    Vec Zbar=ComputeZbar(v, Eall);
+    Vec Zbar=ComputeZbar(v, Eall, f0);
+    std::cout << "size of Zbar: " << Zbar.nrow() << std::endl;  
 
     for(int i=0; i<100; i++){
-        Mat Mt=ComputeMTilde(vold, Eall, Zbar);
-        Mat Lt=ComputeLTilde(vold, Eall, Zbar);
+        Mat Mt=ComputeMTilde(vold, Eall, Zbar, f0);
+        Mat Lt=ComputeLTilde(vold, Eall, Zbar, f0);
 
         // standard eigen value problem: 
         vnew = SolveGeneralizedEigen(Mt, Lt);
-        Zbar=ComputeZbar(vnew, Eall);
+        Zbar=ComputeZbar(vnew, Eall, f0);
 
         // because u and -u represent the same fundamental matrix F 
         double d1 = (vnew - vold).qnorm();
@@ -260,8 +277,8 @@ Mat HEIV(const Vec& v, const Mat& Eall){
     }
 
     // the solution is vnew
-    Vec firstcol=Eall.col(0);
-    double f0=std::sqrt(firstcol(8));
+    // Vec firstcol=Eall.col(0);
+    // double f0=std::sqrt(firstcol(8));
     double F33= - (dot(vnew,Zbar)) / (f0*f0);
     Vec unew(9);
 
@@ -278,7 +295,7 @@ Mat HEIV(const Vec& v, const Mat& Eall){
 
     for(int i=0;i<3; i++){
         for(int j=0; j<3; j++){
-            F(i, j) = unew(i * 3 + j);
+            F(j, i) = unew(i * 3 + j);
         }
     }
 
