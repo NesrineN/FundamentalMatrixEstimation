@@ -42,13 +42,13 @@ Mat computePseudoInverse(const Mat& A){
 
 }
 
-Mat GaussNewton(const Vec& u, const Mat& Eall){
+Mat GaussNewton(const Vec& u, const Mat& Eall, const std::vector<Mat>& Vall){
     Vec uold=u;
     Vec unew=u;
 
     for(int i=0; i<100; i++){
-        Mat M=ComputeM(uold, Eall);
-        Mat L=ComputeL(uold,Eall);
+        Mat M=ComputeM(uold, Eall, Vall);
+        Mat L=ComputeL(uold,Eall, Vall);
         Mat Pu=ComputeP(uold);
 
         Mat PuMPu= Pu*M*Pu;

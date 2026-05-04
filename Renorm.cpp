@@ -8,13 +8,13 @@
 typedef libNumerics::matrix<double> Mat;
 typedef libNumerics::vector<double> Vec;
 
-Mat ComputeN(const Vec& u, const Mat& Eall) {
+Mat ComputeN(const Vec& u, const Mat& Eall, const std::vector<Mat>& Vall) {
     int n=Eall.ncol();
     Mat N=Mat::zeros(9);
 
     for(int i=0; i<n; i++){
         Vec E=Eall.col(i);
-        Mat V0=ComputeV0(E);
+        Mat V0=Vall[i];
         Vec V0u= V0*u;
         double uV0u= dot(u,V0u);
         if(std::abs(uV0u) < 1e-15){
@@ -29,7 +29,7 @@ Mat ComputeN(const Vec& u, const Mat& Eall) {
 }
 
 // takes in the initial guess of u, V0, and Eall and applies the FNS algorithm and returns the final Fundamental Matrix F
-Mat Renorm(const Vec& u, const Mat& Eall){
+Mat Renorm(const Vec& u, const Mat& Eall, const std::vector<Mat>& Vall){
     
     Vec uold=u;
     Vec unew=u;
@@ -37,8 +37,8 @@ Mat Renorm(const Vec& u, const Mat& Eall){
     double lambda=1e19;
 
     for(int i=0; i<100; i++){
-        Mat M=ComputeM(uold, Eall);
-        Mat N=ComputeN(uold,Eall);
+        Mat M=ComputeM(uold, Eall, Vall);
+        Mat N=ComputeN(uold,Eall, Vall);
 
         Mat McN=M-(c*N);
 

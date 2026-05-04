@@ -163,4 +163,9 @@ CMakeFiles/F_estimator.dir/GaussNewton.cpp.obj: \
  C:/msys64/mingw64/include/c++/15.2.0/tr1/poly_laguerre.tcc \
  C:/msys64/mingw64/include/c++/15.2.0/tr1/riemann_zeta.tcc \
  C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\libOrsa/libNumerics/vector.cpp \
- C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\FNS.h
+ C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\FNS.h \
+ C:/msys64/mingw64/include/c++/15.2.0/vector \
+ C:/msys64/mingw64/include/c++/15.2.0/bits/stl_uninitialized.h \
+ C:/msys64/mingw64/include/c++/15.2.0/bits/stl_vector.h \
+ C:/msys64/mingw64/include/c++/15.2.0/bits/stl_bvector.h \
+ C:/msys64/mingw64/include/c++/15.2.0/bits/vector.tcc
