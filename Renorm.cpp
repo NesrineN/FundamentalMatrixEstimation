@@ -28,7 +28,7 @@ Mat ComputeN(const Vec& u, const Mat& Eall, const std::vector<Mat>& Vall) {
     return N;
 }
 
-// takes in the initial guess of u, V0, and Eall and applies the FNS algorithm and returns the final Fundamental Matrix F
+// takes in the initial guess of u, V0, and Eall and applies the Renorm algorithm and returns the final Fundamental Matrix F
 Mat Renorm(const Vec& u, const Mat& Eall, const std::vector<Mat>& Vall){
     
     Vec uold=u;
@@ -81,17 +81,15 @@ Mat Renorm(const Vec& u, const Mat& Eall, const std::vector<Mat>& Vall){
     double norm = std::sqrt(unew.qnorm());
     unew /= norm;
 
-
     Mat F=Mat::zeros(3);
 
     for(int i=0;i<3; i++){
         for(int j=0; j<3; j++){
-            F(i, j) = unew(i * 3 + j);
+            F(j, i) = unew(i * 3 + j);
         }
     }
 
     // enforcing rank 2 on F: 
-
     Mat U(3,3);
     Mat V(3,3);
     Vec S(3);

@@ -82,12 +82,11 @@ Mat GaussNewton(const Vec& u, const Mat& Eall, const std::vector<Mat>& Vall){
 
     for(int i=0;i<3; i++){
         for(int j=0; j<3; j++){
-            F(i, j) = unew(i * 3 + j);
+            F(j, i) = unew(i * 3 + j);
         }
     }
 
     // enforcing rank 2 on F: 
-
     Mat U(3,3);
     Mat V(3,3);
     Vec S(3);

@@ -7,7 +7,7 @@
 typedef libNumerics::matrix<double> Mat;
 typedef libNumerics::vector<double> Vec;
 
-Mat ComputeV0Z(const Vec& E, double f0);
+Mat ComputeV0Z(Vec E, double f0);
 
 Vec ComputeZbar(const Vec& v, const Mat& Eall, double f0);
 

@@ -2735,6 +2735,7 @@ CMakeFiles/F_estimator.dir/main.cpp.obj: C:/Users/USER/Desktop/Sorbonne/Internsh
   C:/msys64/mingw64/include/c++/15.2.0/bits/basic_string.tcc \
   C:/msys64/mingw64/include/c++/15.2.0/bits/char_traits.h \
   C:/msys64/mingw64/include/c++/15.2.0/bits/charconv.h \
+  C:/msys64/mingw64/include/c++/15.2.0/bits/codecvt.h \
   C:/msys64/mingw64/include/c++/15.2.0/bits/concept_check.h \
   C:/msys64/mingw64/include/c++/15.2.0/bits/cpp_type_traits.h \
   C:/msys64/mingw64/include/c++/15.2.0/bits/cxxabi_forced.h \
@@ -2754,8 +2755,11 @@ CMakeFiles/F_estimator.dir/main.cpp.obj: C:/Users/USER/Desktop/Sorbonne/Internsh
   C:/msys64/mingw64/include/c++/15.2.0/bits/istream.tcc \
   C:/msys64/mingw64/include/c++/15.2.0/bits/locale_classes.h \
   C:/msys64/mingw64/include/c++/15.2.0/bits/locale_classes.tcc \
+  C:/msys64/mingw64/include/c++/15.2.0/bits/locale_conv.h \
   C:/msys64/mingw64/include/c++/15.2.0/bits/locale_facets.h \
   C:/msys64/mingw64/include/c++/15.2.0/bits/locale_facets.tcc \
+  C:/msys64/mingw64/include/c++/15.2.0/bits/locale_facets_nonio.h \
+  C:/msys64/mingw64/include/c++/15.2.0/bits/locale_facets_nonio.tcc \
   C:/msys64/mingw64/include/c++/15.2.0/bits/localefwd.h \
   C:/msys64/mingw64/include/c++/15.2.0/bits/memory_resource.h \
   C:/msys64/mingw64/include/c++/15.2.0/bits/memoryfwd.h \
@@ -2769,6 +2773,7 @@ CMakeFiles/F_estimator.dir/main.cpp.obj: C:/Users/USER/Desktop/Sorbonne/Internsh
   C:/msys64/mingw64/include/c++/15.2.0/bits/postypes.h \
   C:/msys64/mingw64/include/c++/15.2.0/bits/predefined_ops.h \
   C:/msys64/mingw64/include/c++/15.2.0/bits/ptr_traits.h \
+  C:/msys64/mingw64/include/c++/15.2.0/bits/quoted_string.h \
   C:/msys64/mingw64/include/c++/15.2.0/bits/random.h \
   C:/msys64/mingw64/include/c++/15.2.0/bits/random.tcc \
   C:/msys64/mingw64/include/c++/15.2.0/bits/range_access.h \
@@ -2822,6 +2827,7 @@ CMakeFiles/F_estimator.dir/main.cpp.obj: C:/Users/USER/Desktop/Sorbonne/Internsh
   C:/msys64/mingw64/include/c++/15.2.0/cstdio \
   C:/msys64/mingw64/include/c++/15.2.0/cstdlib \
   C:/msys64/mingw64/include/c++/15.2.0/cstring \
+  C:/msys64/mingw64/include/c++/15.2.0/ctime \
   C:/msys64/mingw64/include/c++/15.2.0/cwchar \
   C:/msys64/mingw64/include/c++/15.2.0/cwctype \
   C:/msys64/mingw64/include/c++/15.2.0/debug/assertions.h \
@@ -2836,11 +2842,13 @@ CMakeFiles/F_estimator.dir/main.cpp.obj: C:/Users/USER/Desktop/Sorbonne/Internsh
   C:/msys64/mingw64/include/c++/15.2.0/ext/type_traits.h \
   C:/msys64/mingw64/include/c++/15.2.0/functional \
   C:/msys64/mingw64/include/c++/15.2.0/initializer_list \
+  C:/msys64/mingw64/include/c++/15.2.0/iomanip \
   C:/msys64/mingw64/include/c++/15.2.0/ios \
   C:/msys64/mingw64/include/c++/15.2.0/iosfwd \
   C:/msys64/mingw64/include/c++/15.2.0/iostream \
   C:/msys64/mingw64/include/c++/15.2.0/istream \
   C:/msys64/mingw64/include/c++/15.2.0/limits \
+  C:/msys64/mingw64/include/c++/15.2.0/locale \
   C:/msys64/mingw64/include/c++/15.2.0/memory \
   C:/msys64/mingw64/include/c++/15.2.0/new \
   C:/msys64/mingw64/include/c++/15.2.0/numeric \
@@ -2886,8 +2894,10 @@ CMakeFiles/F_estimator.dir/main.cpp.obj: C:/Users/USER/Desktop/Sorbonne/Internsh
   C:/msys64/mingw64/include/c++/15.2.0/x86_64-w64-mingw32/bits/error_constants.h \
   C:/msys64/mingw64/include/c++/15.2.0/x86_64-w64-mingw32/bits/gthr-default.h \
   C:/msys64/mingw64/include/c++/15.2.0/x86_64-w64-mingw32/bits/gthr.h \
+  C:/msys64/mingw64/include/c++/15.2.0/x86_64-w64-mingw32/bits/messages_members.h \
   C:/msys64/mingw64/include/c++/15.2.0/x86_64-w64-mingw32/bits/opt_random.h \
   C:/msys64/mingw64/include/c++/15.2.0/x86_64-w64-mingw32/bits/os_defines.h \
+  C:/msys64/mingw64/include/c++/15.2.0/x86_64-w64-mingw32/bits/time_members.h \
   C:/msys64/mingw64/include/corecrt.h \
   C:/msys64/mingw64/include/corecrt_startup.h \
   C:/msys64/mingw64/include/corecrt_stdio_config.h \
@@ -3141,6 +3151,7 @@ CMakeFiles/F_estimator.dir/main.cpp.obj: C:/Users/USER/Desktop/Sorbonne/Internsh
   C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/syslimits.h \
   C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/xmmintrin.h \
   C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/FNS.h \
+  C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/GaussNewton.h \
   C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/HEIV.h \
   C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/Initialization.h \
   C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/Renorm.h \
@@ -3190,6 +3201,8 @@ C:/msys64/mingw64/include/_timeval.h:
 
 C:/msys64/mingw64/include/c++/15.2.0/bits/stl_iterator_base_funcs.h:
 
+C:/msys64/mingw64/include/c++/15.2.0/bits/quoted_string.h:
+
 C:/msys64/mingw64/include/c++/15.2.0/bits/basic_ios.h:
 
 C:/msys64/mingw64/include/c++/15.2.0/bits/stl_iterator.h:
@@ -3211,6 +3224,8 @@ C:/msys64/mingw64/include/c++/15.2.0/bits/alloc_traits.h:
 C:/msys64/mingw64/include/c++/15.2.0/bits/allocator.h:
 
 C:/msys64/mingw64/include/c++/15.2.0/bits/string_view.tcc:
+
+C:/msys64/mingw64/include/c++/15.2.0/bits/locale_conv.h:
 
 C:/msys64/mingw64/include/eigen3/Eigen/src/Core/InnerProduct.h:
 
@@ -3311,6 +3326,8 @@ C:/msys64/mingw64/include/eigen3/Eigen/Jacobi:
 C:/msys64/mingw64/include/c++/15.2.0/x86_64-w64-mingw32/bits/os_defines.h:
 
 C:/msys64/mingw64/include/c++/15.2.0/bits/ostream.h:
+
+C:/msys64/mingw64/include/c++/15.2.0/bits/locale_facets_nonio.h:
 
 C:/msys64/mingw64/include/eigen3/Eigen/src/Core/RandomImpl.h:
 
@@ -3668,6 +3685,8 @@ C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Es
 
 C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/CppUnitLite/TestRegistry.cpp:
 
+C:/msys64/mingw64/include/c++/15.2.0/bits/codecvt.h:
+
 C:/msys64/mingw64/include/assert.h:
 
 C:/msys64/mingw64/include/c++/15.2.0/algorithm:
@@ -3990,6 +4009,8 @@ C:/msys64/mingw64/include/eigen3/Eigen/src/Geometry/AngleAxis.h:
 
 C:/msys64/mingw64/include/eigen3/Eigen/src/Eigenvalues/Tridiagonalization.h:
 
+C:/msys64/mingw64/include/c++/15.2.0/iomanip:
+
 C:/msys64/mingw64/include/eigen3/Eigen/src/Geometry/AlignedBox.h:
 
 C:/msys64/mingw64/include/eigen3/Eigen/src/Geometry/EulerAngles.h:
@@ -4042,6 +4063,8 @@ C:/msys64/mingw64/include/eigen3/Eigen/src/plugins/MatrixCwiseUnaryOps.inc:
 
 C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/emmintrin.h:
 
+C:/msys64/mingw64/include/c++/15.2.0/bits/locale_facets_nonio.tcc:
+
 C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/libOrsa/libNumerics/vector.cpp:
 
 C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/mmintrin.h:
@@ -4057,3 +4080,13 @@ C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Es
 C:/msys64/mingw64/include/c++/15.2.0/random:
 
 C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/Renorm.cpp:
+
+C:/msys64/mingw64/include/c++/15.2.0/ctime:
+
+C:/msys64/mingw64/include/c++/15.2.0/locale:
+
+C:/msys64/mingw64/include/c++/15.2.0/x86_64-w64-mingw32/bits/messages_members.h:
+
+C:/msys64/mingw64/include/c++/15.2.0/x86_64-w64-mingw32/bits/time_members.h:
+
+C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/GaussNewton.h:

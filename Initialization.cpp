@@ -54,14 +54,14 @@ Mat ComputeMLSt(const Mat& Eall, const Vec& Zbar) {
     return M_LSt;
 }
 
-Mat ComputeNTBt(const Mat& Eall) {
+Mat ComputeNTBt(const Mat& Eall, double f0) {
     
     int n=Eall.ncol();
     Mat NTBt=Mat::zeros(8);
 
     for(int i=0; i<n; i++){
         Vec E=Eall.col(i);
-        Mat V0z=ComputeV0Z(E);
+        Mat V0z=ComputeV0Z(E, f0);
         Mat S=V0z;
         NTBt=NTBt+S;
     }
@@ -90,10 +90,9 @@ Vec LeastSquares(const Mat& Eall){
     return u;
 }
 
-Vec Taubin(const Mat& Eall){
+Vec Taubin(const Mat& Eall, double f0){
 
     Vec firstcol=Eall.col(0);
-    double f0=std::sqrt(firstcol(8));
 
     Vec Zbar(8);
     for(int i=0; i<8; i++){
@@ -105,7 +104,7 @@ Vec Taubin(const Mat& Eall){
     Zbar=Zbar/Eall.ncol();
  
     Mat MLSt=ComputeMLSt(Eall, Zbar);
-    Mat NTBt=ComputeNTBt(Eall);
+    Mat NTBt=ComputeNTBt(Eall, f0);
 
     Vec v=SolveGeneralizedEigen(MLSt, NTBt); // chooses vector with smallest lambda.
     double F33=-(dot(v,Zbar))/(f0*f0);

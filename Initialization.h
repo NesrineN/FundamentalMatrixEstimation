@@ -12,6 +12,6 @@ typedef libNumerics::vector<double> Vec;
 Vec RandomInit();
 Mat ComputeMLS(const Mat& Eall);
 Mat ComputeMLSt(const Mat& Eall, const Vec& Zbar);
-Mat ComputeNTBt(const Mat& Eall);
+Mat ComputeNTBt(const Mat& Eall, double f0);
 Vec LeastSquares(const Mat& Eall);
-Vec Taubin(const Mat& Eall);
+Vec Taubin(const Mat& Eall, double f0);
