@@ -1,0 +1,232 @@
+        // // // checking if F estimated is correct
+        // for(int i=0; i<img1Pts.size(); i++){
+        //     Mat v1=Mat::zeros(3,1);
+        //     Mat v2=Mat::zeros(3,1);
+
+        //     v1(0)=img1Pts[i].x;
+        //     v1(1)=img1Pts[i].y;
+        //     v1(2)=1.0;
+
+        //     v2(0)=img2Pts[i].x;
+        //     v2(1)=img2Pts[i].y;
+        //     v2(2)=1.0;
+
+        //     // Should be very close to 0
+        //     Mat v2tF=v2.t()*F; // 1x3 matrix
+        //     Mat error = v2tF*v1;
+        //     std::cout << "Epipolar error: " << error(0) << std::endl;
+        // }
+
+
+
+        // // printing the correspondences:
+        // for(int i=0; i<img1Pts.size(); i++){
+        //     std::cout << "u1: " << img1Pts[i].x << " " << img1Pts[i].y << std::endl;
+        //     std::cout << "u2: " << img2Pts[i].x << " " << img2Pts[i].y << std::endl;
+        // }
+
+
+
+            // std::vector<Point2D> img1Pts;
+    // std::vector<Point2D> img2Pts;
+
+    // double sigma=2.0;
+    // std::mt19937 rng(0);
+
+
+    // for(const auto& X : worldPts)
+    // {
+    //     Point2D p1 = projectPoint(X, K, Rc1, t1);
+
+    //     Point2D p2 = projectPoint(X, K, Rc2, t2);   
+
+    //     p1 = addNoise(p1, sigma, rng);
+    //     p2 = addNoise(p2, sigma, rng);
+
+    //     img1Pts.push_back(p1);
+    //     img2Pts.push_back(p2);
+    // }
+
+    // // // printing the correspondences:
+    // // for(int i=0; i<img1Pts.size(); i++){
+    // //     std::cout << "u1: " << img1Pts[i].x << " " << img1Pts[i].y << std::endl;
+    // //     std::cout << "u2: " << img2Pts[i].x << " " << img2Pts[i].y << std::endl;
+    // // }
+
+    // // Here, we normalize the image points: Hartley Normalization so that the centroid is at the origin and the average distance from origin is sqrt 2
+    // Mat T1=HartleyNormalize(img1Pts);
+    // Mat T2=HartleyNormalize(img2Pts);
+
+    // // we create the Matrix Eall and vector of V0 matrices Vall
+    // // Eall is a 9xn matrix where each col corresponds to a point correspondence and so we have n columns in total --> n total point correspondences
+    
+    // Mat Eall=Mat::zeros(9,img1Pts.size());
+    // std::vector<Mat> Vall;
+
+    // for(int i=0; i<img1Pts.size(); i++){
+    //     Point2D p1=img1Pts[i];
+    //     Point2D p2=img2Pts[i];
+
+    //     Vec x1(3);
+    //     x1(0)=p1.x;
+    //     x1(1)=p1.y;
+    //     x1(2)=1;
+
+    //     Vec x2(3);
+    //     x2(0)=p2.x;
+    //     x2(1)=p2.y;
+    //     x2(2)=1;
+
+    //     Vec x1_norm=T1*x1;
+    //     Vec x2_norm=T2*x2;
+
+    //     Point2D p1_norm;
+    //     Point2D p2_norm;
+
+    //     p1_norm.x=x1_norm(0)/x1_norm(2);
+    //     p1_norm.y=x1_norm(1)/x1_norm(2);
+
+    //     p2_norm.x=x2_norm(0)/x2_norm(2);
+    //     p2_norm.y=x2_norm(1)/x2_norm(2);
+
+    //     Vec E=fillE(p1_norm,p2_norm,1);
+    //     // Vec E=fillE(p1,p2,f0);
+
+    //     for(int j = 0; j < 9; ++j)
+    //     {
+    //         Eall(j, i) = E(j);
+    //     }
+
+    //     double x=p1_norm.x;
+    //     double y=p1_norm.y;
+    //     double xp=p2_norm.x;
+    //     double yp=p2_norm.y;
+
+    //     Mat V0=computeV0(x,y,xp,yp,f0);
+
+    //     // adding V0 to the list Vall
+    //     Vall.push_back(V0);
+    // }
+
+    // // we initialize uinit using Taubin method
+    // Vec uinit= Taubin(Eall, f0);
+    // Vec vinit=uinit.copy(0,7);
+
+    // Mat F=FNS(uinit, Eall, Vall);
+    // // Finally, we de-normalize F:
+    // F=(T2.t()*F)*T1;
+
+    // Vec u_estimated(9);
+    // u_estimated(0)=F(0,0);
+    // u_estimated(1)=F(0,1);
+    // u_estimated(2)=F(0,2);
+    // u_estimated(3)=F(1,0);
+    // u_estimated(4)=F(1,1);
+    // u_estimated(5)=F(1,2);
+    // u_estimated(6)=F(2,0);
+    // u_estimated(7)=F(2,1);
+    // u_estimated(8)=F(2,2);
+
+    // u_estimated/=std::sqrt(u_estimated.qnorm());
+
+    // // we add the error obtained to the sum of the errors:
+    // double error=F_error(u_gt, u_estimated);
+
+    // std::cout << "FNS error: " << error << std::endl;
+
+    // // // checking if F estimated is correct
+    // for(int i=0; i<img1Pts.size(); i++){
+    //     Mat v1=Mat::zeros(3,1);
+    //     Mat v2=Mat::zeros(3,1);
+
+    //     v1(0)=img1Pts[i].x;
+    //     v1(1)=img1Pts[i].y;
+    //     v1(2)=1.0;
+
+    //     v2(0)=img2Pts[i].x;
+    //     v2(1)=img2Pts[i].y;
+    //     v2(2)=1.0;
+
+    //     // Should be very close to 0
+    //     Mat v2tF=v2.t()*F; // 1x3 matrix
+    //     Mat error = v2tF*v1;
+    //     std::cout << "Epipolar error: " << error(0) << std::endl;
+    // }
+
+
+
+
+    in test function: afterfor(const auto& X : worldPts)
+        {
+            Point2D p1 = projectPoint(X, K, Rc1, t1);
+
+            Point2D p2 = projectPoint(X, K, Rc2, t2);   
+
+            p1 = addNoise(p1, sigma, rng);
+            p2 = addNoise(p2, sigma, rng);
+
+            img1Pts.push_back(p1);
+            img2Pts.push_back(p2);
+        }
+
+
+
+    // Here, we normalize the image points: Hartley Normalization so that the centroid is at the origin and the average distance from origin is sqrt 2
+        // Mat T1=HartleyNormalize(img1Pts);
+        // Mat T2=HartleyNormalize(img2Pts);
+
+
+
+
+        inside for loop where we do fill E before             Vec E=fillE(p1_norm,p2_norm,f0);:
+
+        Vec x1(3);
+            x1(0)=p1.x;
+            x1(1)=p1.y;
+            x1(2)=1;
+
+            Vec x2(3);
+            x2(0)=p2.x;
+            x2(1)=p2.y;
+            x2(2)=1;
+
+            Vec x1_norm = K.inv() * x1;
+            Vec x2_norm = K.inv() * x2;
+
+            // Vec x1_norm=T1*x1;
+            // Vec x2_norm=T2*x2;
+
+            Point2D p1_norm;
+            Point2D p2_norm;
+
+            p1_norm.x=x1_norm(0)/x1_norm(2);
+            p1_norm.y=x1_norm(1)/x1_norm(2);
+
+            p2_norm.x=x2_norm(0)/x2_norm(2);
+            p2_norm.y=x2_norm(1)/x2_norm(2);
+
+                // Vec E=fillE(p1_norm,p2_norm,f0);
+
+
+
+
+
+
+        before Mat V0=computeV0(x,y,xp,yp,f0);:
+
+
+
+                double x=p1_norm.x;
+            double y=p1_norm.y;
+            double xp=p2_norm.x;
+            double yp=p2_norm.y;
+
+
+
+
+
+
+            before         Vec u_estimated(9);:
+
+            // Finally, we de-normalize F:
+        // F=(T2.t()*F)*T1;

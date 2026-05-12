@@ -200,7 +200,14 @@ Mat ComputeLTilde(const Vec& v, const Mat& Eall, const Vec& Zbar, double f0) {
     return L;
 }
 
-Vec SolveGeneralizedEigen(const Mat& Mt, const Mat& Lt){
+Vec SolveGeneralizedEigen(const Mat& M, const Mat& L){
+
+    Mat Mt=M;
+    Mat Lt=L;
+
+    // to ensure the matrices are symmetric:
+    Mt = 0.5 * (Mt + Mt.t());
+    Lt = 0.5 * (Lt + Lt.t());
 
     Eigen::MatrixXd eigenM(Mt.nrow(), Mt.ncol());
 
@@ -218,8 +225,7 @@ Vec SolveGeneralizedEigen(const Mat& Mt, const Mat& Lt){
         }
     }
 
-    Eigen::MatrixXd epsI = Eigen::MatrixXd::Identity(8, 8) * 1e-10; // adding a small epsilon to make sure the Ltilde matrix is positive definite
-
+    Eigen::MatrixXd epsI = Eigen::MatrixXd::Identity(eigenL.rows(), eigenL.cols()) * 1e-8; // adding a small epsilon to make sure the Ltilde matrix is positive definite
 
     Eigen::GeneralizedSelfAdjointEigenSolver<Eigen::MatrixXd> solver(eigenM, eigenL+epsI);
 
@@ -229,6 +235,8 @@ Vec SolveGeneralizedEigen(const Mat& Mt, const Mat& Lt){
 
     auto eigenvalues = solver.eigenvalues();
     auto eigenvectors = solver.eigenvectors();
+
+    // std::cout << eigenvalues << std::endl;
 
     Eigen::VectorXd v = eigenvectors.col(0);
     v.normalize();

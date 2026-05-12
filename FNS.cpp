@@ -19,7 +19,7 @@ Mat ComputeM(const Vec& u, const Mat& Eall, const std::vector<Mat>& Vall) {
         Vec V0u= V0*u;
         double uV0u= dot(u,V0u);
         Mat S= E*E.t(); 
-        if(std::abs(uV0u) < 1e-12) continue;
+        if(std::abs(uV0u) < 1e-12) uV0u += 1e-4;
         S=S/uV0u;
         M=M+S;
     }
@@ -36,7 +36,7 @@ Mat ComputeL(const Vec& u, const Mat& Eall, const std::vector<Mat>& Vall) {
         Mat V0=Vall[i];
         Vec V0u= V0*u;
         double uV0u= dot(u,V0u);
-        if(std::abs(uV0u) < 1e-12) continue;
+        if(std::abs(uV0u) < 1e-12) uV0u += 1e-4;
         double uE=dot(u,E);
         
         Mat S= V0;
@@ -69,13 +69,13 @@ Vec SolveEigen(const Mat& A){
 
     //Pick the algebraically smallest eigenvalue
     // Because they are sorted, this is always index 0.
+    // int idx;
+    // es.eigenvalues().minCoeff(&idx);
+    // Eigen::VectorXd u = es.eigenvectors().col(idx);
     Eigen::VectorXd u = es.eigenvectors().col(0);
 
     // debug
     // std::cout << "Eigen value:" << es.eigenvalues()(0) << std::endl;
-
-
-    u.normalize();
 
     int size=u.size();
     Vec unew(size);
@@ -98,27 +98,30 @@ Mat FNS(const Vec& u, const Mat& Eall, const std::vector<Mat>& Vall){
         Mat L=ComputeL(uold,Eall, Vall);
 
         Mat ML=M-L;
+        ML = 0.5 * (ML + ML.t()); // enforces symmetry of ML before eigen decomposition because SelfAdjointEigenSolver assumes the matrix ML is perfectly symmetric
         unew = SolveEigen(ML);
 
-        // because u and -u represent the same fundamental matrix F 
+        unew/=std::sqrt(unew.qnorm());
+
+        // because u and -u represent the same fundamental matrix F
+
         double d1 = (unew - uold).qnorm();
         double d2 = (unew + uold).qnorm();
 
         uold=unew;
 
-        if(std::min(d1,d2) < 1e-8) {break;}
+        if(std::min(d1,d2) < 1e-4) {break;}
 
     }
 
     // normalizing unew to have unit length just in case
-    double norm = std::sqrt(unew.qnorm());
-    unew /= norm;
+    unew /= std::sqrt(unew.qnorm());
     
     // the solution is unew
     Mat F=Mat::zeros(3);
     for(int i=0; i<3; i++){
         for(int j=0; j<3; j++){
-            F(j, i) = unew(i * 3 + j); // Swapped i and j
+            F(i, j) = unew(i * 3 + j); // Swapped i and j
         }
     }
 
