@@ -784,21 +784,21 @@ int main()
         // std::cout << "Sigma " << sigma << std::endl;
 
         // HEIV:
-        double HEIV_error=F_Test(2, sigma, u_gt, worldPts, K, Rc1, t1, Rc2, t2, f0, rng);
-        HEIV_errors.push_back(HEIV_error);
-        std::cout << "Sigma " << sigma << std::endl;
+        // double HEIV_error=F_Test(2, sigma, u_gt, worldPts, K, Rc1, t1, Rc2, t2, f0, rng);
+        // HEIV_errors.push_back(HEIV_error);
+        // std::cout << "Sigma " << sigma << std::endl;
 
         // Renorm:
-        // double Renorm_error=F_Test(3, sigma, u_gt, worldPts, K, Rc1, t1, Rc2, t2, f0, rng);
-        // Renorm_errors.push_back(Renorm_error);
-        // std::cout << "Sigma " << sigma << std::endl;
+        double Renorm_error=F_Test(3, sigma, u_gt, worldPts, K, Rc1, t1, Rc2, t2, f0, rng);
+        Renorm_errors.push_back(Renorm_error);
+        std::cout << "Sigma " << sigma << std::endl;
 
         // Gauss Newton:
         // double GaussNewton_error=F_Test(4, sigma, F_gt, worldPts, K, Rc1, t1, Rc2, t2, f0, rng);
         // GaussNewton_errors.push_back(GaussNewton_error);
     }
 
-    std::ofstream file("HEIV_errors.csv");
+    std::ofstream file("Renorm_error.csv");
 
     if (!file.is_open()) {
         std::cerr << "Failed to open file\n";
@@ -806,10 +806,10 @@ int main()
     }
 
     // Optional header
-    file << "HEIV error\n";
+    file << "Renorm error\n";
 
     int i=0;
-    for (double v : HEIV_errors) {
+    for (double v : Renorm_errors) {
         file << "Sigma: " << sigmas[i] << "\n";
         file << v << "\n";
         i+=1;

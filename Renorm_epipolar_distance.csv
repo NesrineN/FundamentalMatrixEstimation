@@ -1,0 +1,29 @@
+Renorm epipolar distance from x' to Fx. F is computed by Renorm method. 
+Sigma: 0.1
+0.628193
+Sigma: 0.2
+0.839303
+Sigma: 0.3
+1.09726
+Sigma: 0.4
+1.57534
+Sigma: 0.5
+1.67584
+Sigma: 1
+2.17767
+Sigma: 2
+3.81928
+Sigma: 3
+4.61659
+Sigma: 4
+5.48751
+Sigma: 5
+6.59768
+Sigma: 6
+8.25191
+Sigma: 7
+8.7948
+Sigma: 8
+10.2696
+Sigma: 9
+10.7265
