@@ -9,10 +9,10 @@ typedef libNumerics::vector<double> Vec;
 
 Mat ComputeV0Z(Vec E, double f0){
 
-    double x=E(2)/f0;
-    double y=E(5)/f0;
-    double xp=E(6)/f0;
-    double yp=E(7)/f0;
+    double x=E(2);
+    double y=E(5);
+    double xp=E(6);
+    double yp=E(7);
 
     Mat V0=Mat::zeros(8);
 
@@ -248,7 +248,11 @@ Vec SolveGeneralizedEigen(const Mat& M, const Mat& L){
         vnew(i) = v(i);
     }
 
+    double lambda = eigenvalues(0);
     return vnew;
+
+    // auto p1 = std::make_pair(vnew, lambda);
+    // return p1;
 
 }
 
@@ -265,6 +269,13 @@ Mat HEIV(const Vec& v, const Mat& Eall, double f0){
 
         // standard eigen value problem: 
         vnew = SolveGeneralizedEigen(Mt, Lt);
+
+        //debug:
+        // auto p = SolveGeneralizedEigen(Mt, Lt);
+
+        // vnew=p.first;
+
+
         Zbar=ComputeZbar(vnew, Eall, f0);
 
         // because u and -u represent the same fundamental matrix F 
@@ -297,7 +308,7 @@ Mat HEIV(const Vec& v, const Mat& Eall, double f0){
 
     for(int i=0;i<3; i++){
         for(int j=0; j<3; j++){
-            F(j, i) = unew(i * 3 + j);
+            F(i, j) = unew(i * 3 + j);
         }
     }
 

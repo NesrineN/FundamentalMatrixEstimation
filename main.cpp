@@ -100,7 +100,7 @@ Mat computeGroundTruthF(const Mat& Kl, const Mat& Kr, const Mat& R, const Vec& t
 }
 
 // function that creates the vector E from two point-correspondences:
-Vec fillE(const Point2D& p1, const Point2D& p2, double f0, double cx, double cy){
+Vec fillE(const Point2D& p1, const Point2D& p2, double f0){
     double x=p1.x;
     double y=p1.y;
 
@@ -120,29 +120,6 @@ Vec fillE(const Point2D& p1, const Point2D& p2, double f0, double cx, double cy)
     E(8)= f0*f0;
 
     return E;
-
-    // double x  = p1.x;
-    // double y  = p1.y;
-    // double xp = p2.x;
-    // double yp = p2.y;
-
-    // double s = f0;
-
-    // Vec E(9);
-
-    // E(0) = (x * xp) / (s * s);
-    // E(1) = (x * yp) / (s * s);
-    // E(2) = (x) / s;
-
-    // E(3) = (y * xp) / (s * s);
-    // E(4) = (y * yp) / (s * s);
-    // E(5) = (y) / s;
-
-    // E(6) = (xp) / s;
-    // E(7) = (yp) / s;
-    // E(8) = 1.0;
-
-    // return E;
 }
 
 
@@ -177,7 +154,7 @@ Mat HartleyNormalize(const std::vector<Point2D>& imgpoints){
 
     for(int i=0; i<xtilde.size(); i++){
         distance+= std::sqrt((xtilde[i]*xtilde[i])+(ytilde[i]*ytilde[i]));
-    }
+    } 
 
     distance/=xtilde.size();
 
@@ -236,131 +213,131 @@ std::vector<Vec> generatePlaneGrid(int rows, int cols, double spacing, const Mat
     return pts;
 }
 
-Mat computeV0(const Mat& Eall){
-    Mat V0 = Mat::zeros(9, 9);
+// Mat computeV0(const Mat& Eall){
+//     Mat V0 = Mat::zeros(9, 9);
 
-    for (int k=0; k<Eall.ncol(); k++)
-    {   Vec E=Eall.col(k);
-        for (int i = 0; i < 9; i++)
-        {
-            for (int j = 0; j < 9; j++)
-            {
-                V0(i, j) += E(i) * E(j);
-            }
-        }
-    }
-
-    return V0;
-
-}
-
-// Mat computeV0(double x, double y, double xp, double yp, double f0){
-
-//     Mat V0=Mat::zeros(9);
-//     double s = f0;
-    
-//     // R0
-//     V0(0,0)= (x*x) + (xp*xp);
-//     V0(0,1)= xp*yp;
-//     V0(0,2)= f0 * xp;
-//     V0(0,3)= x*y;
-//     V0(0,4)= 0;
-//     V0(0,5)=0;
-//     V0(0,6)=f0*x;
-//     V0(0,7)=0;
-//     V0(0,8)=0;
-
-//     // R1
-//     V0(1,0)= xp*yp;
-//     V0(1,1)= x*x + yp*yp;
-//     V0(1,2)= f0 * yp;
-//     V0(1,3)= 0;
-//     V0(1,4)= x*y;
-//     V0(1,5)=0;
-//     V0(1,6)=0;
-//     V0(1,7)=f0*x;
-//     V0(1,8)=0;
-
-//     // R2
-//     V0(2,0)= f0*xp;
-//     V0(2,1)= f0*yp;
-//     V0(2,2)= f0 * f0;
-//     V0(2,3)= 0;
-//     V0(2,4)= 0;
-//     V0(2,5)=0;
-//     V0(2,6)=0;
-//     V0(2,7)=0;
-//     V0(2,8)=0;
-
-//     // R3
-//     V0(3,0)= x*y;
-//     V0(3,1)= 0;
-//     V0(3,2)= 0;
-//     V0(3,3)= y*y + xp*xp;
-//     V0(3,4)= xp*yp;
-//     V0(3,5)= f0*xp;
-//     V0(3,6)= f0*y;
-//     V0(3,7)=0;
-//     V0(3,8)=0;
-
-//     // R4
-//     V0(4,0)= 0;
-//     V0(4,1)= x*y;
-//     V0(4,2)= 0;
-//     V0(4,3)= xp*yp;
-//     V0(4,4)= y*y + yp*yp;
-//     V0(4,5)= f0*yp;
-//     V0(4,6)= 0;
-//     V0(4,7)=f0*y;
-//     V0(4,8)=0;
-
-//     // R5
-//     V0(5,0)= 0;
-//     V0(5,1)= 0;
-//     V0(5,2)= 0;
-//     V0(5,3)= f0*xp;
-//     V0(5,4)= f0*yp;
-//     V0(5,5)= f0*f0;
-//     V0(5,6)= 0;
-//     V0(5,7)=0;
-//     V0(5,8)=0;
-
-//     // R6
-//     V0(6,0)= f0*x;
-//     V0(6,1)= 0;
-//     V0(6,2)= 0;
-//     V0(6,3)= f0*y;
-//     V0(6,4)= 0;
-//     V0(6,5)= 0;
-//     V0(6,6)= f0*f0;
-//     V0(6,7)=0;
-//     V0(6,8)=0;
-
-//     // R7
-//     V0(7,0)= 0;
-//     V0(7,1)= f0*x;
-//     V0(7,2)= 0;
-//     V0(7,3)= 0;
-//     V0(7,4)= f0*y;
-//     V0(7,5)= 0;
-//     V0(7,6)= 0;
-//     V0(7,7)= f0*f0;
-//     V0(7,8)=0;
-
-//     // R8
-//     V0(8,0)= 0;
-//     V0(8,1)= 0;
-//     V0(8,2)= 0;
-//     V0(8,3)= 0;
-//     V0(8,4)= 0;
-//     V0(8,5)= 0;
-//     V0(8,6)= 0;
-//     V0(8,7)= 0;
-//     V0(8,8)=0;
+//     for (int k=0; k<Eall.ncol(); k++)
+//     {   Vec E=Eall.col(k);
+//         for (int i = 0; i < 9; i++)
+//         {
+//             for (int j = 0; j < 9; j++)
+//             {
+//                 V0(i, j) += E(i) * E(j);
+//             }
+//         }
+//     }
 
 //     return V0;
 
 // }
+
+Mat computeV0(double x, double y, double xp, double yp, double f0){
+
+    Mat V0=Mat::zeros(9);
+    double s = f0;
+    
+    // R0
+    V0(0,0)= (x*x) + (xp*xp);
+    V0(0,1)= xp*yp;
+    V0(0,2)= f0 * xp;
+    V0(0,3)= x*y;
+    V0(0,4)= 0;
+    V0(0,5)=0;
+    V0(0,6)=f0*x;
+    V0(0,7)=0;
+    V0(0,8)=0;
+
+    // R1
+    V0(1,0)= xp*yp;
+    V0(1,1)= x*x + yp*yp;
+    V0(1,2)= f0 * yp;
+    V0(1,3)= 0;
+    V0(1,4)= x*y;
+    V0(1,5)=0;
+    V0(1,6)=0;
+    V0(1,7)=f0*x;
+    V0(1,8)=0;
+
+    // R2
+    V0(2,0)= f0*xp;
+    V0(2,1)= f0*yp;
+    V0(2,2)= f0 * f0;
+    V0(2,3)= 0;
+    V0(2,4)= 0;
+    V0(2,5)=0;
+    V0(2,6)=0;
+    V0(2,7)=0;
+    V0(2,8)=0;
+
+    // R3
+    V0(3,0)= x*y;
+    V0(3,1)= 0;
+    V0(3,2)= 0;
+    V0(3,3)= y*y + xp*xp;
+    V0(3,4)= xp*yp;
+    V0(3,5)= f0*xp;
+    V0(3,6)= f0*y;
+    V0(3,7)=0;
+    V0(3,8)=0;
+
+    // R4
+    V0(4,0)= 0;
+    V0(4,1)= x*y;
+    V0(4,2)= 0;
+    V0(4,3)= xp*yp;
+    V0(4,4)= y*y + yp*yp;
+    V0(4,5)= f0*yp;
+    V0(4,6)= 0;
+    V0(4,7)=f0*y;
+    V0(4,8)=0;
+
+    // R5
+    V0(5,0)= 0;
+    V0(5,1)= 0;
+    V0(5,2)= 0;
+    V0(5,3)= f0*xp;
+    V0(5,4)= f0*yp;
+    V0(5,5)= f0*f0;
+    V0(5,6)= 0;
+    V0(5,7)=0;
+    V0(5,8)=0;
+
+    // R6
+    V0(6,0)= f0*x;
+    V0(6,1)= 0;
+    V0(6,2)= 0;
+    V0(6,3)= f0*y;
+    V0(6,4)= 0;
+    V0(6,5)= 0;
+    V0(6,6)= f0*f0;
+    V0(6,7)=0;
+    V0(6,8)=0;
+
+    // R7
+    V0(7,0)= 0;
+    V0(7,1)= f0*x;
+    V0(7,2)= 0;
+    V0(7,3)= 0;
+    V0(7,4)= f0*y;
+    V0(7,5)= 0;
+    V0(7,6)= 0;
+    V0(7,7)= f0*f0;
+    V0(7,8)=0;
+
+    // R8
+    V0(8,0)= 0;
+    V0(8,1)= 0;
+    V0(8,2)= 0;
+    V0(8,3)= 0;
+    V0(8,4)= 0;
+    V0(8,5)= 0;
+    V0(8,6)= 0;
+    V0(8,7)= 0;
+    V0(8,8)=0;
+
+    return V0;
+
+}
 
 double F_error(const Vec& u, const Vec& u_hat){
     // normalization at first just in case:
@@ -414,11 +391,46 @@ void printM(const Mat& A){
     }
 }
 
+// returns the distance from x' to the epipolar line Fx
+// F is either Fgt or Fdenorm
+double epidistance(Point2D p1, Point2D p2, Mat F){
+    double x=p1.x;
+    double y=p1.y;
+    double xp=p2.x;
+    double yp=p2.y;
+
+    Mat X=Mat::zeros(3,1);
+    Mat Xp=Mat::zeros(3,1);
+    X(0,0)=x;
+    X(1,0)=y;
+    X(2,0)=1.0;
+
+    Xp(0,0)=xp;
+    Xp(1,0)=yp;
+    Xp(2,0)=1.0;
+
+
+    Mat l=F*X; // l is a 3x1 mat
+
+    double num=std::abs(l(0,0)*Xp(0,0) + l(1,0)*Xp(1,0) + l(2,0));
+    double denom=std::sqrt((l(0,0)*l(0,0)) + (l(1,0)*l(1,0)));
+    if(denom<1e-6)denom+=1e-6;
+    
+    return num/denom;
+}
+
 // returns the root-mean-squares of ||Puuˆ|| over 1000 trials for the method chosen. 1==FNS, 2==HEIV, 3==Renorm, 4==GaussNewton  
-double F_Test(int method, double sigma, const Vec& u_gt, const std::vector<Vec>& worldPts, const Mat& K, const Mat& Rc1, const Vec& t1, const Mat& Rc2, const Vec& t2, double f0, double cx, double cy, std::mt19937& rng){
+double F_Test(int method, double sigma, const Vec& u_gt, const std::vector<Vec>& worldPts, const Mat& K, const Mat& Rc1, const Vec& t1, const Mat& Rc2, const Vec& t2, double f0, std::mt19937& rng){
     // Generating noisy image correspondences
     double error=0;
-    int total_trials=1;
+    int total_trials=1000;
+
+    Mat F_gt=Mat::zeros(3);
+    for(int i=0; i<3; i++){
+        for(int j=0; j<3; j++){
+            F_gt(i, j) = u_gt(i * 3 + j);
+        }
+    }
 
     for(int trial=0; trial<total_trials; trial++){
         std::vector<Point2D> img1Pts;
@@ -430,8 +442,8 @@ double F_Test(int method, double sigma, const Vec& u_gt, const std::vector<Vec>&
 
             Point2D p2 = projectPoint(X, K, Rc2, t2);   
 
-            // p1 = addNoise(p1, sigma, rng);
-            // p2 = addNoise(p2, sigma, rng);
+            p1 = addNoise(p1, sigma, rng);
+            p2 = addNoise(p2, sigma, rng);
 
             img1Pts.push_back(p1);
             img2Pts.push_back(p2);
@@ -453,7 +465,7 @@ double F_Test(int method, double sigma, const Vec& u_gt, const std::vector<Vec>&
             Point2D p1=img1Pts[i];
             Point2D p2=img2Pts[i];
 
-            Vec E=fillE(p1,p2,1.0, cx, cy);
+            Vec E=fillE(p1,p2,f0);
 
             for(int j = 0; j < 9; ++j)
             {
@@ -465,8 +477,7 @@ double F_Test(int method, double sigma, const Vec& u_gt, const std::vector<Vec>&
             double xp=p2.x;
             double yp=p2.y;
 
-            // Mat V0=computeV0(x,y,xp,yp,1.0);
-            Mat V0=computeV0(Eall);
+            Mat V0=computeV0(x,y,xp,yp,f0);
 
             // adding V0 to the list Vall
             Vall.push_back(V0);
@@ -474,45 +485,67 @@ double F_Test(int method, double sigma, const Vec& u_gt, const std::vector<Vec>&
 
         // we initialize uinit using Taubin method
         Vec uinit= Taubin(Eall, f0, Vall);
+
         Vec vinit=uinit.copy(0,7);
 
-        // Mat F=Mat::zeros(3);
-
-        // switch (method)
-        // {
-        // case 1:
-        //     // FNS
-            // F =FNS(uinit, Eall, Vall);
-        //     break;
-
-        // case 2:
-        //     // HEIV
-        //     F =HEIV(vinit, Eall, f0);
-        //     break;
-
-        // case 3:
-        //     // Renorm
-        //     F = Renorm(uinit, Eall, Vall); 
-        //     break;
-        
-        // case 4:
-        //     // GaussNewton
-        //     F = GaussNewton(uinit, Eall, Vall);
-        //     break;
-        // }
-
         Mat F=Mat::zeros(3);
-        for(int i=0; i<3; i++){
-            for(int j=0; j<3; j++){
-                F(i, j) = uinit(i * 3 + j); // Swapped i and j
-            }
+
+        switch (method)
+        {
+        case 1:
+            // FNS
+            F =FNS(uinit, Eall, Vall);
+            break;
+
+        case 2:
+            // HEIV
+            F =HEIV(vinit, Eall, f0);
+            break;
+
+        case 3:
+            // Renorm
+            F = Renorm(uinit, Eall, Vall); 
+            break;
+        
+        case 4:
+            // GaussNewton
+            F = GaussNewton(uinit, Eall, Vall);
+            break;
         }
 
-        printM(F);
+        // Mat F=Mat::zeros(3);
+        // for(int i=0; i<3; i++){
+        //     for(int j=0; j<3; j++){
+        //         F(i, j) = uinit(i * 3 + j); 
+        //     }
+        // }
+
+        // std::cout << "F estimated: " << std::endl;
+        // printM(F);
+
+        // de-normalizing F to be closer to F_gt:
+        Mat Norm=Mat::eye(3);
+        Norm(2,2)=f0;
+
+        Mat F_denorm=Norm.t()*F*Norm;
+
+        // std::cout << "F denormalized: " << std::endl;
+        // printM(F_denorm);
 
         // checking if F estimated is correct
         std::vector<double> errors;
+
+        // checking:
+        F=F.t();
+        F_denorm=F_denorm.t();
+        // std::cout << "F_denorm transpose: " << std::endl;
+        // printM(F_denorm);
+
+        double avg_epidist_gt=0;
+        double avg_epidist_estim=0;
+
         for(int i=0; i<img1Pts.size(); i++){
+
             Mat v1=Mat::zeros(3,1);
             Mat v2=Mat::zeros(3,1);
 
@@ -522,48 +555,80 @@ double F_Test(int method, double sigma, const Vec& u_gt, const std::vector<Vec>&
 
             v2(0)=img2Pts[i].x;
             v2(1)=img2Pts[i].y;
-            v2(2)=f0;
+            v2(2)=f0;  
 
             // Should be very close to 0
             Mat v2tF=v2.t()*F; // 1x3 matrix
             Mat error = v2tF*v1;
-            std::cout << "Epipolar error: " << error(0) << std::endl;
+            // std::cout << "Epipolar error: " << error(0) << std::endl;
 
-            double sam=sampsonError(v1, v2, F);
-            errors.push_back(sam);
+            // computing epipolar constraint with F_gt:
+
+            Mat X1=Mat::zeros(3,1);
+            Mat X2=Mat::zeros(3,1);
+
+            X1(0)=img1Pts[i].x;
+            X1(1)=img1Pts[i].y;
+            X1(2)=1.0;
+
+            X2(0)=img2Pts[i].x;
+            X2(1)=img2Pts[i].y;
+            X2(2)=1.0;  
+
+
+            // if(sampsonError(X1,X2, F_gt)>1e-4){std::cout << "It's an outlier!" << std::endl;}
+
+            // double sam=sampsonError(v1, v2, F);
+            // errors.push_back(sam);
             // std::cout << "Epipolar error: " << sam << std::endl;
 
-        }
+            // computing the distance from point x' to epipolar line Fx
+            Point2D p1=img1Pts[i];
+            Point2D p2=img2Pts[i];
+            double epidistance_gt=epidistance(p1, p2, F_gt);
+            double epidistance_estim=epidistance(p1 , p2, F_denorm);
 
-        std::sort(errors.begin(), errors.end());
-        for(int k=0; k<errors.size(); k++){
-            // std::cout << "sam: " << errors[k] << std::endl;
+            // std::cout << "epi distance gt: " << epidistance_gt << std::endl;
+            avg_epidist_gt+=epidistance_gt;
+            avg_epidist_estim+=epidistance_estim;
+
+            // std::cout << "epi distance estim: " << epidistance_estim << std::endl;
+            // std:: cout << std::endl;
         }
 
         Vec u_estimated(9);
-        u_estimated(0)=F(0,0);
-        u_estimated(1)=F(0,1);
-        u_estimated(2)=F(0,2);
-        u_estimated(3)=F(1,0);
-        u_estimated(4)=F(1,1);
-        u_estimated(5)=F(1,2);
-        u_estimated(6)=F(2,0);
-        u_estimated(7)=F(2,1);
-        u_estimated(8)=F(2,2);
+        u_estimated(0)=F_denorm(0,0);
+        u_estimated(1)=F_denorm(0,1);
+        u_estimated(2)=F_denorm(0,2);
+        u_estimated(3)=F_denorm(1,0);
+        u_estimated(4)=F_denorm(1,1);
+        u_estimated(5)=F_denorm(1,2);
+        u_estimated(6)=F_denorm(2,0);
+        u_estimated(7)=F_denorm(2,1);
+        u_estimated(8)=F_denorm(2,2);
 
         u_estimated/=std::sqrt(u_estimated.qnorm());
 
         // we add the error obtained to the sum of the errors:
-        double e=F_error(u_gt, u_estimated);
-        error += e * e;
+        // double e=F_error(u_gt, u_estimated);
+        // error += e * e;
 
-        // std::cout << "Trial " << trial << " finished!" << std::endl;
+        avg_epidist_estim/=img1Pts.size();
+
+        error+=avg_epidist_estim;
+
+        // std::cout << "sigma is: " << sigma << std::endl;
+        // std::cout << "avg epi distance gt: " << avg_epidist_gt/img1Pts.size() << std::endl;
+        // std::cout << "avg epi distance estim: " << avg_epidist_estim/img1Pts.size() << std::endl;
+        // std::cout << std::endl;
+
+        std::cout << "Trial " << trial << " finished!" << std::endl;
     }
 
-    return std::sqrt(error/double(total_trials));
+    // return std::sqrt(error/double(total_trials));
+    return error/double(total_trials);
 
 }
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Main
@@ -621,7 +686,7 @@ int main()
     // Camera 2
 
     Mat Rc2 =rotationY(5.0 * PI / 180.0); // if we apply Rc2 we would transform the world/cam1 axes to c2's axes
-    Vec c2(0.5, 0.0, 0.0); // where c2 is with respect to the world origin also cam 1
+    Vec c2(0.2, 0.0, 0.0); // where c2 is with respect to the world origin also cam 1
 
     Vec t2 = -Rc2 * c2;
 
@@ -639,6 +704,7 @@ int main()
     }
 
     // printing the correspondences:
+    // std::cout << "ground truth correspondences: " << std::endl;
     // for(int i=0; i<img1Pts_gt.size(); i++){
     //     std::cout << "u1: " << img1Pts_gt[i].x << " " << img1Pts_gt[i].y << std::endl;
     //     std::cout << "u2: " << img2Pts_gt[i].x << " " << img2Pts_gt[i].y << std::endl;
@@ -646,6 +712,8 @@ int main()
 
     // Ground truth F
     Mat F_gt = computeGroundTruthF(K,K,Rc2,t2);
+
+    // printM(F_gt);
 
     // normalizing F_gt: 
     Vec u_gt(9);
@@ -681,17 +749,14 @@ int main()
     // }
 
     // FNS trial:
-    double cx=width/2.0;
-    double cy=height/2.0;
+    // double error=F_Test(1, 4, u_gt, worldPts,K, Rc1,t1,  Rc2, t2, f0, rng);
 
-    double error=F_Test(1, 1, u_gt, worldPts,K, Rc1,t1,  Rc2, t2, f0, cx, cy,  rng);
+    // std::cout << "Error is: " << error << std::endl;
 
-    std::cout << "Error is: " << error << std::endl;
-
-    // std::vector<double> FNS_errors;
-    // std::vector<double> HEIV_errors;
-    // std::vector<double> Renorm_errors;
-    // std::vector<double> GaussNewton_errors;
+    std::vector<double> FNS_errors;
+    std::vector<double> HEIV_errors;
+    std::vector<double> Renorm_errors;
+    std::vector<double> GaussNewton_errors;
 
     // σ ∈ {0.001, 0.0025, 0.005, 0.01, 0.02, 0.05}
     // If you want to reproduce their plots:
@@ -706,17 +771,22 @@ int main()
 
     // use Hartley normalization
     // σ ∈ [0.001, 0.05]
+    std::vector<double> sigmas = {0.1, 0.2, 0.3, 0.4, 0.5, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 
     // for(int sigma=1; sigma<10; sigma++){
+    for(int i=0; i< sigmas.size(); i++){
+        double sigma=sigmas[i];
+
         // FNS:
         // double FNS_error=F_Test(1, sigma, u_gt, worldPts, K, Rc1, t1, Rc2, t2, f0, rng);
+        // std::cout << "error: " << FNS_error << std::endl;
         // FNS_errors.push_back(FNS_error);
         // std::cout << "Sigma " << sigma << std::endl;
 
         // HEIV:
-        // double HEIV_error=F_Test(2, sigma, u_gt, worldPts, K, Rc1, t1, Rc2, t2, f0, rng);
-        // HEIV_errors.push_back(HEIV_error);
-        // std::cout << "Sigma " << sigma << std::endl;
+        double HEIV_error=F_Test(2, sigma, u_gt, worldPts, K, Rc1, t1, Rc2, t2, f0, rng);
+        HEIV_errors.push_back(HEIV_error);
+        std::cout << "Sigma " << sigma << std::endl;
 
         // Renorm:
         // double Renorm_error=F_Test(3, sigma, u_gt, worldPts, K, Rc1, t1, Rc2, t2, f0, rng);
@@ -726,23 +796,26 @@ int main()
         // Gauss Newton:
         // double GaussNewton_error=F_Test(4, sigma, F_gt, worldPts, K, Rc1, t1, Rc2, t2, f0, rng);
         // GaussNewton_errors.push_back(GaussNewton_error);
-    // }
+    }
 
-    // std::ofstream file("FNS_errors.csv");
+    std::ofstream file("HEIV_errors.csv");
 
-    // if (!file.is_open()) {
-    //     std::cerr << "Failed to open file\n";
-    //     return 1;
-    // }
+    if (!file.is_open()) {
+        std::cerr << "Failed to open file\n";
+        return 1;
+    }
 
-    // // Optional header
-    // file << "FNS error\n";
+    // Optional header
+    file << "HEIV error\n";
 
-    // for (double v : FNS_errors) {
-    //     file << v << "\n";
-    // }
+    int i=0;
+    for (double v : HEIV_errors) {
+        file << "Sigma: " << sigmas[i] << "\n";
+        file << v << "\n";
+        i+=1;
+    }
 
-    // file.close();
+    file.close();
     
     return 0;
 }

@@ -230,3 +230,26 @@
 
             // Finally, we de-normalize F:
         // F=(T2.t()*F)*T1;
+
+
+
+
+
+What is stereo rectification?
+Reproject image
+planes onto a
+common plane
+parallel to the line
+between camera
+centers
+Need two
+homographies (3x3
+transform), one for
+each input image
+reprojection
+
+
+
+
+
+Gauss newton and FNS???????????????????

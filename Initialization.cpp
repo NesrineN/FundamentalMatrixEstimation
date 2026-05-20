@@ -119,57 +119,69 @@ Vec Taubin(const Mat& Eall, double f0, const std::vector<Mat>& Vall){
     Mat NTBt=ComputeNTBt(Eall, f0, Vall);
 
     Vec v=SolveGeneralizedEigen(MLSt, NTBt); // chooses vector with smallest lambda.
-    v/=std::sqrt(v.qnorm());
+    
+    // Vec v=p1.first;
+    // double lambda=p1.second;
+
+    // debug
+    // double debug_norm=((MLSt*v)-(lambda*NTBt*v)).qnorm();
+    // std::cout << "the norm is: " << debug_norm << std::endl; Norm is 2.46154e-08
+
+
+    // v/=std::sqrt(v.qnorm());
+
     double F33=-(dot(v,Zbar))/(f0*f0);
 
     Vec u(9);
 
     for (int i = 0; i < 8; ++i)
         u(i) = v(i);
-    
-    u/=std::sqrt(u.qnorm());
-    
+        
     u(8) = F33;
 
-    Mat F=Mat::zeros(3);
-    for(int i=0; i<3; i++){
-        for(int j=0; j<3; j++){
-            F(i, j) = u(i * 3 + j);
-        }
-    }
+    u/=std::sqrt(u.qnorm());
+
+    // Mat F=Mat::zeros(3);
+    // for(int i=0; i<3; i++){
+    //     for(int j=0; j<3; j++){
+    //         F(i, j) = u(i * 3 + j);
+    //     }
+    // }
 
     // enforcing rank 2 on F: 
 
-    Mat U(3,3);
-    Mat V(3,3);
-    Vec S(3);
-    F.SVD(U,S,V);
+    // Mat U(3,3);
+    // Mat V(3,3);
+    // Vec S(3);
+    // F.SVD(U,S,V);
 
-    int minIndex = 0;
-        for (int i = 1; i < 3; ++i)
-            if (S(i) < S(minIndex))
-                minIndex = i;
+    // int minIndex = 0;
+    //     for (int i = 1; i < 3; ++i)
+    //         if (S(i) < S(minIndex))
+    //             minIndex = i;
 
-    S(minIndex)=0;
+    // S(minIndex)=0;
 
-    Mat Sdiag = Mat::zeros(3,3);
-    for(int i=0; i<3; i++) Sdiag(i,i) = S(i);
+    // Mat Sdiag = Mat::zeros(3,3);
+    // for(int i=0; i<3; i++) Sdiag(i,i) = S(i);
 
-    F= U*Sdiag*V.t();
+    // F= U*Sdiag*V.t();
 
-    Vec utaubin(9);
-    // for(int i = 0; i < 9; i++) utaubin(i) = F(i/3, i%3);
-    utaubin(0)=F(0,0);
-    utaubin(1)=F(0,1);
-    utaubin(2)=F(0,2);
-    utaubin(3)=F(1,0);
-    utaubin(4)=F(1,1);
-    utaubin(5)=F(1,2);
-    utaubin(6)=F(2,0);
-    utaubin(7)=F(2,1);
-    utaubin(8)=F(2,2);
+    // Vec utaubin(9);
+    // // for(int i = 0; i < 9; i++) utaubin(i) = F(i/3, i%3);
+    // utaubin(0)=F(0,0);
+    // utaubin(1)=F(0,1);
+    // utaubin(2)=F(0,2);
+    // utaubin(3)=F(1,0);
+    // utaubin(4)=F(1,1);
+    // utaubin(5)=F(1,2);
+    // utaubin(6)=F(2,0);
+    // utaubin(7)=F(2,1);
+    // utaubin(8)=F(2,2);
 
-    utaubin/=std::sqrt(utaubin.qnorm());
+    // utaubin/=std::sqrt(utaubin.qnorm());
 
-    return utaubin;
+    // return utaubin;
+
+    return u;
 }
