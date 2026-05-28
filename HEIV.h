@@ -16,7 +16,7 @@ Mat ComputeMTilde(const Vec& v, const Mat& Eall, const Vec& Zbar, double f0);
 
 Mat ComputeLTilde(const Vec& v, const Mat& Eall, const Vec& Zbar, double f0);
 
-Vec SolveGeneralizedEigen(const Mat& Mt, const Mat& Lt);
+std::pair<Vec, double> SolveGeneralizedEigen(const Mat& Mt, const Mat& Lt);
 
 
 Mat HEIV(const Vec& v, const Mat& Eall, double f0);

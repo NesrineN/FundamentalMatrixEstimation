@@ -1304,3 +1304,55 @@ events:
       Running the CXX compiler's linker: "C:/msys64/mingw64/x86_64-w64-mingw32/bin/ld.exe" "-v"
       GNU ld (GNU Binutils) 2.45
 ...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/ENPC/Tools/CMake_64/share/cmake-3.30/Modules/Internal/CheckSourceCompiles.cmake:101 (try_compile)"
+      - "C:/ENPC/Tools/CMake_64/share/cmake-3.30/Modules/CheckCXXSourceCompiles.cmake:52 (cmake_check_source_compiles)"
+      - "C:/ENPC/6.9.1/mingw_64/lib/cmake/Qt6/FindWrapAtomic.cmake:36 (check_cxx_source_compiles)"
+      - "C:/ENPC/Tools/CMake_64/share/cmake-3.30/Modules/CMakeFindDependencyMacro.cmake:76 (find_package)"
+      - "C:/ENPC/6.9.1/mingw_64/lib/cmake/Qt6/QtPublicDependencyHelpers.cmake:36 (find_dependency)"
+      - "C:/ENPC/6.9.1/mingw_64/lib/cmake/Qt6Core/Qt6CoreDependencies.cmake:35 (_qt_internal_find_third_party_dependencies)"
+      - "C:/ENPC/6.9.1/mingw_64/lib/cmake/Qt6Core/Qt6CoreConfig.cmake:45 (include)"
+      - "C:/ENPC/Tools/CMake_64/share/cmake-3.30/Modules/CMakeFindDependencyMacro.cmake:76 (find_package)"
+      - "C:/ENPC/6.9.1/mingw_64/lib/cmake/Qt6/QtPublicDependencyHelpers.cmake:137 (find_dependency)"
+      - "C:/ENPC/6.9.1/mingw_64/lib/cmake/Qt6Widgets/Qt6WidgetsDependencies.cmake:45 (_qt_internal_find_qt_dependencies)"
+      - "C:/ENPC/6.9.1/mingw_64/lib/cmake/Qt6Widgets/Qt6WidgetsConfig.cmake:43 (include)"
+      - "C:/ENPC/6.9.1/mingw_64/lib/cmake/Qt6/Qt6Config.cmake:218 (find_package)"
+      - "C:/ENPC/Imagine++-6.0.0/CMake/UseImagineGraphics.cmake:13 (find_package)"
+      - "C:/ENPC/Imagine++-6.0.0/CMake/UseImagineImages.cmake:8 (include)"
+      - "C:/ENPC/Imagine++-6.0.0/CMake/ImagineConfig.cmake:27 (include)"
+      - "CMakeLists.txt:58 (find_package)"
+    checks:
+      - "Performing Test HAVE_STDATOMIC"
+    directories:
+      source: "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/build/CMakeFiles/CMakeScratch/TryCompile-dhdilu"
+      binary: "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/build/CMakeFiles/CMakeScratch/TryCompile-dhdilu"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "C:/ENPC/Imagine++-6.0.0/CMake;C:/ENPC/6.9.1/mingw_64/lib/cmake/Qt6;C:/ENPC/6.9.1/mingw_64/lib/cmake/Qt6/3rdparty/extra-cmake-modules/find-modules;C:/ENPC/6.9.1/mingw_64/lib/cmake/Qt6/3rdparty/kwin"
+    buildResult:
+      variable: "HAVE_STDATOMIC"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/build/CMakeFiles/CMakeScratch/TryCompile-dhdilu'
+        
+        Run Build Command(s): C:/ENPC/Tools/CMake_64/bin/cmake.exe -E env VERBOSE=1 mingw32-make -f Makefile cmTC_ea915/fast
+        mingw32-make  -f CMakeFiles\\cmTC_ea915.dir\\build.make CMakeFiles/cmTC_ea915.dir/build
+        mingw32-make[1]: Entering directory 'C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/build/CMakeFiles/CMakeScratch/TryCompile-dhdilu'
+        Building CXX object CMakeFiles/cmTC_ea915.dir/src.cxx.obj
+        C:\\msys64\\mingw64\\bin\\g++.exe -DHAVE_STDATOMIC  -std=c++17 -o CMakeFiles\\cmTC_ea915.dir\\src.cxx.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\build\\CMakeFiles\\CMakeScratch\\TryCompile-dhdilu\\src.cxx
+        Linking CXX executable cmTC_ea915.exe
+        C:\\ENPC\\Tools\\CMake_64\\bin\\cmake.exe -E cmake_link_script CMakeFiles\\cmTC_ea915.dir\\link.txt --verbose=1
+        C:\\ENPC\\Tools\\CMake_64\\bin\\cmake.exe -E rm -f CMakeFiles\\cmTC_ea915.dir/objects.a
+        C:\\msys64\\mingw64\\bin\\ar.exe qc CMakeFiles\\cmTC_ea915.dir/objects.a @CMakeFiles\\cmTC_ea915.dir\\objects1.rsp
+        C:\\msys64\\mingw64\\bin\\g++.exe -Wl,--whole-archive CMakeFiles\\cmTC_ea915.dir/objects.a -Wl,--no-whole-archive -o cmTC_ea915.exe -Wl,--out-implib,libcmTC_ea915.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\\cmTC_ea915.dir\\linkLibs.rsp
+        mingw32-make[1]: Leaving directory 'C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/build/CMakeFiles/CMakeScratch/TryCompile-dhdilu'
+        
+      exitCode: 0
+...

@@ -143,11 +143,86 @@ CMakeFiles/F_estimator.dir/GaussNewton.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/F_estimator.dir/GaussNewton.cpp.s"
 	C:\msys64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\GaussNewton.cpp -o CMakeFiles\F_estimator.dir\GaussNewton.cpp.s
 
+CMakeFiles/F_estimator.dir/Imagine/SIFT_VL.cpp.obj: CMakeFiles/F_estimator.dir/flags.make
+CMakeFiles/F_estimator.dir/Imagine/SIFT_VL.cpp.obj: CMakeFiles/F_estimator.dir/includes_CXX.rsp
+CMakeFiles/F_estimator.dir/Imagine/SIFT_VL.cpp.obj: C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/Imagine/SIFT_VL.cpp
+CMakeFiles/F_estimator.dir/Imagine/SIFT_VL.cpp.obj: CMakeFiles/F_estimator.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/F_estimator.dir/Imagine/SIFT_VL.cpp.obj"
+	C:\msys64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/F_estimator.dir/Imagine/SIFT_VL.cpp.obj -MF CMakeFiles\F_estimator.dir\Imagine\SIFT_VL.cpp.obj.d -o CMakeFiles\F_estimator.dir\Imagine\SIFT_VL.cpp.obj -c C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\Imagine\SIFT_VL.cpp
+
+CMakeFiles/F_estimator.dir/Imagine/SIFT_VL.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/F_estimator.dir/Imagine/SIFT_VL.cpp.i"
+	C:\msys64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\Imagine\SIFT_VL.cpp > CMakeFiles\F_estimator.dir\Imagine\SIFT_VL.cpp.i
+
+CMakeFiles/F_estimator.dir/Imagine/SIFT_VL.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/F_estimator.dir/Imagine/SIFT_VL.cpp.s"
+	C:\msys64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\Imagine\SIFT_VL.cpp -o CMakeFiles\F_estimator.dir\Imagine\SIFT_VL.cpp.s
+
+CMakeFiles/F_estimator.dir/Imagine/vl/generic.c.obj: CMakeFiles/F_estimator.dir/flags.make
+CMakeFiles/F_estimator.dir/Imagine/vl/generic.c.obj: CMakeFiles/F_estimator.dir/includes_C.rsp
+CMakeFiles/F_estimator.dir/Imagine/vl/generic.c.obj: C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/Imagine/vl/generic.c
+CMakeFiles/F_estimator.dir/Imagine/vl/generic.c.obj: CMakeFiles/F_estimator.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building C object CMakeFiles/F_estimator.dir/Imagine/vl/generic.c.obj"
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/F_estimator.dir/Imagine/vl/generic.c.obj -MF CMakeFiles\F_estimator.dir\Imagine\vl\generic.c.obj.d -o CMakeFiles\F_estimator.dir\Imagine\vl\generic.c.obj -c C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\Imagine\vl\generic.c
+
+CMakeFiles/F_estimator.dir/Imagine/vl/generic.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/F_estimator.dir/Imagine/vl/generic.c.i"
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\Imagine\vl\generic.c > CMakeFiles\F_estimator.dir\Imagine\vl\generic.c.i
+
+CMakeFiles/F_estimator.dir/Imagine/vl/generic.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/F_estimator.dir/Imagine/vl/generic.c.s"
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\Imagine\vl\generic.c -o CMakeFiles\F_estimator.dir\Imagine\vl\generic.c.s
+
+CMakeFiles/F_estimator.dir/Imagine/vl/host.c.obj: CMakeFiles/F_estimator.dir/flags.make
+CMakeFiles/F_estimator.dir/Imagine/vl/host.c.obj: CMakeFiles/F_estimator.dir/includes_C.rsp
+CMakeFiles/F_estimator.dir/Imagine/vl/host.c.obj: C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/Imagine/vl/host.c
+CMakeFiles/F_estimator.dir/Imagine/vl/host.c.obj: CMakeFiles/F_estimator.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building C object CMakeFiles/F_estimator.dir/Imagine/vl/host.c.obj"
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/F_estimator.dir/Imagine/vl/host.c.obj -MF CMakeFiles\F_estimator.dir\Imagine\vl\host.c.obj.d -o CMakeFiles\F_estimator.dir\Imagine\vl\host.c.obj -c C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\Imagine\vl\host.c
+
+CMakeFiles/F_estimator.dir/Imagine/vl/host.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/F_estimator.dir/Imagine/vl/host.c.i"
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\Imagine\vl\host.c > CMakeFiles\F_estimator.dir\Imagine\vl\host.c.i
+
+CMakeFiles/F_estimator.dir/Imagine/vl/host.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/F_estimator.dir/Imagine/vl/host.c.s"
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\Imagine\vl\host.c -o CMakeFiles\F_estimator.dir\Imagine\vl\host.c.s
+
+CMakeFiles/F_estimator.dir/Imagine/vl/imop.c.obj: CMakeFiles/F_estimator.dir/flags.make
+CMakeFiles/F_estimator.dir/Imagine/vl/imop.c.obj: CMakeFiles/F_estimator.dir/includes_C.rsp
+CMakeFiles/F_estimator.dir/Imagine/vl/imop.c.obj: C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/Imagine/vl/imop.c
+CMakeFiles/F_estimator.dir/Imagine/vl/imop.c.obj: CMakeFiles/F_estimator.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building C object CMakeFiles/F_estimator.dir/Imagine/vl/imop.c.obj"
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/F_estimator.dir/Imagine/vl/imop.c.obj -MF CMakeFiles\F_estimator.dir\Imagine\vl\imop.c.obj.d -o CMakeFiles\F_estimator.dir\Imagine\vl\imop.c.obj -c C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\Imagine\vl\imop.c
+
+CMakeFiles/F_estimator.dir/Imagine/vl/imop.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/F_estimator.dir/Imagine/vl/imop.c.i"
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\Imagine\vl\imop.c > CMakeFiles\F_estimator.dir\Imagine\vl\imop.c.i
+
+CMakeFiles/F_estimator.dir/Imagine/vl/imop.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/F_estimator.dir/Imagine/vl/imop.c.s"
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\Imagine\vl\imop.c -o CMakeFiles\F_estimator.dir\Imagine\vl\imop.c.s
+
+CMakeFiles/F_estimator.dir/Imagine/vl/sift.c.obj: CMakeFiles/F_estimator.dir/flags.make
+CMakeFiles/F_estimator.dir/Imagine/vl/sift.c.obj: CMakeFiles/F_estimator.dir/includes_C.rsp
+CMakeFiles/F_estimator.dir/Imagine/vl/sift.c.obj: C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/Imagine/vl/sift.c
+CMakeFiles/F_estimator.dir/Imagine/vl/sift.c.obj: CMakeFiles/F_estimator.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building C object CMakeFiles/F_estimator.dir/Imagine/vl/sift.c.obj"
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/F_estimator.dir/Imagine/vl/sift.c.obj -MF CMakeFiles\F_estimator.dir\Imagine\vl\sift.c.obj.d -o CMakeFiles\F_estimator.dir\Imagine\vl\sift.c.obj -c C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\Imagine\vl\sift.c
+
+CMakeFiles/F_estimator.dir/Imagine/vl/sift.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/F_estimator.dir/Imagine/vl/sift.c.i"
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\Imagine\vl\sift.c > CMakeFiles\F_estimator.dir\Imagine\vl\sift.c.i
+
+CMakeFiles/F_estimator.dir/Imagine/vl/sift.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/F_estimator.dir/Imagine/vl/sift.c.s"
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\Imagine\vl\sift.c -o CMakeFiles\F_estimator.dir\Imagine\vl\sift.c.s
+
 CMakeFiles/F_estimator.dir/Initialization.cpp.obj: CMakeFiles/F_estimator.dir/flags.make
 CMakeFiles/F_estimator.dir/Initialization.cpp.obj: CMakeFiles/F_estimator.dir/includes_CXX.rsp
 CMakeFiles/F_estimator.dir/Initialization.cpp.obj: C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/Initialization.cpp
 CMakeFiles/F_estimator.dir/Initialization.cpp.obj: CMakeFiles/F_estimator.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/F_estimator.dir/Initialization.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/F_estimator.dir/Initialization.cpp.obj"
 	C:\msys64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/F_estimator.dir/Initialization.cpp.obj -MF CMakeFiles\F_estimator.dir\Initialization.cpp.obj.d -o CMakeFiles\F_estimator.dir\Initialization.cpp.obj -c C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\Initialization.cpp
 
 CMakeFiles/F_estimator.dir/Initialization.cpp.i: cmake_force
@@ -162,7 +237,7 @@ CMakeFiles/F_estimator.dir/CppUnitLite/Test.cpp.obj: CMakeFiles/F_estimator.dir/
 CMakeFiles/F_estimator.dir/CppUnitLite/Test.cpp.obj: CMakeFiles/F_estimator.dir/includes_CXX.rsp
 CMakeFiles/F_estimator.dir/CppUnitLite/Test.cpp.obj: C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/CppUnitLite/Test.cpp
 CMakeFiles/F_estimator.dir/CppUnitLite/Test.cpp.obj: CMakeFiles/F_estimator.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/F_estimator.dir/CppUnitLite/Test.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/F_estimator.dir/CppUnitLite/Test.cpp.obj"
 	C:\msys64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/F_estimator.dir/CppUnitLite/Test.cpp.obj -MF CMakeFiles\F_estimator.dir\CppUnitLite\Test.cpp.obj.d -o CMakeFiles\F_estimator.dir\CppUnitLite\Test.cpp.obj -c C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\CppUnitLite\Test.cpp
 
 CMakeFiles/F_estimator.dir/CppUnitLite/Test.cpp.i: cmake_force
@@ -177,7 +252,7 @@ CMakeFiles/F_estimator.dir/CppUnitLite/TestResult.cpp.obj: CMakeFiles/F_estimato
 CMakeFiles/F_estimator.dir/CppUnitLite/TestResult.cpp.obj: CMakeFiles/F_estimator.dir/includes_CXX.rsp
 CMakeFiles/F_estimator.dir/CppUnitLite/TestResult.cpp.obj: C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/CppUnitLite/TestResult.cpp
 CMakeFiles/F_estimator.dir/CppUnitLite/TestResult.cpp.obj: CMakeFiles/F_estimator.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/F_estimator.dir/CppUnitLite/TestResult.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/F_estimator.dir/CppUnitLite/TestResult.cpp.obj"
 	C:\msys64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/F_estimator.dir/CppUnitLite/TestResult.cpp.obj -MF CMakeFiles\F_estimator.dir\CppUnitLite\TestResult.cpp.obj.d -o CMakeFiles\F_estimator.dir\CppUnitLite\TestResult.cpp.obj -c C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\CppUnitLite\TestResult.cpp
 
 CMakeFiles/F_estimator.dir/CppUnitLite/TestResult.cpp.i: cmake_force
@@ -192,7 +267,7 @@ CMakeFiles/F_estimator.dir/CppUnitLite/TestRegistry.cpp.obj: CMakeFiles/F_estima
 CMakeFiles/F_estimator.dir/CppUnitLite/TestRegistry.cpp.obj: CMakeFiles/F_estimator.dir/includes_CXX.rsp
 CMakeFiles/F_estimator.dir/CppUnitLite/TestRegistry.cpp.obj: C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/CppUnitLite/TestRegistry.cpp
 CMakeFiles/F_estimator.dir/CppUnitLite/TestRegistry.cpp.obj: CMakeFiles/F_estimator.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/F_estimator.dir/CppUnitLite/TestRegistry.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/F_estimator.dir/CppUnitLite/TestRegistry.cpp.obj"
 	C:\msys64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/F_estimator.dir/CppUnitLite/TestRegistry.cpp.obj -MF CMakeFiles\F_estimator.dir\CppUnitLite\TestRegistry.cpp.obj.d -o CMakeFiles\F_estimator.dir\CppUnitLite\TestRegistry.cpp.obj -c C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\CppUnitLite\TestRegistry.cpp
 
 CMakeFiles/F_estimator.dir/CppUnitLite/TestRegistry.cpp.i: cmake_force
@@ -207,7 +282,7 @@ CMakeFiles/F_estimator.dir/CppUnitLite/Failure.cpp.obj: CMakeFiles/F_estimator.d
 CMakeFiles/F_estimator.dir/CppUnitLite/Failure.cpp.obj: CMakeFiles/F_estimator.dir/includes_CXX.rsp
 CMakeFiles/F_estimator.dir/CppUnitLite/Failure.cpp.obj: C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/CppUnitLite/Failure.cpp
 CMakeFiles/F_estimator.dir/CppUnitLite/Failure.cpp.obj: CMakeFiles/F_estimator.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/F_estimator.dir/CppUnitLite/Failure.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/F_estimator.dir/CppUnitLite/Failure.cpp.obj"
 	C:\msys64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/F_estimator.dir/CppUnitLite/Failure.cpp.obj -MF CMakeFiles\F_estimator.dir\CppUnitLite\Failure.cpp.obj.d -o CMakeFiles\F_estimator.dir\CppUnitLite\Failure.cpp.obj -c C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\CppUnitLite\Failure.cpp
 
 CMakeFiles/F_estimator.dir/CppUnitLite/Failure.cpp.i: cmake_force
@@ -222,7 +297,7 @@ CMakeFiles/F_estimator.dir/CppUnitLite/SimpleString.cpp.obj: CMakeFiles/F_estima
 CMakeFiles/F_estimator.dir/CppUnitLite/SimpleString.cpp.obj: CMakeFiles/F_estimator.dir/includes_CXX.rsp
 CMakeFiles/F_estimator.dir/CppUnitLite/SimpleString.cpp.obj: C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/CppUnitLite/SimpleString.cpp
 CMakeFiles/F_estimator.dir/CppUnitLite/SimpleString.cpp.obj: CMakeFiles/F_estimator.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/F_estimator.dir/CppUnitLite/SimpleString.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/F_estimator.dir/CppUnitLite/SimpleString.cpp.obj"
 	C:\msys64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/F_estimator.dir/CppUnitLite/SimpleString.cpp.obj -MF CMakeFiles\F_estimator.dir\CppUnitLite\SimpleString.cpp.obj.d -o CMakeFiles\F_estimator.dir\CppUnitLite\SimpleString.cpp.obj -c C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\CppUnitLite\SimpleString.cpp
 
 CMakeFiles/F_estimator.dir/CppUnitLite/SimpleString.cpp.i: cmake_force
@@ -240,6 +315,11 @@ F_estimator_OBJECTS = \
 "CMakeFiles/F_estimator.dir/HEIV.cpp.obj" \
 "CMakeFiles/F_estimator.dir/Renorm.cpp.obj" \
 "CMakeFiles/F_estimator.dir/GaussNewton.cpp.obj" \
+"CMakeFiles/F_estimator.dir/Imagine/SIFT_VL.cpp.obj" \
+"CMakeFiles/F_estimator.dir/Imagine/vl/generic.c.obj" \
+"CMakeFiles/F_estimator.dir/Imagine/vl/host.c.obj" \
+"CMakeFiles/F_estimator.dir/Imagine/vl/imop.c.obj" \
+"CMakeFiles/F_estimator.dir/Imagine/vl/sift.c.obj" \
 "CMakeFiles/F_estimator.dir/Initialization.cpp.obj" \
 "CMakeFiles/F_estimator.dir/CppUnitLite/Test.cpp.obj" \
 "CMakeFiles/F_estimator.dir/CppUnitLite/TestResult.cpp.obj" \
@@ -255,6 +335,11 @@ F_estimator.exe: CMakeFiles/F_estimator.dir/FNS.cpp.obj
 F_estimator.exe: CMakeFiles/F_estimator.dir/HEIV.cpp.obj
 F_estimator.exe: CMakeFiles/F_estimator.dir/Renorm.cpp.obj
 F_estimator.exe: CMakeFiles/F_estimator.dir/GaussNewton.cpp.obj
+F_estimator.exe: CMakeFiles/F_estimator.dir/Imagine/SIFT_VL.cpp.obj
+F_estimator.exe: CMakeFiles/F_estimator.dir/Imagine/vl/generic.c.obj
+F_estimator.exe: CMakeFiles/F_estimator.dir/Imagine/vl/host.c.obj
+F_estimator.exe: CMakeFiles/F_estimator.dir/Imagine/vl/imop.c.obj
+F_estimator.exe: CMakeFiles/F_estimator.dir/Imagine/vl/sift.c.obj
 F_estimator.exe: CMakeFiles/F_estimator.dir/Initialization.cpp.obj
 F_estimator.exe: CMakeFiles/F_estimator.dir/CppUnitLite/Test.cpp.obj
 F_estimator.exe: CMakeFiles/F_estimator.dir/CppUnitLite/TestResult.cpp.obj
@@ -264,10 +349,17 @@ F_estimator.exe: CMakeFiles/F_estimator.dir/CppUnitLite/SimpleString.cpp.obj
 F_estimator.exe: CMakeFiles/F_estimator.dir/build.make
 F_estimator.exe: C:/msys64/mingw64/lib/libgsl.dll.a
 F_estimator.exe: C:/msys64/mingw64/lib/libgslcblas.dll.a
+F_estimator.exe: C:/ENPC/Imagine++-6.0.0/lib/libImagineLinAlg.a
+F_estimator.exe: C:/ENPC/Imagine++-6.0.0/lib/libImagineGraphics.a
+F_estimator.exe: C:/ENPC/6.9.1/mingw_64/lib/libQt6OpenGLWidgets.a
+F_estimator.exe: C:/ENPC/6.9.1/mingw_64/lib/libQt6OpenGL.a
+F_estimator.exe: C:/ENPC/6.9.1/mingw_64/lib/libQt6Widgets.a
+F_estimator.exe: C:/ENPC/6.9.1/mingw_64/lib/libQt6Gui.a
+F_estimator.exe: C:/ENPC/6.9.1/mingw_64/lib/libQt6Core.a
 F_estimator.exe: CMakeFiles/F_estimator.dir/linkLibs.rsp
 F_estimator.exe: CMakeFiles/F_estimator.dir/objects1.rsp
 F_estimator.exe: CMakeFiles/F_estimator.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking CXX executable F_estimator.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Linking CXX executable F_estimator.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\F_estimator.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

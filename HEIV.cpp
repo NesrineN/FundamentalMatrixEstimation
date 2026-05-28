@@ -200,7 +200,7 @@ Mat ComputeLTilde(const Vec& v, const Mat& Eall, const Vec& Zbar, double f0) {
     return L;
 }
 
-Vec SolveGeneralizedEigen(const Mat& M, const Mat& L){
+std::pair<Vec, double> SolveGeneralizedEigen(const Mat& M, const Mat& L){
 
     Mat Mt=M;
     Mat Lt=L;
@@ -249,10 +249,10 @@ Vec SolveGeneralizedEigen(const Mat& M, const Mat& L){
     }
 
     double lambda = eigenvalues(0);
-    return vnew;
+    // return vnew;
 
-    // auto p1 = std::make_pair(vnew, lambda);
-    // return p1;
+    auto p1 = std::make_pair(vnew, lambda);
+    return p1;
 
 }
 
@@ -268,12 +268,12 @@ Mat HEIV(const Vec& v, const Mat& Eall, double f0){
         Mat Lt=ComputeLTilde(vold, Eall, Zbar, f0);
 
         // standard eigen value problem: 
-        vnew = SolveGeneralizedEigen(Mt, Lt);
+        // vnew = SolveGeneralizedEigen(Mt, Lt);
 
         //debug:
-        // auto p = SolveGeneralizedEigen(Mt, Lt);
+        auto p = SolveGeneralizedEigen(Mt, Lt);
 
-        // vnew=p.first;
+        vnew=p.first;
 
 
         Zbar=ComputeZbar(vnew, Eall, f0);

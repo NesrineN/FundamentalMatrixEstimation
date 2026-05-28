@@ -10,7 +10,12 @@
 #include <random>
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <iomanip>
+#include <string>
+#include "./Imagine/Features.h"
+#include <Imagine/Graphics.h>
+#include <Imagine/LinAlg.h>
 
 #include <Eigen/Dense>
 #include <Eigen/Eigenvalues>
@@ -18,86 +23,20 @@
 typedef libNumerics::matrix<double> Mat;
 typedef libNumerics::vector<double> Vec;
 
-const double PI = 3.14159265358979323846;
+using namespace Imagine;
+using namespace std;
 
-// we will create 2 simulated images of two planar grid planes joined at angle 60◦. Each image is of size 600x600 with f0=1200 pixels.
+struct Match {
+    double x1, y1, x2, y2;
+};
 
-// we need to create the 3d scene of the 2 planar grid planes and then project the scene onto 2 images: left and right. 
-// for the projection, we need to define the cameras' intrinsics 
-
-// after projection , we add gaussian noise to each of the 600 pixels of each image
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////
+// ----------------------------------------------------------------------
 
 struct Point2D
 {
     double x;
     double y;
 };
-
-// Rotation around Y axis
-
-Mat rotationY(double angle)
-{
-    Mat R(3,3);
-
-    double c = std::cos(angle);
-    double s = std::sin(angle);
-
-    R(0,0) =  c;  R(0,1) = 0;  R(0,2) = s;
-    R(1,0) =  0;  R(1,1) = 1;  R(1,2) = 0;
-    R(2,0) = -s;  R(2,1) = 0;  R(2,2) = c;
-
-    return R;
-}
-
-// Projecting 3D point into image
-
-Point2D projectPoint(const Vec& X, const Mat& K, const Mat& R, const Vec& t)
-{
-    Vec Xc = R * X + t;
-
-    Vec x = K * Xc; // image coordinates homogeneous coordinates 
-
-    Point2D p;
-
-    p.x = x(0) / x(2);
-    p.y = x(1) / x(2);
-
-    return p;
-}
-
-// computing the ground truth of the fundamental matrix
-
-// returns the skew symmetric matrix of t
-Mat skew(const Vec& t){
-    Mat S(3,3);
-
-    S(0,0) = 0;
-    S(0,1) = -t(2);
-    S(0,2) =  t(1);
-
-    S(1,0) =  t(2);
-    S(1,1) = 0;
-    S(1,2) = -t(0);
-
-    S(2,0) = -t(1);
-    S(2,1) =  t(0);
-    S(2,2) = 0;
-
-    return S;
-}
-
-Mat computeGroundTruthF(const Mat& Kl, const Mat& Kr, const Mat& R, const Vec& t){
-    Mat Klinv=Kl.inv();
-    Mat Krinv=Kr.inv();
-    Mat Tx= skew(t);
-
-    Mat F = Klinv.t() * Tx * R * Krinv;
-
-    return F;
-}
 
 // function that creates the vector E from two point-correspondences:
 Vec fillE(const Point2D& p1, const Point2D& p2, double f0){
@@ -121,115 +60,6 @@ Vec fillE(const Point2D& p1, const Point2D& p2, double f0){
 
     return E;
 }
-
-
-
-// Hartley Normalization of the image points:
-Mat HartleyNormalize(const std::vector<Point2D>& imgpoints){
-    double xbar=0;
-    double ybar=0;
-
-    for(const auto& X : imgpoints){
-        double x=X.x;
-        double y=X.y;
-        xbar+=x;
-        ybar+=y;
-    }
-
-    xbar/=imgpoints.size();
-    ybar/=imgpoints.size();
-
-    std::vector<double> xtilde;
-    std::vector<double> ytilde;
-
-    for(const auto& X : imgpoints){
-        double x=X.x;
-        double y=X.y;
-        
-        xtilde.push_back(x-xbar);
-        ytilde.push_back(y-ybar);
-    }
-
-    double distance=0;
-
-    for(int i=0; i<xtilde.size(); i++){
-        distance+= std::sqrt((xtilde[i]*xtilde[i])+(ytilde[i]*ytilde[i]));
-    } 
-
-    distance/=xtilde.size();
-
-    if(distance<1e-10){distance+=1e-6;}
-
-    double s=std::sqrt(2)/distance;
-
-    Mat T=Mat::zeros(3);
-    T(0,0)=s;
-    T(1,1)=s;
-    T(2,2)=1;
-
-    T(0,2)=-s*xbar;
-    T(1,2)=-s*ybar;
-
-    return T;
-    
-}
-
-// Adding Gaussian noise
-
-Point2D addNoise(const Point2D& p, double sigma, std::mt19937& rng)
-{
-    std::normal_distribution<double> dist(0.0, sigma);
-
-    Point2D noisyp;
-
-    noisyp.x = p.x + dist(rng);
-    noisyp.y = p.y + dist(rng);
-
-    return noisyp;
-}
-
-// Generating the planar grid
-
-std::vector<Vec> generatePlaneGrid(int rows, int cols, double spacing, const Mat& R, const Vec& t)
-{
-    std::vector<Vec> pts;
-
-    for(int i = 0; i < rows; ++i)
-    {
-        for(int j = 0; j < cols; ++j)
-        {
-            Vec p(3);
-
-            p(0) = j * spacing;
-            p(1) = i * spacing;
-            p(2) = 0.0;
-
-            p = R * p + t;
-
-            pts.push_back(p);
-        }
-    }
-
-    return pts;
-}
-
-// Mat computeV0(const Mat& Eall){
-//     Mat V0 = Mat::zeros(9, 9);
-
-//     for (int k=0; k<Eall.ncol(); k++)
-//     {   Vec E=Eall.col(k);
-//         for (int i = 0; i < 9; i++)
-//         {
-//             for (int j = 0; j < 9; j++)
-//             {
-//                 V0(i, j) += E(i) * E(j);
-//             }
-//         }
-//     }
-
-//     return V0;
-
-// }
 
 Mat computeV0(double x, double y, double xp, double yp, double f0){
 
@@ -336,7 +166,6 @@ Mat computeV0(double x, double y, double xp, double yp, double f0){
     V0(8,8)=0;
 
     return V0;
-
 }
 
 double F_error(const Vec& u, const Vec& u_hat){
@@ -355,44 +184,6 @@ double F_error(const Vec& u, const Vec& u_hat){
     return std::sqrt(Puhat.qnorm());
 }
 
-double sampsonError(const Mat& v1, const Mat& v2, const Mat& F)
-{
-    // f = x2^T F x1
-    double f =
-        v2(0)*(F(0,0)*v1(0) + F(0,1)*v1(1) + F(0,2)*v1(2)) +
-        v2(1)*(F(1,0)*v1(0) + F(1,1)*v1(1) + F(1,2)*v1(2)) +
-        v2(2)*(F(2,0)*v1(0) + F(2,1)*v1(1) + F(2,2)*v1(2));
-
-    // Fx1
-    double Fx1_0 = F(0,0)*v1(0) + F(0,1)*v1(1) + F(0,2)*v1(2);
-    double Fx1_1 = F(1,0)*v1(0) + F(1,1)*v1(1) + F(1,2)*v1(2);
-    double Fx1_2 = F(2,0)*v1(0) + F(2,1)*v1(1) + F(2,2)*v1(2);
-
-    // F^T x2
-    double Ftx2_0 = F(0,0)*v2(0) + F(1,0)*v2(1) + F(2,0)*v2(2);
-    double Ftx2_1 = F(0,1)*v2(0) + F(1,1)*v2(1) + F(2,1)*v2(2);
-    double Ftx2_2 = F(0,2)*v2(0) + F(1,2)*v2(1) + F(2,2)*v2(2);
-
-    double denom =
-        Fx1_0*Fx1_0 + Fx1_1*Fx1_1 + Fx1_2*Fx1_2 +
-        Ftx2_0*Ftx2_0 + Ftx2_1*Ftx2_1 + Ftx2_2*Ftx2_2;
-
-    return (f * f) / denom;
-}
-
-void printM(const Mat& A){
-    std::cout << "Matrix: " << std::endl;
-    for(int i=0;i<A.nrow(); i++){
-        for(int j =0; j<A.ncol(); j++){
-            std::cout << A(i,j) << " "; 
-        }
-        std::cout << "" << std::endl;
-        std::cout << "" << std::endl;
-    }
-}
-
-// returns the distance from x' to the epipolar line Fx
-// F is either Fgt or Fdenorm
 double epidistance(Point2D p1, Point2D p2, Mat F){
     double x=p1.x;
     double y=p1.y;
@@ -419,403 +210,395 @@ double epidistance(Point2D p1, Point2D p2, Mat F){
     return num/denom;
 }
 
-// returns the root-mean-squares of ||Puuˆ|| over 1000 trials for the method chosen. 1==FNS, 2==HEIV, 3==Renorm, 4==GaussNewton  
-double F_Test(int method, double sigma, const Vec& u_gt, const std::vector<Vec>& worldPts, const Mat& K, const Mat& Rc1, const Vec& t1, const Mat& Rc2, const Vec& t2, double f0, std::mt19937& rng){
-    // Generating noisy image correspondences
-    double error=0;
-    int total_trials=1000;
-
-    Mat F_gt=Mat::zeros(3);
-    for(int i=0; i<3; i++){
-        for(int j=0; j<3; j++){
-            F_gt(i, j) = u_gt(i * 3 + j);
+void printM(const Mat& A){
+    std::cout << "Matrix: " << std::endl;
+    for(int i=0;i<A.nrow(); i++){
+        for(int j =0; j<A.ncol(); j++){
+            std::cout << A(i,j) << " "; 
         }
+        std::cout << "" << std::endl;
+        std::cout << "" << std::endl;
+    }
+}
+
+
+// ---------------------------------------------------------------------
+
+// might need to normalize the inliers?
+
+vector<FMatrix<float,3,3>> compute_N(vector<Match>& matches){
+    
+    vector<FMatrix<float,3,3>> N_list;
+    FMatrix<float,3,3> N1; // the Normalization matrix for Image 1
+    FMatrix<float,3,3> N2; // the Normalization matrix for Image 2
+
+    // we will calculate the centroid of points of each image, then the distance from all points of an image to its centroid, get the scale and fill the matrix with it and the centroid
+    // the aim is to translate the points so their centroid is at the origin and to scale the points so that the average distance from the origin is sqrt(2). 
+
+    // for I1:
+    float xbar1=0.f;
+    float ybar1=0.f;
+    for(int j=0;j<matches.size();j++){
+        xbar1=xbar1+matches[j].x1;
+        ybar1=ybar1+matches[j].y1;
+    }
+    xbar1/=(float)matches.size(); // centroid
+    ybar1/=(float)matches.size(); // centroid
+
+    float distance1=0.f;
+
+    for(int ii=0;ii<matches.size();ii++){
+        distance1=distance1+(sqrt(pow((matches[ii].x1-xbar1),2)+pow((matches[ii].y1-ybar1),2)));
     }
 
-    for(int trial=0; trial<total_trials; trial++){
-        std::vector<Point2D> img1Pts;
-        std::vector<Point2D> img2Pts;
+    distance1/=(float)matches.size(); // distance of points from the centroid
+    if(distance1 < 1e-8f) distance1 = 1.0f; // to avoid dividing by zero in case distance is very close to zero
+    float s1=sqrt(2.0f)/distance1; // scale to normalize by
+    
+    N1.fill(0.0f);
+    N1(0,0)=s1;
+    N1(0,1)=0;
+    N1(0,2)=-s1*xbar1;
+    N1(1,0)=0;
+    N1(1,1)=s1;
+    N1(1,2)=-s1*ybar1;
+    N1(2,0)=0;
+    N1(2,1)=0;
+    N1(2,2)=1;
 
-        for(const auto& X : worldPts)
-        {
-            Point2D p1 = projectPoint(X, K, Rc1, t1);
+    N_list.push_back(N1);
 
-            Point2D p2 = projectPoint(X, K, Rc2, t2);   
-
-            p1 = addNoise(p1, sigma, rng);
-            p2 = addNoise(p2, sigma, rng);
-
-            img1Pts.push_back(p1);
-            img2Pts.push_back(p2);
-        }
-
-        // printing the correspondences:
-        // for(int i=0; i<img1Pts.size(); i++){
-        //     std::cout << "u1: " << img1Pts[i].x << " " << img1Pts[i].y << std::endl;
-        //     std::cout << "u2: " << img2Pts[i].x << " " << img2Pts[i].y << std::endl;
-        // }
-
-        // we create the Matrix Eall and vector of V0 matrices Vall
-        // Eall is a 9xn matrix where each col corresponds to a point correspondence and so we have n columns in total --> n total point correspondences
-        
-        Mat Eall=Mat::zeros(9,img1Pts.size());
-        std::vector<Mat> Vall;
-
-        for(int i=0; i<img1Pts.size(); i++){
-            Point2D p1=img1Pts[i];
-            Point2D p2=img2Pts[i];
-
-            Vec E=fillE(p1,p2,f0);
-
-            for(int j = 0; j < 9; ++j)
-            {
-                Eall(j, i) = E(j);
-            }
-
-            double x=p1.x;
-            double y=p1.y;
-            double xp=p2.x;
-            double yp=p2.y;
-
-            Mat V0=computeV0(x,y,xp,yp,f0);
-
-            // adding V0 to the list Vall
-            Vall.push_back(V0);
-        }
-
-        // we initialize uinit using Taubin method
-        Vec uinit= Taubin(Eall, f0, Vall);
-
-        Vec vinit=uinit.copy(0,7);
-
-        Mat F=Mat::zeros(3);
-
-        switch (method)
-        {
-        case 1:
-            // FNS
-            F =FNS(uinit, Eall, Vall);
-            break;
-
-        case 2:
-            // HEIV
-            F =HEIV(vinit, Eall, f0);
-            break;
-
-        case 3:
-            // Renorm
-            F = Renorm(uinit, Eall, Vall); 
-            break;
-        
-        case 4:
-            // GaussNewton
-            F = GaussNewton(uinit, Eall, Vall);
-            break;
-        }
-
-        // Mat F=Mat::zeros(3);
-        // for(int i=0; i<3; i++){
-        //     for(int j=0; j<3; j++){
-        //         F(i, j) = uinit(i * 3 + j); 
-        //     }
-        // }
-
-        // std::cout << "F estimated: " << std::endl;
-        // printM(F);
-
-        // de-normalizing F to be closer to F_gt:
-        Mat Norm=Mat::eye(3);
-        Norm(2,2)=f0;
-
-        Mat F_denorm=Norm.t()*F*Norm;
-
-        // std::cout << "F denormalized: " << std::endl;
-        // printM(F_denorm);
-
-        // checking if F estimated is correct
-        std::vector<double> errors;
-
-        // checking:
-        F=F.t();
-        F_denorm=F_denorm.t();
-        // std::cout << "F_denorm transpose: " << std::endl;
-        // printM(F_denorm);
-
-        double avg_epidist_gt=0;
-        double avg_epidist_estim=0;
-
-        for(int i=0; i<img1Pts.size(); i++){
-
-            Mat v1=Mat::zeros(3,1);
-            Mat v2=Mat::zeros(3,1);
-
-            v1(0)=img1Pts[i].x;
-            v1(1)=img1Pts[i].y;
-            v1(2)=f0;
-
-            v2(0)=img2Pts[i].x;
-            v2(1)=img2Pts[i].y;
-            v2(2)=f0;  
-
-            // Should be very close to 0
-            Mat v2tF=v2.t()*F; // 1x3 matrix
-            Mat error = v2tF*v1;
-            // std::cout << "Epipolar error: " << error(0) << std::endl;
-
-            // computing epipolar constraint with F_gt:
-
-            Mat X1=Mat::zeros(3,1);
-            Mat X2=Mat::zeros(3,1);
-
-            X1(0)=img1Pts[i].x;
-            X1(1)=img1Pts[i].y;
-            X1(2)=1.0;
-
-            X2(0)=img2Pts[i].x;
-            X2(1)=img2Pts[i].y;
-            X2(2)=1.0;  
-
-
-            // if(sampsonError(X1,X2, F_gt)>1e-4){std::cout << "It's an outlier!" << std::endl;}
-
-            // double sam=sampsonError(v1, v2, F);
-            // errors.push_back(sam);
-            // std::cout << "Epipolar error: " << sam << std::endl;
-
-            // computing the distance from point x' to epipolar line Fx
-            Point2D p1=img1Pts[i];
-            Point2D p2=img2Pts[i];
-            double epidistance_gt=epidistance(p1, p2, F_gt);
-            double epidistance_estim=epidistance(p1 , p2, F_denorm);
-
-            // std::cout << "epi distance gt: " << epidistance_gt << std::endl;
-            avg_epidist_gt+=epidistance_gt;
-            avg_epidist_estim+=epidistance_estim;
-
-            // std::cout << "epi distance estim: " << epidistance_estim << std::endl;
-            // std:: cout << std::endl;
-        }
-
-        Vec u_estimated(9);
-        u_estimated(0)=F_denorm(0,0);
-        u_estimated(1)=F_denorm(0,1);
-        u_estimated(2)=F_denorm(0,2);
-        u_estimated(3)=F_denorm(1,0);
-        u_estimated(4)=F_denorm(1,1);
-        u_estimated(5)=F_denorm(1,2);
-        u_estimated(6)=F_denorm(2,0);
-        u_estimated(7)=F_denorm(2,1);
-        u_estimated(8)=F_denorm(2,2);
-
-        u_estimated/=std::sqrt(u_estimated.qnorm());
-
-        // we add the error obtained to the sum of the errors:
-        // double e=F_error(u_gt, u_estimated);
-        // error += e * e;
-
-        avg_epidist_estim/=img1Pts.size();
-
-        error+=avg_epidist_estim;
-
-        // std::cout << "sigma is: " << sigma << std::endl;
-        // std::cout << "avg epi distance gt: " << avg_epidist_gt/img1Pts.size() << std::endl;
-        // std::cout << "avg epi distance estim: " << avg_epidist_estim/img1Pts.size() << std::endl;
-        // std::cout << std::endl;
-
-        std::cout << "Trial " << trial << " finished!" << std::endl;
+    // for I2:
+    float xbar2=0.f;
+    float ybar2=0.f;
+    for(int id=0;id<matches.size();id++){
+        xbar2=xbar2+matches[id].x2;
+        ybar2=ybar2+matches[id].y2;
     }
+    xbar2/=(float)matches.size();
+    ybar2/=(float)matches.size();
+    float distance2=0.f;
+    for(int ind=0;ind<matches.size();ind++){
+        distance2=distance2+(sqrt(pow((matches[ind].x2-xbar2),2)+pow((matches[ind].y2-ybar2),2)));
+    }
+    distance2/=(float)matches.size();
+    if(distance2 < 1e-8f) distance2 = 1.0f;    
+    float s2=sqrt(2.0f)/distance2;
 
-    // return std::sqrt(error/double(total_trials));
-    return error/double(total_trials);
+    N2.fill(0.0f);
+    N2(0,0)=s2;
+    N2(0,1)=0;
+    N2(0,2)=-s2*xbar2;
+    N2(1,0)=0;
+    N2(1,1)=s2;
+    N2(1,2)=-s2*ybar2;
+    N2(2,0)=0;
+    N2(2,1)=0;
+    N2(2,2)=1;
+
+    N_list.push_back(N2);
+
+
+    return N_list;
 
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// Main
+// Function that takes the matches and the two normalization matrices N1 for I1 and N2 for I2 and normalizes the matches, returns the normalized matches
+vector<Match> normalize_matches(FMatrix<float,3,3> N1, FMatrix<float,3,3> N2, vector<Match>& matches){
+    
+    vector<Match> subset_normalized;
+    for(int match_id=0;match_id<matches.size(); match_id++){
+        Match m=matches[match_id];
+        Match m_normalized;
 
-int main()
+        FVector<float,3> X1h, X2h; // point correspondences in a match in homogeneous system
+        X1h[0]= m.x1;  X1h[1]= m.y1;  X1h[2]= 1.0f;
+        X2h[0]= m.x2;  X2h[1]= m.y2;  X2h[2]= 1.0f;
+
+        // we normalize both
+        FVector<float,3> X1n= N1 * X1h;
+        FVector<float,3> X2n= N2 * X2h;
+
+        // we assign to m_normalized after returning to euclidean 2d:
+        m_normalized.x1= X1n[0] / X1n[2];
+        m_normalized.y1= X1n[1] / X1n[2];
+
+        m_normalized.x2= X2n[0] / X2n[2];
+        m_normalized.y2= X2n[1] / X2n[2];
+
+        subset_normalized.push_back(m_normalized);
+    }
+
+    return subset_normalized;
+
+}
+
+void displayEpipolar(Image<Color> I1, Image<Color> I2,
+                     const FMatrix<float,3,3>& F) {
+    while(true) {
+        int x,y; // coordinates of point clicked
+        if(getMouse(x,y) == 3)
+            break;
+        // --------------- TODO ------------
+        // if point clicked in I1 --> point x and matching point is x' which lies on the line F.x
+        // if point clicked in I2 --> point x' and matching point is x which lies on the line F^Tx'
+
+        if(x>=0 && x<I1.width() && y>=0 && y<I1.height()){
+            cout << "You clicked a point in I1" << endl;
+            // user clicked point in I1
+            FVector<float,3> l; // this is the epipolar line F.x
+            FVector<float,3> Xh; // this is the point clicked x in homogeneous coordinates 
+            Xh[0]=x;
+            Xh[1]=y;
+            Xh[2]=1.0f;
+
+            l=F*Xh; // the vector l has a, b, c such that the line equation is ax'+by'+c=0 which is the equation of the epipolar line in I2 where the point X' lies
+
+            // now we draw the line obtained in I2: we take two points:
+            // x0=0 (left edge), y0=solution of equation of line
+            // x1=I2.width() - 1 (right edge), y1=solution of equation of line
+
+            // if b=0 --> vertical line: we take two points:
+            // y0=0 (top edge), x0=solution of equation of line
+            // y1=I2.height() - 1 (bottom edge), x1=solution of equation of line
+
+            float x0,x1,y0,y1;
+            
+            if(fabs(l[1]) < 1e-8f){ // this means it's a vertical line . not enough: because some lines would be deemed vertical when irl they're not. relative !!! ( should be abs b << sqrt a^2 + b^2) 
+                y0=0;
+                y1=I2.height()-1;
+                x0=x1=-l[2]/l[0];
+            }
+            else{
+                x0=0;
+                x1=I2.width()-1;
+                y0=(-(l[0]*x0)-l[2])/(l[1]);
+                y1=(-(l[0]*x1)-l[2])/(l[1]);
+            }
+
+            // I2 starts at width of I1 and ends at width of I1 + width of I2 so we take the offset into account when using drawLine() function
+            drawLine((int)round(x0+I1.width()), (int)round(y0), (int)round(x1+I1.width()), (int)round(y1), RED);  
+  
+        }
+
+        else if(x>=I1.width() && x<I1.width()+I2.width() && y>=0 && y<I2.height()){
+            cout << "You clicked a point in I2" << endl;
+            // user clicked point in I2
+            FVector<float,3> l; // this is the epipolar line F^Tx'
+            FVector<float,3> Xprimeh;
+            Xprimeh[0]=x-I1.width(); // removing offset to go to coordinate system of I2
+            Xprimeh[1]=y;
+            Xprimeh[2]=1.0f;
+
+            l=transpose(F)*Xprimeh; // the vector l has a, b, c such that the line equation is ax+by+c=0 which is the equation of the epipolar line in I1 where the point X lies
+
+            // now we draw the line obtained in I1: we take two points:
+            // x0=0 (left edge), y0=solution of equation of line
+            // x1=I1.width() - 1 (right edge), y1=solution of equation of line
+
+            // if b=0 --> vertical line: we take two points:
+            // y0=0 (top edge), x0=solution of equation of line
+            // y1=I1.height() - 1 (bottom edge), x1=solution of equation of line
+
+            int x0,x1,y0,y1;
+            
+            if(fabs(l[1]) < 1e-6){
+                y0=0;
+                y1=I1.height()-1;
+                x0=x1=-l[2]/l[0];
+            }
+            else{
+                x0=0;
+                x1=I1.width()-1;
+                y0=(-(l[0]*x0)-l[2])/(l[1]);
+                y1=(-(l[0]*x1)-l[2])/(l[1]);
+
+
+            }
+       
+            drawLine((int)round(x0), (int)round(y0), (int)round(x1), (int)round(y1), RED);            
+        }
+        else{
+            cout << "You did not click on neither Image 1 nor Image 2" << endl;
+        }
+    }
+}
+
+
+int main(int argc, char* argv[])
 {
-    // Image setup
+    srand((unsigned int)time(0));
 
-    int width  = 600;
-    int height = 600;
+    std::string s1 = argc>1? argv[1]: srcPath("im1.png");
+    std::string s2 = argc>2? argv[2]: srcPath("im2.png");
 
+    // Load and display images
+    Image<Color,2> I1, I2;
+    if( ! load(I1, s1.c_str()) ||
+        ! load(I2, s2.c_str()) ) {
+        cerr<< "Unable to load images" << endl;
+        return 1;
+    }
+
+    int w = I1.width();
+    openWindow(2*w, I1.height());
+    display(I1,0,0);
+    display(I2,w,0);
+
+    // -----------------------------------------------------------------------
     double f0 = 1200.0;
 
-    std::mt19937 rng(0);
+    std::vector<Point2D> img1Pts;
+    std::vector<Point2D> img2Pts;
+    // vector<Match> matches;
 
-    Mat K(3,3);
-
-    K(0,0) = f0;
-    K(0,1) = 0;
-    K(0,2) = width / 2.0;
-
-    K(1,0) = 0;
-    K(1,1) = f0;
-    K(1,2) = height / 2.0;
-
-    K(2,0) = 0;
-    K(2,1) = 0;
-    K(2,2) = 1;
-
-    // Creating two planes joined at 60 degrees
-
-    Mat Rplane1 = Mat::eye(3);
-    Vec tplane1(0.0, 0.0, 8.0);
-
-    auto plane1 = generatePlaneGrid(6, 6, 0.2, Rplane1, tplane1);
+    // getting the inliers from the inliers.txt file provided in the demo of the IPOL journal article: Fundamental Matrix of a Stereo Pair, with A Contrario Elimination of Outliers
     
-    double angle = 60.0 * PI / 180.0; // converting 60 degrees to radians 
-    Mat Rplane2 = rotationY(angle);
-    Vec tplane2(1.0, 0.0, 8.0);
-
-    auto plane2 = generatePlaneGrid(6,6,0.2,Rplane2,tplane2);
-
-    std::vector<Vec> worldPts;
-
-    worldPts.insert(worldPts.end(),plane1.begin(),plane1.end());
-
-    worldPts.insert(worldPts.end(),plane2.begin(),plane2.end());
-
-    // Camera 1 , also world 
-
-    Mat Rc1 = Mat::eye(3); // world axes
-    Vec c1(0.0, 0.0, 0.0); // world origin
-    Vec t1= - Rc1*c1; // 0
-
-    // Camera 2
-
-    Mat Rc2 =rotationY(5.0 * PI / 180.0); // if we apply Rc2 we would transform the world/cam1 axes to c2's axes
-    Vec c2(0.2, 0.0, 0.0); // where c2 is with respect to the world origin also cam 1
-
-    Vec t2 = -Rc2 * c2;
-
-    std::vector<Point2D> img1Pts_gt;
-    std::vector<Point2D> img2Pts_gt;
-
-    for(const auto& X : worldPts)
-    {
-        Point2D p1 = projectPoint(X, K, Rc1, t1);
-
-        Point2D p2 = projectPoint(X, K, Rc2, t2);   
-        
-        img1Pts_gt.push_back(p1);
-        img2Pts_gt.push_back(p2);
-    }
-
-    // printing the correspondences:
-    // std::cout << "ground truth correspondences: " << std::endl;
-    // for(int i=0; i<img1Pts_gt.size(); i++){
-    //     std::cout << "u1: " << img1Pts_gt[i].x << " " << img1Pts_gt[i].y << std::endl;
-    //     std::cout << "u2: " << img2Pts_gt[i].x << " " << img2Pts_gt[i].y << std::endl;
-    // }
-
-    // Ground truth F
-    Mat F_gt = computeGroundTruthF(K,K,Rc2,t2);
-
-    // printM(F_gt);
-
-    // normalizing F_gt: 
-    Vec u_gt(9);
-    u_gt(0)=F_gt(0,0);
-    u_gt(1)=F_gt(0,1);
-    u_gt(2)=F_gt(0,2);
-    u_gt(3)=F_gt(1,0);
-    u_gt(4)=F_gt(1,1);
-    u_gt(5)=F_gt(1,2);
-    u_gt(6)=F_gt(2,0);
-    u_gt(7)=F_gt(2,1);
-    u_gt(8)=F_gt(2,2);
-
-    u_gt/=std::sqrt(u_gt.qnorm());
-
-    // checking if F gt is correct
-    // for(int i=0; i<img1Pts_gt.size(); i++){
-    //     Mat v1=Mat::zeros(3,1);
-    //     Mat v2=Mat::zeros(3,1);
-
-    //     v1(0)=img1Pts_gt[i].x;
-    //     v1(1)=img1Pts_gt[i].y;
-    //     v1(2)=1.0;
-
-    //     v2(0)=img2Pts_gt[i].x;
-    //     v2(1)=img2Pts_gt[i].y;
-    //     v2(2)=1.0;
-
-    //     // Should be very close to 0
-    //     Mat v2tF=v2.t()*F_gt; // 1x3 matrix
-    //     Mat error = v2tF*v1;
-    //     std::cout << "Epipolar error: " << error(0) << std::endl;
-    // }
-
-    // FNS trial:
-    // double error=F_Test(1, 4, u_gt, worldPts,K, Rc1,t1,  Rc2, t2, f0, rng);
-
-    // std::cout << "Error is: " << error << std::endl;
-
-    std::vector<double> FNS_errors;
-    std::vector<double> HEIV_errors;
-    std::vector<double> Renorm_errors;
-    std::vector<double> GaussNewton_errors;
-
-    // σ ∈ {0.001, 0.0025, 0.005, 0.01, 0.02, 0.05}
-    // If you want to reproduce their plots:
-
-    // use pixel coordinates (not normalized)
-    // σ ∈ [0, 9]
-    // 600×600 image
-    // f0 = 1200
-    // no Hartley normalization
-
-    // If you want modern ML-style evaluation:
-
-    // use Hartley normalization
-    // σ ∈ [0.001, 0.05]
-    std::vector<double> sigmas = {0.1, 0.2, 0.3, 0.4, 0.5, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-
-    // for(int sigma=1; sigma<10; sigma++){
-    for(int i=0; i< sigmas.size(); i++){
-        double sigma=sigmas[i];
-
-        // FNS:
-        // double FNS_error=F_Test(1, sigma, u_gt, worldPts, K, Rc1, t1, Rc2, t2, f0, rng);
-        // std::cout << "error: " << FNS_error << std::endl;
-        // FNS_errors.push_back(FNS_error);
-        // std::cout << "Sigma " << sigma << std::endl;
-
-        // HEIV:
-        // double HEIV_error=F_Test(2, sigma, u_gt, worldPts, K, Rc1, t1, Rc2, t2, f0, rng);
-        // HEIV_errors.push_back(HEIV_error);
-        // std::cout << "Sigma " << sigma << std::endl;
-
-        // Renorm:
-        double Renorm_error=F_Test(3, sigma, u_gt, worldPts, K, Rc1, t1, Rc2, t2, f0, rng);
-        Renorm_errors.push_back(Renorm_error);
-        std::cout << "Sigma " << sigma << std::endl;
-
-        // Gauss Newton:
-        // double GaussNewton_error=F_Test(4, sigma, F_gt, worldPts, K, Rc1, t1, Rc2, t2, f0, rng);
-        // GaussNewton_errors.push_back(GaussNewton_error);
-    }
-
-    std::ofstream file("Renorm_error.csv");
+    std::ifstream file("inliers.txt");
 
     if (!file.is_open()) {
         std::cerr << "Failed to open file\n";
         return 1;
     }
 
-    // Optional header
-    file << "Renorm error\n";
+    std::string line;
 
-    int i=0;
-    for (double v : Renorm_errors) {
-        file << "Sigma: " << sigmas[i] << "\n";
-        file << v << "\n";
-        i+=1;
+    while (std::getline(file, line)) {
+        std::stringstream ss(line);
+        double x,y,xp,yp;
+
+        while (ss >> x >> y >> xp >> yp) {            
+            Point2D p1;
+            Point2D p2;
+            // Match m;
+
+            p1.x=x;
+            p1.y=y;
+
+            p2.x=xp;
+            p2.y=yp;
+
+            // m.x1=x;
+            // m.y1=y;
+            // m.x2=xp;
+            // m.y2=yp;
+
+            img1Pts.push_back(p1);
+            img2Pts.push_back(p2);
+            // matches.push_back(m);
+        }
     }
 
-    file.close();
-    
+    // printing the correspondences:
+    // std::cout << "correspondences: " << std::endl;
+    // for(int i=0; i<img1Pts.size(); i++){
+    //     std::cout << "u1: " << img1Pts[i].x << " " << img1Pts[i].y << std::endl;
+    //     std::cout << "u2: " << img2Pts[i].x << " " << img2Pts[i].y << std::endl;
+    // }
+
+    Mat Eall=Mat::zeros(9,img1Pts.size());
+    std::vector<Mat> Vall;
+
+    for(int i=0; i<img1Pts.size(); i++){
+        Point2D p1=img1Pts[i];
+        Point2D p2=img2Pts[i];
+
+        Vec E=fillE(p1,p2,f0);
+
+        for(int j = 0; j < 9; ++j)
+        {
+            Eall(j, i) = E(j);
+        }
+
+        double x=p1.x;
+        double y=p1.y;
+        double xp=p2.x;
+        double yp=p2.y;
+
+        Mat V0=computeV0(x,y,xp,yp,f0);
+
+        // adding V0 to the list Vall
+        Vall.push_back(V0);
+    }
+
+    // we initialize uinit using Taubin method
+    Vec uinit= Taubin(Eall, f0, Vall);
+
+    Vec vinit=uinit.copy(0,7);
+
+
+    // Mat F=Mat::zeros(3);
+    // for(int i=0; i<3; i++){
+    //     for(int j=0; j<3; j++){
+    //         F(i, j) = uinit(i * 3 + j); 
+    //     }
+    // }
+
+    Mat F=Mat::zeros(3);
+
+    F =HEIV(vinit, Eall, f0);
+    // F =FNS(uinit, Eall, Vall);
+    // F = Renorm(uinit, Eall, Vall); 
+    // F = GaussNewton(uinit, Eall, Vall);
+
+    // de-normalizing F to be closer to F_gt:
+    Mat Norm=Mat::eye(3);
+    Norm(2,2)=f0;
+
+    Mat F_denorm=Norm.t()*F*Norm;
+
+    F=F.t();
+    F_denorm=F_denorm.t();
+
+    double avg_epidist_estim=0;
+
+    for(int i=0; i<img1Pts.size(); i++){
+
+        Mat v1=Mat::zeros(3,1);
+        Mat v2=Mat::zeros(3,1);
+
+        v1(0)=img1Pts[i].x;
+        v1(1)=img1Pts[i].y;
+        v1(2)=f0;
+
+        v2(0)=img2Pts[i].x;
+        v2(1)=img2Pts[i].y;
+        v2(2)=f0;  
+
+        // Should be very close to 0
+        Mat v2tF=v2.t()*F; // 1x3 matrix
+        Mat error = v2tF*v1;
+        std::cout << "Epipolar error: " << error(0) << std::endl;
+
+        
+        // computing the distance from point x' to epipolar line Fx
+        Point2D p1=img1Pts[i];
+        Point2D p2=img2Pts[i];
+        double epidistance_estim=epidistance(p1 , p2, F_denorm);
+
+        avg_epidist_estim+=epidistance_estim;
+
+        // std::cout << "epi distance estim: " << epidistance_estim << std::endl;
+        // std:: cout << std::endl;
+    }
+
+    std::cout << "avg epi distance estim: " << avg_epidist_estim << std::endl;
+
+    // Redisplay without matches
+    display(I1,0,0);
+    display(I2,w,0);
+    // click at any point and in an image and will display its corresponding epipolar line in the other image
+
+    FMatrix<float,3,3> F_denorm_2;
+
+    for(int i=0;i<3;i++){
+        for(int j=0; j<3; j++){
+            F_denorm_2(i,j)=F_denorm(i,j);
+        }
+    }
+
+    displayEpipolar(I1, I2, F_denorm_2);
+
+    endGraphics();
     return 0;
 }

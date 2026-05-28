@@ -15,6 +15,16 @@ file(REMOVE_RECURSE
   "CMakeFiles/F_estimator.dir/GaussNewton.cpp.obj.d"
   "CMakeFiles/F_estimator.dir/HEIV.cpp.obj"
   "CMakeFiles/F_estimator.dir/HEIV.cpp.obj.d"
+  "CMakeFiles/F_estimator.dir/Imagine/SIFT_VL.cpp.obj"
+  "CMakeFiles/F_estimator.dir/Imagine/SIFT_VL.cpp.obj.d"
+  "CMakeFiles/F_estimator.dir/Imagine/vl/generic.c.obj"
+  "CMakeFiles/F_estimator.dir/Imagine/vl/generic.c.obj.d"
+  "CMakeFiles/F_estimator.dir/Imagine/vl/host.c.obj"
+  "CMakeFiles/F_estimator.dir/Imagine/vl/host.c.obj.d"
+  "CMakeFiles/F_estimator.dir/Imagine/vl/imop.c.obj"
+  "CMakeFiles/F_estimator.dir/Imagine/vl/imop.c.obj.d"
+  "CMakeFiles/F_estimator.dir/Imagine/vl/sift.c.obj"
+  "CMakeFiles/F_estimator.dir/Imagine/vl/sift.c.obj.d"
   "CMakeFiles/F_estimator.dir/Initialization.cpp.obj"
   "CMakeFiles/F_estimator.dir/Initialization.cpp.obj.d"
   "CMakeFiles/F_estimator.dir/Renorm.cpp.obj"
@@ -28,6 +38,6 @@ file(REMOVE_RECURSE
 )
 
 # Per-language clean rules from dependency scanning.
-foreach(lang CXX)
+foreach(lang C CXX)
   include(CMakeFiles/F_estimator.dir/cmake_clean_${lang}.cmake OPTIONAL)
 endforeach()

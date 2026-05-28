@@ -320,6 +320,126 @@ HEIV.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\F_estimator.dir\build.make CMakeFiles/F_estimator.dir/HEIV.cpp.s
 .PHONY : HEIV.cpp.s
 
+Imagine/SIFT_VL.obj: Imagine/SIFT_VL.cpp.obj
+.PHONY : Imagine/SIFT_VL.obj
+
+# target to build an object file
+Imagine/SIFT_VL.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\F_estimator.dir\build.make CMakeFiles/F_estimator.dir/Imagine/SIFT_VL.cpp.obj
+.PHONY : Imagine/SIFT_VL.cpp.obj
+
+Imagine/SIFT_VL.i: Imagine/SIFT_VL.cpp.i
+.PHONY : Imagine/SIFT_VL.i
+
+# target to preprocess a source file
+Imagine/SIFT_VL.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\F_estimator.dir\build.make CMakeFiles/F_estimator.dir/Imagine/SIFT_VL.cpp.i
+.PHONY : Imagine/SIFT_VL.cpp.i
+
+Imagine/SIFT_VL.s: Imagine/SIFT_VL.cpp.s
+.PHONY : Imagine/SIFT_VL.s
+
+# target to generate assembly for a file
+Imagine/SIFT_VL.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\F_estimator.dir\build.make CMakeFiles/F_estimator.dir/Imagine/SIFT_VL.cpp.s
+.PHONY : Imagine/SIFT_VL.cpp.s
+
+Imagine/vl/generic.obj: Imagine/vl/generic.c.obj
+.PHONY : Imagine/vl/generic.obj
+
+# target to build an object file
+Imagine/vl/generic.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\F_estimator.dir\build.make CMakeFiles/F_estimator.dir/Imagine/vl/generic.c.obj
+.PHONY : Imagine/vl/generic.c.obj
+
+Imagine/vl/generic.i: Imagine/vl/generic.c.i
+.PHONY : Imagine/vl/generic.i
+
+# target to preprocess a source file
+Imagine/vl/generic.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\F_estimator.dir\build.make CMakeFiles/F_estimator.dir/Imagine/vl/generic.c.i
+.PHONY : Imagine/vl/generic.c.i
+
+Imagine/vl/generic.s: Imagine/vl/generic.c.s
+.PHONY : Imagine/vl/generic.s
+
+# target to generate assembly for a file
+Imagine/vl/generic.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\F_estimator.dir\build.make CMakeFiles/F_estimator.dir/Imagine/vl/generic.c.s
+.PHONY : Imagine/vl/generic.c.s
+
+Imagine/vl/host.obj: Imagine/vl/host.c.obj
+.PHONY : Imagine/vl/host.obj
+
+# target to build an object file
+Imagine/vl/host.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\F_estimator.dir\build.make CMakeFiles/F_estimator.dir/Imagine/vl/host.c.obj
+.PHONY : Imagine/vl/host.c.obj
+
+Imagine/vl/host.i: Imagine/vl/host.c.i
+.PHONY : Imagine/vl/host.i
+
+# target to preprocess a source file
+Imagine/vl/host.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\F_estimator.dir\build.make CMakeFiles/F_estimator.dir/Imagine/vl/host.c.i
+.PHONY : Imagine/vl/host.c.i
+
+Imagine/vl/host.s: Imagine/vl/host.c.s
+.PHONY : Imagine/vl/host.s
+
+# target to generate assembly for a file
+Imagine/vl/host.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\F_estimator.dir\build.make CMakeFiles/F_estimator.dir/Imagine/vl/host.c.s
+.PHONY : Imagine/vl/host.c.s
+
+Imagine/vl/imop.obj: Imagine/vl/imop.c.obj
+.PHONY : Imagine/vl/imop.obj
+
+# target to build an object file
+Imagine/vl/imop.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\F_estimator.dir\build.make CMakeFiles/F_estimator.dir/Imagine/vl/imop.c.obj
+.PHONY : Imagine/vl/imop.c.obj
+
+Imagine/vl/imop.i: Imagine/vl/imop.c.i
+.PHONY : Imagine/vl/imop.i
+
+# target to preprocess a source file
+Imagine/vl/imop.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\F_estimator.dir\build.make CMakeFiles/F_estimator.dir/Imagine/vl/imop.c.i
+.PHONY : Imagine/vl/imop.c.i
+
+Imagine/vl/imop.s: Imagine/vl/imop.c.s
+.PHONY : Imagine/vl/imop.s
+
+# target to generate assembly for a file
+Imagine/vl/imop.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\F_estimator.dir\build.make CMakeFiles/F_estimator.dir/Imagine/vl/imop.c.s
+.PHONY : Imagine/vl/imop.c.s
+
+Imagine/vl/sift.obj: Imagine/vl/sift.c.obj
+.PHONY : Imagine/vl/sift.obj
+
+# target to build an object file
+Imagine/vl/sift.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\F_estimator.dir\build.make CMakeFiles/F_estimator.dir/Imagine/vl/sift.c.obj
+.PHONY : Imagine/vl/sift.c.obj
+
+Imagine/vl/sift.i: Imagine/vl/sift.c.i
+.PHONY : Imagine/vl/sift.i
+
+# target to preprocess a source file
+Imagine/vl/sift.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\F_estimator.dir\build.make CMakeFiles/F_estimator.dir/Imagine/vl/sift.c.i
+.PHONY : Imagine/vl/sift.c.i
+
+Imagine/vl/sift.s: Imagine/vl/sift.c.s
+.PHONY : Imagine/vl/sift.s
+
+# target to generate assembly for a file
+Imagine/vl/sift.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\F_estimator.dir\build.make CMakeFiles/F_estimator.dir/Imagine/vl/sift.c.s
+.PHONY : Imagine/vl/sift.c.s
+
 Initialization.obj: Initialization.cpp.obj
 .PHONY : Initialization.obj
 
@@ -425,6 +545,21 @@ help:
 	@echo ... HEIV.obj
 	@echo ... HEIV.i
 	@echo ... HEIV.s
+	@echo ... Imagine/SIFT_VL.obj
+	@echo ... Imagine/SIFT_VL.i
+	@echo ... Imagine/SIFT_VL.s
+	@echo ... Imagine/vl/generic.obj
+	@echo ... Imagine/vl/generic.i
+	@echo ... Imagine/vl/generic.s
+	@echo ... Imagine/vl/host.obj
+	@echo ... Imagine/vl/host.i
+	@echo ... Imagine/vl/host.s
+	@echo ... Imagine/vl/imop.obj
+	@echo ... Imagine/vl/imop.i
+	@echo ... Imagine/vl/imop.s
+	@echo ... Imagine/vl/sift.obj
+	@echo ... Imagine/vl/sift.i
+	@echo ... Imagine/vl/sift.s
 	@echo ... Initialization.obj
 	@echo ... Initialization.i
 	@echo ... Initialization.s

@@ -1,67 +1,97 @@
 [
 {
   "directory": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/build",
-  "command": "C:\\msys64\\mingw64\\bin\\g++.exe  @CMakeFiles/F_estimator.dir/includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\F_estimator.dir\\main.cpp.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\main.cpp",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGLWIDGETS_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DSRCDIR=C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/F_estimator.dir/includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\F_estimator.dir\\main.cpp.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\main.cpp",
   "file": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/main.cpp",
   "output": "CMakeFiles/F_estimator.dir/main.cpp.obj"
 },
 {
   "directory": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/build",
-  "command": "C:\\msys64\\mingw64\\bin\\g++.exe  @CMakeFiles/F_estimator.dir/includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\F_estimator.dir\\FNS.cpp.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\FNS.cpp",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGLWIDGETS_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DSRCDIR=C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/F_estimator.dir/includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\F_estimator.dir\\FNS.cpp.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\FNS.cpp",
   "file": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/FNS.cpp",
   "output": "CMakeFiles/F_estimator.dir/FNS.cpp.obj"
 },
 {
   "directory": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/build",
-  "command": "C:\\msys64\\mingw64\\bin\\g++.exe  @CMakeFiles/F_estimator.dir/includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\F_estimator.dir\\HEIV.cpp.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\HEIV.cpp",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGLWIDGETS_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DSRCDIR=C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/F_estimator.dir/includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\F_estimator.dir\\HEIV.cpp.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\HEIV.cpp",
   "file": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/HEIV.cpp",
   "output": "CMakeFiles/F_estimator.dir/HEIV.cpp.obj"
 },
 {
   "directory": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/build",
-  "command": "C:\\msys64\\mingw64\\bin\\g++.exe  @CMakeFiles/F_estimator.dir/includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\F_estimator.dir\\Renorm.cpp.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\Renorm.cpp",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGLWIDGETS_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DSRCDIR=C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/F_estimator.dir/includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\F_estimator.dir\\Renorm.cpp.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\Renorm.cpp",
   "file": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/Renorm.cpp",
   "output": "CMakeFiles/F_estimator.dir/Renorm.cpp.obj"
 },
 {
   "directory": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/build",
-  "command": "C:\\msys64\\mingw64\\bin\\g++.exe  @CMakeFiles/F_estimator.dir/includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\F_estimator.dir\\GaussNewton.cpp.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\GaussNewton.cpp",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGLWIDGETS_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DSRCDIR=C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/F_estimator.dir/includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\F_estimator.dir\\GaussNewton.cpp.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\GaussNewton.cpp",
   "file": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/GaussNewton.cpp",
   "output": "CMakeFiles/F_estimator.dir/GaussNewton.cpp.obj"
 },
 {
   "directory": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/build",
-  "command": "C:\\msys64\\mingw64\\bin\\g++.exe  @CMakeFiles/F_estimator.dir/includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\F_estimator.dir\\Initialization.cpp.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\Initialization.cpp",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGLWIDGETS_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DSRCDIR=C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/F_estimator.dir/includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\F_estimator.dir\\Imagine\\SIFT_VL.cpp.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\Imagine\\SIFT_VL.cpp",
+  "file": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/Imagine/SIFT_VL.cpp",
+  "output": "CMakeFiles/F_estimator.dir/Imagine/SIFT_VL.cpp.obj"
+},
+{
+  "directory": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/build",
+  "command": "C:\\msys64\\mingw64\\bin\\cc.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGLWIDGETS_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DSRCDIR=C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/F_estimator.dir/includes_C.rsp -g -o CMakeFiles\\F_estimator.dir\\Imagine\\vl\\generic.c.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\Imagine\\vl\\generic.c",
+  "file": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/Imagine/vl/generic.c",
+  "output": "CMakeFiles/F_estimator.dir/Imagine/vl/generic.c.obj"
+},
+{
+  "directory": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/build",
+  "command": "C:\\msys64\\mingw64\\bin\\cc.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGLWIDGETS_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DSRCDIR=C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/F_estimator.dir/includes_C.rsp -g -o CMakeFiles\\F_estimator.dir\\Imagine\\vl\\host.c.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\Imagine\\vl\\host.c",
+  "file": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/Imagine/vl/host.c",
+  "output": "CMakeFiles/F_estimator.dir/Imagine/vl/host.c.obj"
+},
+{
+  "directory": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/build",
+  "command": "C:\\msys64\\mingw64\\bin\\cc.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGLWIDGETS_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DSRCDIR=C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/F_estimator.dir/includes_C.rsp -g -o CMakeFiles\\F_estimator.dir\\Imagine\\vl\\imop.c.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\Imagine\\vl\\imop.c",
+  "file": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/Imagine/vl/imop.c",
+  "output": "CMakeFiles/F_estimator.dir/Imagine/vl/imop.c.obj"
+},
+{
+  "directory": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/build",
+  "command": "C:\\msys64\\mingw64\\bin\\cc.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGLWIDGETS_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DSRCDIR=C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/F_estimator.dir/includes_C.rsp -g -o CMakeFiles\\F_estimator.dir\\Imagine\\vl\\sift.c.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\Imagine\\vl\\sift.c",
+  "file": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/Imagine/vl/sift.c",
+  "output": "CMakeFiles/F_estimator.dir/Imagine/vl/sift.c.obj"
+},
+{
+  "directory": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGLWIDGETS_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DSRCDIR=C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/F_estimator.dir/includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\F_estimator.dir\\Initialization.cpp.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\Initialization.cpp",
   "file": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/Initialization.cpp",
   "output": "CMakeFiles/F_estimator.dir/Initialization.cpp.obj"
 },
 {
   "directory": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/build",
-  "command": "C:\\msys64\\mingw64\\bin\\g++.exe  @CMakeFiles/F_estimator.dir/includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\F_estimator.dir\\CppUnitLite\\Test.cpp.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\CppUnitLite\\Test.cpp",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGLWIDGETS_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DSRCDIR=C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/F_estimator.dir/includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\F_estimator.dir\\CppUnitLite\\Test.cpp.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\CppUnitLite\\Test.cpp",
   "file": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/CppUnitLite/Test.cpp",
   "output": "CMakeFiles/F_estimator.dir/CppUnitLite/Test.cpp.obj"
 },
 {
   "directory": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/build",
-  "command": "C:\\msys64\\mingw64\\bin\\g++.exe  @CMakeFiles/F_estimator.dir/includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\F_estimator.dir\\CppUnitLite\\TestResult.cpp.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\CppUnitLite\\TestResult.cpp",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGLWIDGETS_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DSRCDIR=C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/F_estimator.dir/includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\F_estimator.dir\\CppUnitLite\\TestResult.cpp.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\CppUnitLite\\TestResult.cpp",
   "file": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/CppUnitLite/TestResult.cpp",
   "output": "CMakeFiles/F_estimator.dir/CppUnitLite/TestResult.cpp.obj"
 },
 {
   "directory": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/build",
-  "command": "C:\\msys64\\mingw64\\bin\\g++.exe  @CMakeFiles/F_estimator.dir/includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\F_estimator.dir\\CppUnitLite\\TestRegistry.cpp.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\CppUnitLite\\TestRegistry.cpp",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGLWIDGETS_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DSRCDIR=C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/F_estimator.dir/includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\F_estimator.dir\\CppUnitLite\\TestRegistry.cpp.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\CppUnitLite\\TestRegistry.cpp",
   "file": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/CppUnitLite/TestRegistry.cpp",
   "output": "CMakeFiles/F_estimator.dir/CppUnitLite/TestRegistry.cpp.obj"
 },
 {
   "directory": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/build",
-  "command": "C:\\msys64\\mingw64\\bin\\g++.exe  @CMakeFiles/F_estimator.dir/includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\F_estimator.dir\\CppUnitLite\\Failure.cpp.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\CppUnitLite\\Failure.cpp",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGLWIDGETS_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DSRCDIR=C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/F_estimator.dir/includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\F_estimator.dir\\CppUnitLite\\Failure.cpp.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\CppUnitLite\\Failure.cpp",
   "file": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/CppUnitLite/Failure.cpp",
   "output": "CMakeFiles/F_estimator.dir/CppUnitLite/Failure.cpp.obj"
 },
 {
   "directory": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/build",
-  "command": "C:\\msys64\\mingw64\\bin\\g++.exe  @CMakeFiles/F_estimator.dir/includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\F_estimator.dir\\CppUnitLite\\SimpleString.cpp.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\CppUnitLite\\SimpleString.cpp",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGLWIDGETS_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DSRCDIR=C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/F_estimator.dir/includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\F_estimator.dir\\CppUnitLite\\SimpleString.cpp.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\CppUnitLite\\SimpleString.cpp",
   "file": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/CppUnitLite/SimpleString.cpp",
   "output": "CMakeFiles/F_estimator.dir/CppUnitLite/SimpleString.cpp.obj"
 }

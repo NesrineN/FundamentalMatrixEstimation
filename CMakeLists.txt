@@ -55,6 +55,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 find_package(GSL REQUIRED)
 find_package(Threads REQUIRED)
 find_package(Eigen3 REQUIRED)
+find_package(Imagine REQUIRED COMPONENTS LinAlg Images)
 
 
 # ------------------------------------------------------------
@@ -67,6 +68,11 @@ set(SOURCE_FILES
     HEIV.cpp
     Renorm.cpp
     GaussNewton.cpp
+    Imagine/SIFT_VL.cpp
+    Imagine/vl/generic.c
+    Imagine/vl/host.c 
+    Imagine/vl/imop.c 
+    Imagine/vl/sift.c
     Initialization.cpp
     CppUnitLite/Test.cpp
     CppUnitLite/TestResult.cpp
@@ -95,8 +101,13 @@ target_link_libraries(F_estimator PRIVATE
     ${GSL_LIBRARIES}
     Threads::Threads
     Eigen3::Eigen
+    Imagine::LinAlg 
+    Imagine::Images
 )
 
 if(UNIX)
     target_link_libraries(F_estimator PRIVATE m)
 endif()
+
+include_directories("C:/ENPC/Imagine++-6.0.0/include")
+link_directories("C:/ENPC/Imagine++-6.0.0/lib")

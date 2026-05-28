@@ -118,14 +118,16 @@ Vec Taubin(const Mat& Eall, double f0, const std::vector<Mat>& Vall){
     Mat MLSt=ComputeMLSt(Eall, Zbar);
     Mat NTBt=ComputeNTBt(Eall, f0, Vall);
 
-    Vec v=SolveGeneralizedEigen(MLSt, NTBt); // chooses vector with smallest lambda.
+    // Vec v=SolveGeneralizedEigen(MLSt, NTBt); // chooses vector with smallest lambda.
+
+    auto p1=SolveGeneralizedEigen(MLSt, NTBt);
     
-    // Vec v=p1.first;
-    // double lambda=p1.second;
+    Vec v=p1.first;
+    double lambda=p1.second;
 
     // debug
-    // double debug_norm=((MLSt*v)-(lambda*NTBt*v)).qnorm();
-    // std::cout << "the norm is: " << debug_norm << std::endl; Norm is 2.46154e-08
+    double debug_norm=((MLSt*v)-(lambda*NTBt*v)).qnorm();
+    std::cout << "the norm is: " << debug_norm << std::endl;  // Norm is 2.46154e-08
 
 
     // v/=std::sqrt(v.qnorm());
@@ -148,7 +150,7 @@ Vec Taubin(const Mat& Eall, double f0, const std::vector<Mat>& Vall){
     //     }
     // }
 
-    // enforcing rank 2 on F: 
+    // // enforcing rank 2 on F: 
 
     // Mat U(3,3);
     // Mat V(3,3);
