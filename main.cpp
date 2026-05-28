@@ -429,8 +429,8 @@ int main(int argc, char* argv[])
 {
     srand((unsigned int)time(0));
 
-    std::string s1 = argc>1? argv[1]: srcPath("im1.png");
-    std::string s2 = argc>2? argv[2]: srcPath("im2.png");
+    std::string s1 = argc>1? argv[1]: srcPath("im1111.png");
+    std::string s2 = argc>2? argv[2]: srcPath("im2222.png");
 
     // Load and display images
     Image<Color,2> I1, I2;
@@ -454,7 +454,7 @@ int main(int argc, char* argv[])
 
     // getting the inliers from the inliers.txt file provided in the demo of the IPOL journal article: Fundamental Matrix of a Stereo Pair, with A Contrario Elimination of Outliers
     
-    std::ifstream file("inliers.txt");
+    std::ifstream file("inliers4.txt");
 
     if (!file.is_open()) {
         std::cerr << "Failed to open file\n";
@@ -536,10 +536,18 @@ int main(int argc, char* argv[])
 
     Mat F=Mat::zeros(3);
 
-    F =HEIV(vinit, Eall, f0);
+    // F =HEIV(vinit, Eall, f0);
     // F =FNS(uinit, Eall, Vall);
     // F = Renorm(uinit, Eall, Vall); 
     // F = GaussNewton(uinit, Eall, Vall);
+
+    // observation:avg distance to epipolar line error for all methods is relatively the same except for HEIV which is much higher. the same was observed for 2 different examples of image pairs. 
+    // avg error for all 3 methods for images im11 and im22: around 130. for HEIV around 743
+    // avg error for all 3 methods for images im1 and im2: around 83. for HEIV around 841
+    // avg error for all 3 method for images im111 and im222: around 18 - 19 . for HEIV around 110.
+    // avg error for all 3 method for images im1111 and im2222: around 113-141-143. for HEIV around 370.
+
+    // all methods should yield similar results. the comparison is convergence time. must fix HEIV!!
 
     // de-normalizing F to be closer to F_gt:
     Mat Norm=Mat::eye(3);
