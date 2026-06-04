@@ -548,6 +548,7 @@ int main(int argc, char* argv[])
     // avg error for all 3 method for images im1111 and im2222: around 113-141-143. for HEIV around 370.
 
     // all methods should yield similar results. the comparison is convergence time. must fix HEIV!!
+    // problem: sometimes Taubin yielded better results than the other methods ! 
 
     // de-normalizing F to be closer to F_gt:
     Mat Norm=Mat::eye(3);
@@ -590,7 +591,7 @@ int main(int argc, char* argv[])
         // std:: cout << std::endl;
     }
 
-    std::cout << "avg epi distance estim: " << avg_epidist_estim << std::endl;
+    std::cout << "avg epi distance estim: " << avg_epidist_estim/img1Pts.size() << std::endl;
 
     // Redisplay without matches
     display(I1,0,0);
