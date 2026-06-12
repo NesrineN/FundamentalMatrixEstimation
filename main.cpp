@@ -3,6 +3,7 @@
 #include <cmath>
 #include "FNS.h"
 #include "HEIV.h"
+#include "RANSAC.h"
 #include "Renorm.h"
 #include "GaussNewton.h"
 #include "Initialization.h"
@@ -25,10 +26,6 @@ typedef libNumerics::vector<double> Vec;
 
 using namespace Imagine;
 using namespace std;
-
-struct Match {
-    double x1, y1, x2, y2;
-};
 
 // ----------------------------------------------------------------------
 
@@ -224,213 +221,14 @@ void printM(const Mat& A){
 
 // ---------------------------------------------------------------------
 
-// might need to normalize the inliers?
-
-vector<FMatrix<float,3,3>> compute_N(vector<Match>& matches){
-    
-    vector<FMatrix<float,3,3>> N_list;
-    FMatrix<float,3,3> N1; // the Normalization matrix for Image 1
-    FMatrix<float,3,3> N2; // the Normalization matrix for Image 2
-
-    // we will calculate the centroid of points of each image, then the distance from all points of an image to its centroid, get the scale and fill the matrix with it and the centroid
-    // the aim is to translate the points so their centroid is at the origin and to scale the points so that the average distance from the origin is sqrt(2). 
-
-    // for I1:
-    float xbar1=0.f;
-    float ybar1=0.f;
-    for(int j=0;j<matches.size();j++){
-        xbar1=xbar1+matches[j].x1;
-        ybar1=ybar1+matches[j].y1;
-    }
-    xbar1/=(float)matches.size(); // centroid
-    ybar1/=(float)matches.size(); // centroid
-
-    float distance1=0.f;
-
-    for(int ii=0;ii<matches.size();ii++){
-        distance1=distance1+(sqrt(pow((matches[ii].x1-xbar1),2)+pow((matches[ii].y1-ybar1),2)));
-    }
-
-    distance1/=(float)matches.size(); // distance of points from the centroid
-    if(distance1 < 1e-8f) distance1 = 1.0f; // to avoid dividing by zero in case distance is very close to zero
-    float s1=sqrt(2.0f)/distance1; // scale to normalize by
-    
-    N1.fill(0.0f);
-    N1(0,0)=s1;
-    N1(0,1)=0;
-    N1(0,2)=-s1*xbar1;
-    N1(1,0)=0;
-    N1(1,1)=s1;
-    N1(1,2)=-s1*ybar1;
-    N1(2,0)=0;
-    N1(2,1)=0;
-    N1(2,2)=1;
-
-    N_list.push_back(N1);
-
-    // for I2:
-    float xbar2=0.f;
-    float ybar2=0.f;
-    for(int id=0;id<matches.size();id++){
-        xbar2=xbar2+matches[id].x2;
-        ybar2=ybar2+matches[id].y2;
-    }
-    xbar2/=(float)matches.size();
-    ybar2/=(float)matches.size();
-    float distance2=0.f;
-    for(int ind=0;ind<matches.size();ind++){
-        distance2=distance2+(sqrt(pow((matches[ind].x2-xbar2),2)+pow((matches[ind].y2-ybar2),2)));
-    }
-    distance2/=(float)matches.size();
-    if(distance2 < 1e-8f) distance2 = 1.0f;    
-    float s2=sqrt(2.0f)/distance2;
-
-    N2.fill(0.0f);
-    N2(0,0)=s2;
-    N2(0,1)=0;
-    N2(0,2)=-s2*xbar2;
-    N2(1,0)=0;
-    N2(1,1)=s2;
-    N2(1,2)=-s2*ybar2;
-    N2(2,0)=0;
-    N2(2,1)=0;
-    N2(2,2)=1;
-
-    N_list.push_back(N2);
-
-
-    return N_list;
-
-}
-
-// Function that takes the matches and the two normalization matrices N1 for I1 and N2 for I2 and normalizes the matches, returns the normalized matches
-vector<Match> normalize_matches(FMatrix<float,3,3> N1, FMatrix<float,3,3> N2, vector<Match>& matches){
-    
-    vector<Match> subset_normalized;
-    for(int match_id=0;match_id<matches.size(); match_id++){
-        Match m=matches[match_id];
-        Match m_normalized;
-
-        FVector<float,3> X1h, X2h; // point correspondences in a match in homogeneous system
-        X1h[0]= m.x1;  X1h[1]= m.y1;  X1h[2]= 1.0f;
-        X2h[0]= m.x2;  X2h[1]= m.y2;  X2h[2]= 1.0f;
-
-        // we normalize both
-        FVector<float,3> X1n= N1 * X1h;
-        FVector<float,3> X2n= N2 * X2h;
-
-        // we assign to m_normalized after returning to euclidean 2d:
-        m_normalized.x1= X1n[0] / X1n[2];
-        m_normalized.y1= X1n[1] / X1n[2];
-
-        m_normalized.x2= X2n[0] / X2n[2];
-        m_normalized.y2= X2n[1] / X2n[2];
-
-        subset_normalized.push_back(m_normalized);
-    }
-
-    return subset_normalized;
-
-}
-
-void displayEpipolar(Image<Color> I1, Image<Color> I2,
-                     const FMatrix<float,3,3>& F) {
-    while(true) {
-        int x,y; // coordinates of point clicked
-        if(getMouse(x,y) == 3)
-            break;
-        // --------------- TODO ------------
-        // if point clicked in I1 --> point x and matching point is x' which lies on the line F.x
-        // if point clicked in I2 --> point x' and matching point is x which lies on the line F^Tx'
-
-        if(x>=0 && x<I1.width() && y>=0 && y<I1.height()){
-            cout << "You clicked a point in I1" << endl;
-            // user clicked point in I1
-            FVector<float,3> l; // this is the epipolar line F.x
-            FVector<float,3> Xh; // this is the point clicked x in homogeneous coordinates 
-            Xh[0]=x;
-            Xh[1]=y;
-            Xh[2]=1.0f;
-
-            l=F*Xh; // the vector l has a, b, c such that the line equation is ax'+by'+c=0 which is the equation of the epipolar line in I2 where the point X' lies
-
-            // now we draw the line obtained in I2: we take two points:
-            // x0=0 (left edge), y0=solution of equation of line
-            // x1=I2.width() - 1 (right edge), y1=solution of equation of line
-
-            // if b=0 --> vertical line: we take two points:
-            // y0=0 (top edge), x0=solution of equation of line
-            // y1=I2.height() - 1 (bottom edge), x1=solution of equation of line
-
-            float x0,x1,y0,y1;
-            
-            if(fabs(l[1]) < 1e-8f){ // this means it's a vertical line . not enough: because some lines would be deemed vertical when irl they're not. relative !!! ( should be abs b << sqrt a^2 + b^2) 
-                y0=0;
-                y1=I2.height()-1;
-                x0=x1=-l[2]/l[0];
-            }
-            else{
-                x0=0;
-                x1=I2.width()-1;
-                y0=(-(l[0]*x0)-l[2])/(l[1]);
-                y1=(-(l[0]*x1)-l[2])/(l[1]);
-            }
-
-            // I2 starts at width of I1 and ends at width of I1 + width of I2 so we take the offset into account when using drawLine() function
-            drawLine((int)round(x0+I1.width()), (int)round(y0), (int)round(x1+I1.width()), (int)round(y1), RED);  
-  
-        }
-
-        else if(x>=I1.width() && x<I1.width()+I2.width() && y>=0 && y<I2.height()){
-            cout << "You clicked a point in I2" << endl;
-            // user clicked point in I2
-            FVector<float,3> l; // this is the epipolar line F^Tx'
-            FVector<float,3> Xprimeh;
-            Xprimeh[0]=x-I1.width(); // removing offset to go to coordinate system of I2
-            Xprimeh[1]=y;
-            Xprimeh[2]=1.0f;
-
-            l=transpose(F)*Xprimeh; // the vector l has a, b, c such that the line equation is ax+by+c=0 which is the equation of the epipolar line in I1 where the point X lies
-
-            // now we draw the line obtained in I1: we take two points:
-            // x0=0 (left edge), y0=solution of equation of line
-            // x1=I1.width() - 1 (right edge), y1=solution of equation of line
-
-            // if b=0 --> vertical line: we take two points:
-            // y0=0 (top edge), x0=solution of equation of line
-            // y1=I1.height() - 1 (bottom edge), x1=solution of equation of line
-
-            int x0,x1,y0,y1;
-            
-            if(fabs(l[1]) < 1e-6){
-                y0=0;
-                y1=I1.height()-1;
-                x0=x1=-l[2]/l[0];
-            }
-            else{
-                x0=0;
-                x1=I1.width()-1;
-                y0=(-(l[0]*x0)-l[2])/(l[1]);
-                y1=(-(l[0]*x1)-l[2])/(l[1]);
-
-
-            }
-       
-            drawLine((int)round(x0), (int)round(y0), (int)round(x1), (int)round(y1), RED);            
-        }
-        else{
-            cout << "You did not click on neither Image 1 nor Image 2" << endl;
-        }
-    }
-}
-
+// semi-synthetic images
 
 int main(int argc, char* argv[])
 {
     srand((unsigned int)time(0));
 
-    std::string s1 = argc>1? argv[1]: srcPath("im1111.png");
-    std::string s2 = argc>2? argv[2]: srcPath("im2222.png");
+    std::string s1 = argc>1? argv[1]: srcPath("im1.png");
+    std::string s2 = argc>2? argv[2]: srcPath("im2.png");
 
     // Load and display images
     Image<Color,2> I1, I2;
@@ -448,13 +246,11 @@ int main(int argc, char* argv[])
     // -----------------------------------------------------------------------
     double f0 = 1200.0;
 
-    std::vector<Point2D> img1Pts;
-    std::vector<Point2D> img2Pts;
-    // vector<Match> matches;
+    vector<Match> matches;
 
     // getting the inliers from the inliers.txt file provided in the demo of the IPOL journal article: Fundamental Matrix of a Stereo Pair, with A Contrario Elimination of Outliers
     
-    std::ifstream file("inliers4.txt");
+    std::ifstream file("correspondences.txt");
 
     if (!file.is_open()) {
         std::cerr << "Failed to open file\n";
@@ -468,26 +264,74 @@ int main(int argc, char* argv[])
         double x,y,xp,yp;
 
         while (ss >> x >> y >> xp >> yp) {            
-            Point2D p1;
-            Point2D p2;
-            // Match m;
+  
+            Match m{0.0f, 0.0f, 0.0f, 0.0f};
 
-            p1.x=x;
-            p1.y=y;
 
-            p2.x=xp;
-            p2.y=yp;
+            m.x1=x;
+            m.y1=y;
+            m.x2=xp;
+            m.y2=yp;
 
-            // m.x1=x;
-            // m.y1=y;
-            // m.x2=xp;
-            // m.y2=yp;
-
-            img1Pts.push_back(p1);
-            img2Pts.push_back(p2);
-            // matches.push_back(m);
+            matches.push_back(m);
         }
     }
+
+    // getting the inliers from img1Pts and img2Pts using RANSAC:
+    FMatrix<float,3,3> F_gt= computeF(matches);
+    Mat F_gt_mat=Mat::zeros(3);
+    for(int i=0; i<3; i++){
+        for(int j=0; j<3; j++){
+            F_gt_mat(i,j)=F_gt(i,j);
+        }
+    }
+
+    // now F_gt is the original F estimate that we will fix the inliers accordingly and matches now will only have the inliers returned by RANSAC
+    std::vector<Point2D> img1Pts;
+    std::vector<Point2D> img2Pts;
+
+    for(int i=0; i<matches.size(); i++){
+        Vec X(3);
+        X(0)=matches[i].x1;
+        X(1)=matches[i].y1;
+        X(2)=1.0;
+
+        Vec X_p(3);
+        X_p(0)=matches[i].x2;
+        X_p(1)=matches[i].y2;
+        X_p(2)=1.0;
+
+        Vec Fx=F_gt_mat*X;
+
+        // we have for each match x and x'. we want to change the x' such that we replace it by its projection on its epipolar line Fx. 
+        double a = Fx(0);
+        double b = Fx(1);
+        double c = Fx(2);
+
+        double x = X_p(0);
+        double y = X_p(1);
+
+        double denom = a*a + b*b;
+
+        Vec X_proj(2);
+        X_proj(0) = x - a * (a*x + b*y + c) / denom;
+        X_proj(1) = y - b * (a*x + b*y + c) / denom;
+
+        Point2D p1;
+        Point2D p2;
+
+        p1.x=matches[i].x1;
+        p1.y=matches[i].y1;
+
+        p2.x=X_proj(0);
+        p2.y=X_proj(1);
+
+        img1Pts.push_back(p1);
+        img2Pts.push_back(p2);
+    }
+
+    // now that we have the perfect inliers, we want to controllably add noise to the inliers and to test our methods 
+
 
     // printing the correspondences:
     // std::cout << "correspondences: " << std::endl;

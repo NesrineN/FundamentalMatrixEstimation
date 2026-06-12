@@ -464,6 +464,30 @@ Initialization.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\F_estimator.dir\build.make CMakeFiles/F_estimator.dir/Initialization.cpp.s
 .PHONY : Initialization.cpp.s
 
+RANSAC.obj: RANSAC.cpp.obj
+.PHONY : RANSAC.obj
+
+# target to build an object file
+RANSAC.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\F_estimator.dir\build.make CMakeFiles/F_estimator.dir/RANSAC.cpp.obj
+.PHONY : RANSAC.cpp.obj
+
+RANSAC.i: RANSAC.cpp.i
+.PHONY : RANSAC.i
+
+# target to preprocess a source file
+RANSAC.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\F_estimator.dir\build.make CMakeFiles/F_estimator.dir/RANSAC.cpp.i
+.PHONY : RANSAC.cpp.i
+
+RANSAC.s: RANSAC.cpp.s
+.PHONY : RANSAC.s
+
+# target to generate assembly for a file
+RANSAC.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\F_estimator.dir\build.make CMakeFiles/F_estimator.dir/RANSAC.cpp.s
+.PHONY : RANSAC.cpp.s
+
 Renorm.obj: Renorm.cpp.obj
 .PHONY : Renorm.obj
 
@@ -563,6 +587,9 @@ help:
 	@echo ... Initialization.obj
 	@echo ... Initialization.i
 	@echo ... Initialization.s
+	@echo ... RANSAC.obj
+	@echo ... RANSAC.i
+	@echo ... RANSAC.s
 	@echo ... Renorm.obj
 	@echo ... Renorm.i
 	@echo ... Renorm.s

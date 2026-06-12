@@ -27,6 +27,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/F_estimator.dir/Imagine/vl/sift.c.obj.d"
   "CMakeFiles/F_estimator.dir/Initialization.cpp.obj"
   "CMakeFiles/F_estimator.dir/Initialization.cpp.obj.d"
+  "CMakeFiles/F_estimator.dir/RANSAC.cpp.obj"
+  "CMakeFiles/F_estimator.dir/RANSAC.cpp.obj.d"
   "CMakeFiles/F_estimator.dir/Renorm.cpp.obj"
   "CMakeFiles/F_estimator.dir/Renorm.cpp.obj.d"
   "CMakeFiles/F_estimator.dir/main.cpp.obj"

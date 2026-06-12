@@ -25,6 +25,12 @@
 },
 {
   "directory": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGLWIDGETS_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DSRCDIR=C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/F_estimator.dir/includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\F_estimator.dir\\RANSAC.cpp.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\RANSAC.cpp",
+  "file": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/RANSAC.cpp",
+  "output": "CMakeFiles/F_estimator.dir/RANSAC.cpp.obj"
+},
+{
+  "directory": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/build",
   "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGLWIDGETS_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DSRCDIR=C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/F_estimator.dir/includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\F_estimator.dir\\GaussNewton.cpp.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\GaussNewton.cpp",
   "file": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/GaussNewton.cpp",
   "output": "CMakeFiles/F_estimator.dir/GaussNewton.cpp.obj"

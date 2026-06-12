@@ -67,6 +67,7 @@ set(SOURCE_FILES
     FNS.cpp
     HEIV.cpp
     Renorm.cpp
+    RANSAC.cpp
     GaussNewton.cpp
     Imagine/SIFT_VL.cpp
     Imagine/vl/generic.c
