@@ -231,17 +231,17 @@ int main(int argc, char* argv[])
     std::string s2 = argc>2? argv[2]: srcPath("im2.png");
 
     // Load and display images
-    Image<Color,2> I1, I2;
-    if( ! load(I1, s1.c_str()) ||
-        ! load(I2, s2.c_str()) ) {
-        cerr<< "Unable to load images" << endl;
-        return 1;
-    }
+    // Image<Color,2> I1, I2;
+    // if( ! load(I1, s1.c_str()) ||
+    //     ! load(I2, s2.c_str()) ) {
+    //     cerr<< "Unable to load images" << endl;
+    //     return 1;
+    // }
 
-    int w = I1.width();
-    openWindow(2*w, I1.height());
-    display(I1,0,0);
-    display(I2,w,0);
+    // int w = I1.width();
+    // openWindow(2*w, I1.height());
+    // display(I1,0,0);
+    // display(I2,w,0);
 
     // -----------------------------------------------------------------------
     double f0 = 1200.0;
@@ -332,126 +332,172 @@ int main(int argc, char* argv[])
 
     // now that we have the perfect inliers, we want to controllably add noise to the inliers and to test our methods 
 
+    // double sigma=1.0; 
+    // double sigma=2.0; // 1.1768 FNS, 2.78838 HEIV, 1.39512 renorm, 1.20804 Gauss Newton
+    double sigma=3.0; //  2.05779 FNS, 2.9991 HEIV, 3.39688 Renorm, 1.88174 Gauss Newton
+    // double sigma=4.0; 
 
-    // printing the correspondences:
-    // std::cout << "correspondences: " << std::endl;
-    // for(int i=0; i<img1Pts.size(); i++){
-    //     std::cout << "u1: " << img1Pts[i].x << " " << img1Pts[i].y << std::endl;
-    //     std::cout << "u2: " << img2Pts[i].x << " " << img2Pts[i].y << std::endl;
-    // }
+    const int numTrials = 1000;
+    double total_avg=0.0;
 
-    Mat Eall=Mat::zeros(9,img1Pts.size());
-    std::vector<Mat> Vall;
 
-    for(int i=0; i<img1Pts.size(); i++){
-        Point2D p1=img1Pts[i];
-        Point2D p2=img2Pts[i];
+    // Random number generator
+    std::random_device rd;
+    std::mt19937 gen(rd());
 
-        Vec E=fillE(p1,p2,f0);
+    // Uniform distribution in [-sigma, sigma]
+    std::uniform_real_distribution<double> dist(-sigma, sigma);
 
-        for(int j = 0; j < 9; ++j)
-        {
-            Eall(j, i) = E(j);
+    int count=0;
+
+    for (int trial=0; trial<numTrials; trial++)
+    {   
+        std::vector<Point2D> img2Pts_noisy;
+        img2Pts_noisy.reserve(img2Pts.size());   
+
+        for(int i=0; i<img1Pts.size(); i++){
+            double nx = dist(gen);
+            double ny = dist(gen);
+
+            double xp=img2Pts[i].x;
+            double yp=img2Pts[i].y;
+
+            Point2D p2;
+
+            p2.x=xp+nx;
+            p2.y=yp+ny;
+
+            img2Pts_noisy.push_back(p2);
         }
 
-        double x=p1.x;
-        double y=p1.y;
-        double xp=p2.x;
-        double yp=p2.y;
 
-        Mat V0=computeV0(x,y,xp,yp,f0);
+        // printing the correspondences:
+        // std::cout << "correspondences: " << std::endl;
+        // for(int i=0; i<img1Pts.size(); i++){
+        //     std::cout << "u1: " << img1Pts[i].x << " " << img1Pts[i].y << std::endl;
+        //     std::cout << "u2: " << img2Pts[i].x << " " << img2Pts[i].y << std::endl;
+        // }
 
-        // adding V0 to the list Vall
-        Vall.push_back(V0);
-    }
+        Mat Eall=Mat::zeros(9,img1Pts.size());
+        std::vector<Mat> Vall;
 
-    // we initialize uinit using Taubin method
-    Vec uinit= Taubin(Eall, f0, Vall);
+        for(int i=0; i<img1Pts.size(); i++){
+            Point2D p1=img1Pts[i];
+            Point2D p2=img2Pts_noisy[i];
 
-    Vec vinit=uinit.copy(0,7);
+            Vec E=fillE(p1,p2,f0);
 
+            for(int j = 0; j < 9; ++j)
+            {
+                Eall(j, i) = E(j);
+            }
 
-    // Mat F=Mat::zeros(3);
-    // for(int i=0; i<3; i++){
-    //     for(int j=0; j<3; j++){
-    //         F(i, j) = uinit(i * 3 + j); 
-    //     }
-    // }
+            double x=p1.x;
+            double y=p1.y;
+            double xp=p2.x;
+            double yp=p2.y;
 
-    Mat F=Mat::zeros(3);
+            Mat V0=computeV0(x,y,xp,yp,f0);
 
-    // F =HEIV(vinit, Eall, f0);
-    // F =FNS(uinit, Eall, Vall);
-    // F = Renorm(uinit, Eall, Vall); 
-    // F = GaussNewton(uinit, Eall, Vall);
-
-    // observation:avg distance to epipolar line error for all methods is relatively the same except for HEIV which is much higher. the same was observed for 2 different examples of image pairs. 
-    // avg error for all 3 methods for images im11 and im22: around 130. for HEIV around 743
-    // avg error for all 3 methods for images im1 and im2: around 83. for HEIV around 841
-    // avg error for all 3 method for images im111 and im222: around 18 - 19 . for HEIV around 110.
-    // avg error for all 3 method for images im1111 and im2222: around 113-141-143. for HEIV around 370.
-
-    // all methods should yield similar results. the comparison is convergence time. must fix HEIV!!
-    // problem: sometimes Taubin yielded better results than the other methods ! 
-
-    // de-normalizing F to be closer to F_gt:
-    Mat Norm=Mat::eye(3);
-    Norm(2,2)=f0;
-
-    Mat F_denorm=Norm.t()*F*Norm;
-
-    F=F.t();
-    F_denorm=F_denorm.t();
-
-    double avg_epidist_estim=0;
-
-    for(int i=0; i<img1Pts.size(); i++){
-
-        Mat v1=Mat::zeros(3,1);
-        Mat v2=Mat::zeros(3,1);
-
-        v1(0)=img1Pts[i].x;
-        v1(1)=img1Pts[i].y;
-        v1(2)=f0;
-
-        v2(0)=img2Pts[i].x;
-        v2(1)=img2Pts[i].y;
-        v2(2)=f0;  
-
-        // Should be very close to 0
-        Mat v2tF=v2.t()*F; // 1x3 matrix
-        Mat error = v2tF*v1;
-        std::cout << "Epipolar error: " << error(0) << std::endl;
-
-        
-        // computing the distance from point x' to epipolar line Fx
-        Point2D p1=img1Pts[i];
-        Point2D p2=img2Pts[i];
-        double epidistance_estim=epidistance(p1 , p2, F_denorm);
-
-        avg_epidist_estim+=epidistance_estim;
-
-        // std::cout << "epi distance estim: " << epidistance_estim << std::endl;
-        // std:: cout << std::endl;
-    }
-
-    std::cout << "avg epi distance estim: " << avg_epidist_estim/img1Pts.size() << std::endl;
-
-    // Redisplay without matches
-    display(I1,0,0);
-    display(I2,w,0);
-    // click at any point and in an image and will display its corresponding epipolar line in the other image
-
-    FMatrix<float,3,3> F_denorm_2;
-
-    for(int i=0;i<3;i++){
-        for(int j=0; j<3; j++){
-            F_denorm_2(i,j)=F_denorm(i,j);
+            // adding V0 to the list Vall
+            Vall.push_back(V0);
         }
+
+        // we initialize uinit using Taubin method
+        Vec uinit= Taubin(Eall, f0, Vall);
+
+        Vec vinit=uinit.copy(0,7);
+
+
+        // Mat F=Mat::zeros(3);
+        // for(int i=0; i<3; i++){
+        //     for(int j=0; j<3; j++){
+        //         F(i, j) = uinit(i * 3 + j); 
+        //     }
+        // }
+
+        Mat F=Mat::zeros(3);
+
+        // F =HEIV(vinit, Eall, f0);
+        // F =FNS(uinit, Eall, Vall);
+        // F = Renorm(uinit, Eall, Vall); 
+        F = GaussNewton(uinit, Eall, Vall);
+
+        // observation:avg distance to epipolar line error for all methods is relatively the same except for HEIV which is much higher. the same was observed for 2 different examples of image pairs. 
+        // avg error for all 3 methods for images im11 and im22: around 130. for HEIV around 743
+        // avg error for all 3 methods for images im1 and im2: around 83. for HEIV around 841
+        // avg error for all 3 method for images im111 and im222: around 18 - 19 . for HEIV around 110.
+        // avg error for all 3 method for images im1111 and im2222: around 113-141-143. for HEIV around 370.
+
+        // all methods should yield similar results. the comparison is convergence time. must fix HEIV!!
+        // problem: sometimes Taubin yielded better results than the other methods ! 
+
+        // de-normalizing F to be closer to F_gt:
+        Mat Norm=Mat::eye(3);
+        Norm(2,2)=f0;
+
+        Mat F_denorm=Norm.t()*F*Norm;
+
+        F=F.t();
+        F_denorm=F_denorm.t();
+
+        double avg_epidist_estim=0;
+
+        for(int i=0; i<img1Pts.size(); i++){
+
+            Mat v1=Mat::zeros(3,1);
+            Mat v2=Mat::zeros(3,1);
+
+            v1(0)=img1Pts[i].x;
+            v1(1)=img1Pts[i].y;
+            v1(2)=f0;
+
+            v2(0)=img2Pts_noisy[i].x;
+            v2(1)=img2Pts_noisy[i].y;
+            v2(2)=f0;  
+
+            // Should be very close to 0
+            Mat v2tF=v2.t()*F; // 1x3 matrix
+            Mat error = v2tF*v1;
+            // std::cout << "Epipolar error: " << error(0) << std::endl;
+
+            
+            // computing the distance from point x' to epipolar line Fx
+            Point2D p1=img1Pts[i];
+            Point2D p2=img2Pts_noisy[i];
+            double epidistance_estim=epidistance(p1 , p2, F_denorm);
+
+            avg_epidist_estim+=epidistance_estim;
+
+            // std::cout << "epi distance estim: " << epidistance_estim << std::endl;
+            // std:: cout << std::endl;
+        }
+
+        // std::cout << "avg epi distance estim: " << avg_epidist_estim/img1Pts.size() << std::endl;
+
+        total_avg+=(avg_epidist_estim/img1Pts.size());
+
+        // Redisplay without matches
+        // display(I1,0,0);
+        // display(I2,w,0);
+        // // click at any point and in an image and will display its corresponding epipolar line in the other image
+
+        // FMatrix<float,3,3> F_denorm_2;
+
+        // for(int i=0;i<3;i++){
+        //     for(int j=0; j<3; j++){
+        //         F_denorm_2(i,j)=F_denorm(i,j);
+        //     }
+        // }
+
+        // displayEpipolar(I1, I2, F_denorm_2);
+
+        // endGraphics();
+        std::cout << "trial " << count <<  " finished!" << std::endl;
+        count+=1; 
     }
 
-    displayEpipolar(I1, I2, F_denorm_2);
+    std::cout << "avg epi distance estim over 1000 trials: " << total_avg/numTrials << std::endl;
 
-    endGraphics();
     return 0;
 }

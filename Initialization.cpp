@@ -127,7 +127,7 @@ Vec Taubin(const Mat& Eall, double f0, const std::vector<Mat>& Vall){
 
     // debug
     double debug_norm=((MLSt*v)-(lambda*NTBt*v)).qnorm();
-    std::cout << "the norm is: " << debug_norm << std::endl;  // Norm is 2.46154e-08
+    // std::cout << "the norm is: " << debug_norm << std::endl;  // Norm is 2.46154e-08
 
 
     // v/=std::sqrt(v.qnorm());
