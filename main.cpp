@@ -332,10 +332,10 @@ int main(int argc, char* argv[])
 
     // now that we have the perfect inliers, we want to controllably add noise to the inliers and to test our methods 
 
-    // double sigma=1.0; 
-    // double sigma=2.0; // 1.1768 FNS, 2.78838 HEIV, 1.39512 renorm, 1.20804 Gauss Newton
-    double sigma=3.0; //  2.05779 FNS, 2.9991 HEIV, 3.39688 Renorm, 1.88174 Gauss Newton
-    // double sigma=4.0; 
+    // double sigma=1.0; // 0.776898 FNS, 1.12612 HEIV, 3.13766 renorm, 0.56562 Gauss Newton
+    double sigma=2.0; // 1.1768 FNS, 2.78838 HEIV, 1.39512 renorm, 1.20804 Gauss Newton
+    // double sigma=3.0; //  2.05779 FNS (1.72909), 2.9991 HEIV (2.60199), 3.39688 Renorm (1.99837), 1.88174 Gauss Newton
+    // double sigma=4.0;  //  2.83332 FNS (2.56861), 2.23421 HEIV (4.14137), 3.3561 renorm (2.77832), 2.47638 Gauss Newton
 
     const int numTrials = 1000;
     double total_avg=0.0;
@@ -359,6 +359,11 @@ int main(int argc, char* argv[])
             double nx = dist(gen);
             double ny = dist(gen);
 
+            // trying no noise added first
+            // double nx = 0.0;
+            // double ny = 0.0;
+
+
             double xp=img2Pts[i].x;
             double yp=img2Pts[i].y;
 
@@ -369,7 +374,6 @@ int main(int argc, char* argv[])
 
             img2Pts_noisy.push_back(p2);
         }
-
 
         // printing the correspondences:
         // std::cout << "correspondences: " << std::endl;
@@ -419,9 +423,9 @@ int main(int argc, char* argv[])
         Mat F=Mat::zeros(3);
 
         // F =HEIV(vinit, Eall, f0);
-        // F =FNS(uinit, Eall, Vall);
+        F =FNS(uinit, Eall, Vall);
         // F = Renorm(uinit, Eall, Vall); 
-        F = GaussNewton(uinit, Eall, Vall);
+        // F = GaussNewton(uinit, Eall, Vall);
 
         // observation:avg distance to epipolar line error for all methods is relatively the same except for HEIV which is much higher. the same was observed for 2 different examples of image pairs. 
         // avg error for all 3 methods for images im11 and im22: around 130. for HEIV around 743
@@ -429,7 +433,7 @@ int main(int argc, char* argv[])
         // avg error for all 3 method for images im111 and im222: around 18 - 19 . for HEIV around 110.
         // avg error for all 3 method for images im1111 and im2222: around 113-141-143. for HEIV around 370.
 
-        // all methods should yield similar results. the comparison is convergence time. must fix HEIV!!
+        // all methods should yield similar results. the comparison is convergence time. must fix HEIV and maybe Renorm!!
         // problem: sometimes Taubin yielded better results than the other methods ! 
 
         // de-normalizing F to be closer to F_gt:

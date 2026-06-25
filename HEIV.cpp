@@ -1,5 +1,6 @@
 #include "libOrsa/libNumerics/matrix.h"
 #include <iostream> 
+#include "FNS.h"
 #include <cmath>
 #include <Eigen/Dense>
 #include <Eigen/Eigenvalues>
@@ -271,9 +272,13 @@ Mat HEIV(const Vec& v, const Mat& Eall, double f0){
         // vnew = SolveGeneralizedEigen(Mt, Lt);
 
         //debug:
-        auto p = SolveGeneralizedEigen(Mt, Lt);
+        // auto p = SolveGeneralizedEigen(Mt,Lt);
 
-        vnew=p.first;
+
+        Mat MLt=Mt-Lt;
+        vnew=SVD_U(MLt);
+
+        // vnew=p.first;
 
 
         Zbar=ComputeZbar(vnew, Eall, f0);

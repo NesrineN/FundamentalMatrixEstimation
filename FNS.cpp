@@ -51,39 +51,55 @@ Mat ComputeL(const Vec& u, const Mat& Eall, const std::vector<Mat>& Vall) {
 
 // returns the vector u corresponding to the smallest eigen value of the matrix A (M-L) (modified FNS)
 // M-L is symmetric --> SelfAdjointEigenSolver should be more stable numerically   
-Vec SolveEigen(const Mat& A){
+// Vec SolveEigen(const Mat& A){
 
-    Eigen::MatrixXd eigenA(A.nrow(), A.ncol());
+//     Eigen::MatrixXd eigenA(A.nrow(), A.ncol());
 
-    for (int i = 0; i < A.nrow(); ++i) {
-        for (int j = 0; j < A.ncol(); ++j) {
-            eigenA(i, j) = A(i, j);
-        }
-    }
+//     for (int i = 0; i < A.nrow(); ++i) {
+//         for (int j = 0; j < A.ncol(); ++j) {
+//             eigenA(i, j) = A(i, j);
+//         }
+//     }
 
-    Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> es(eigenA);
+//     Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> es(eigenA);
 
-    if (es.info() != Eigen::Success) {
-        throw std::runtime_error("Eigen decomposition failed");
-    }
+//     if (es.info() != Eigen::Success) {
+//         throw std::runtime_error("Eigen decomposition failed");
+//     }
 
-    //Pick the algebraically smallest eigenvalue
-    // Because they are sorted, this is always index 0.
-    // int idx;
-    // es.eigenvalues().minCoeff(&idx);
-    // Eigen::VectorXd u = es.eigenvectors().col(idx);
-    Eigen::VectorXd u = es.eigenvectors().col(0);
+//     //Pick the algebraically smallest eigenvalue
+//     // Because they are sorted, this is always index 0.
+//     // int idx;
+//     // es.eigenvalues().minCoeff(&idx);
+//     // Eigen::VectorXd u = es.eigenvectors().col(idx);
+//     Eigen::VectorXd u = es.eigenvectors().col(0);
 
-    // debug
-    // std::cout << "Eigen value:" << es.eigenvalues()(0) << std::endl;
+//     // debug
+//     // std::cout << "Eigen value:" << es.eigenvalues()(0) << std::endl;
 
-    int size=u.size();
-    Vec unew(size);
+//     int size=u.size();
+//     Vec unew(size);
 
-    for (int i = 0; i < u.size(); ++i) {
-        unew(i) = u(i);
-    }
+//     for (int i = 0; i < u.size(); ++i) {
+//         unew(i) = u(i);
+//     }
 
+//     return unew;
+// }
+
+Vec SVD_U(const Mat& A){
+
+    Mat U(A.nrow(), A.nrow());
+    Mat V(A.ncol(), A.ncol());
+    Vec S(std::min(A.nrow(), A.ncol()));
+
+
+    // Mat U=Mat::zeros(A.ncol());
+    // Vec S(A.ncol());
+    // Mat V=Mat::zeros(A.ncol());
+
+    A.SVD(U, S, V);
+    Vec unew=V.col(V.ncol()-1);
     return unew;
 }
 
@@ -98,8 +114,8 @@ Mat FNS(const Vec& u, const Mat& Eall, const std::vector<Mat>& Vall){
         Mat L=ComputeL(uold,Eall, Vall);
 
         Mat ML=M-L;
-        ML = 0.5 * (ML + ML.t()); // enforces symmetry of ML before eigen decomposition because SelfAdjointEigenSolver assumes the matrix ML is perfectly symmetric
-        unew = SolveEigen(ML);
+        // ML = 0.5 * (ML + ML.t()); // enforces symmetry of ML before eigen decomposition because SelfAdjointEigenSolver assumes the matrix ML is perfectly symmetric
+        unew = SVD_U(ML);
 
         unew/=std::sqrt(unew.qnorm());
 

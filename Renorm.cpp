@@ -42,36 +42,40 @@ Mat Renorm(const Vec& u, const Mat& Eall, const std::vector<Mat>& Vall){
 
         Mat McN=M-(c*N);
 
-        Eigen::MatrixXd eigenMcN(9, 9);
+        unew=SVD_U(McN);
 
-        for (int j = 0; j < McN.nrow(); ++j) {
-            for (int k = 0; k < McN.ncol(); ++k) {
-                eigenMcN(j, k) = McN(j, k);
-            }
-        }
+        // Eigen::MatrixXd eigenMcN(9, 9);
 
-        Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> es(eigenMcN);
+        // for (int j = 0; j < McN.nrow(); ++j) {
+        //     for (int k = 0; k < McN.ncol(); ++k) {
+        //         eigenMcN(j, k) = McN(j, k);
+        //     }
+        // }
 
-        int closestIdx = 0;
-        double minAbsLambda = std::abs(es.eigenvalues()(0));
+        // Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> es(eigenMcN);
 
-        for(int j = 1; j < 9; ++j) {
-            if(std::abs(es.eigenvalues()(j)) < minAbsLambda) {
-                minAbsLambda = std::abs(es.eigenvalues()(j));
-                closestIdx = j;
-            }
-        }
+        // int closestIdx = 0;
+        // double minAbsLambda = std::abs(es.eigenvalues()(0));
 
-        double lambda = es.eigenvalues()(closestIdx); // SIGNED value
-        Eigen::VectorXd u_eig = es.eigenvectors().col(closestIdx);
+        // for(int j = 1; j < 9; ++j) {
+        //     if(std::abs(es.eigenvalues()(j)) < minAbsLambda) {
+        //         minAbsLambda = std::abs(es.eigenvalues()(j));
+        //         closestIdx = j;
+        //     }
+        // }
 
-        for(int k=0; k<9; ++k) unew(k) = u_eig(k);
+        // double lambda = es.eigenvalues()(closestIdx); // SIGNED value
+        double lambda = dot(unew, McN*unew);
+        // Eigen::VectorXd u_eig = es.eigenvectors().col(closestIdx);
+
+        // for(int k=0; k<9; ++k) unew(k) = u_eig(k);
 
         if (std::abs(lambda) < 1e-9) break;
         
         Vec Nunew= N*unew;
         double unewNunew=dot(unew, Nunew);
         c=c+(lambda/unewNunew);
+
         uold=unew;
 
     }
