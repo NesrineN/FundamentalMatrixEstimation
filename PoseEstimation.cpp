@@ -10,12 +10,10 @@ struct Point2D
     double y;
 };
 
-
-// assuming P1= [I|0]
-// U and U_prime are in the form of u=w(u,v,1)
-double Triangulate(const Vec& U, const Vec& U_prime, const Mat& P, const Mat& P_prime){
+// assuming P1= K1[I|0] 
+// U=(u,v,1) and U_prime=(u',v',1) are pixel coordinates 
+int Triangulate(const Vec& U, const Vec& U_prime, const Mat& P, const Mat& P_prime){
     // extracting the coordinates from the u and u' vectors
-    // assumes U = (u, v, 1)
     double u= U(0);
     double v= U(1);
     double u_p= U_prime(0);
@@ -74,33 +72,63 @@ double Triangulate(const Vec& U, const Vec& U_prime, const Mat& P, const Mat& P_
         double z2=X2(2);
 
         if(z1>0 && z2>0){
-            return 1.0;
+            return 1;
         }
         else{
-            return -1.0;
+            return -1;
         }
 
 
     }
     else{
         std::cout << "w_hom was zero" << std::endl;
-        return -1.0; // point behind camera
+        return -1; // point behind camera
     }
 }
 
+// function that normalizes a 3x3 matrix by converting it to a 9-vector form and dividing it by qnorm and converting it back to matrix form
+Mat Normaliza_Mat(const Mat& A){
+    Vec A_vec(9);
+    for(int i=0; i<3; i++){
+        for(int j=0; j<3; j++){
+            A_vec((i*3) +j)=A(i,j);
+        }
+    }
+    A_vec/=A_vec.qnorm();
 
+    Mat A_norm=Mat::zeros(3);
+
+    for(int i=0; i<3; i++){
+        for(int j=0; j<3; j++){
+            A_norm(i,j)=A_vec(i * 3 + j);;
+        }
+    }
+
+    return A_norm;
+
+}
+
+// assumes P1=[I|0] and returns P2=[R|t] 
 Mat EstimatePose(const Mat& K1, const Mat& K2, const Mat& F, const std::vector<Point2D>& img1Pts, const std::vector<Point2D>& img2Pts){
     Mat E=K2.t()*F*K1;
-    // enforce singular value correction (s,s,0) and normalization of E before!!!
-    // E = E / E.norm();  
-    // S(2) = 0;
-    // S(0) = S(1);
 
-    Mat U(E.nrow(), E.nrow());
-    Mat V(E.ncol(), E.ncol());
-    Vec S(std::min(E.nrow(), E.ncol()));
-    E.SVD(U, S, V);
+    Mat E_norm=Normaliza_Mat(E); // normalizing E
 
+    Mat U(E_norm.nrow(), E_norm.nrow());
+    Mat V(E_norm.ncol(), E_norm.ncol());
+    Vec S(std::min(E_norm.nrow(), E_norm.ncol()));
+    E_norm.SVD(U, S, V);
+
+    // enforcing singular value correction (s,s,0)  
+    double s = (S(0) + S(1)) / 2.0;
+    Mat Sigma = Mat::zeros(3);
+    Sigma(0,0) = s;
+    Sigma(1,1) = s;
+    Sigma(2,2) = 0;
+
+    E_norm = U * Sigma * V.t();
+
+    E_norm.SVD(U, S, V);
 
     Mat W=Mat::zeros(3);
     W(0,1)=-1;
@@ -109,45 +137,82 @@ Mat EstimatePose(const Mat& K1, const Mat& K2, const Mat& F, const std::vector<P
 
     Mat R1=U*W*V.t();
     Mat R2=U*W.t()*V.t();
-
-    // should enforce proper rotation
-    // if (det(R1) < 0) R1 = -R1;
-    // if (det(R2) < 0) R2 = -R2;
-
     Vec t1=U.col(2);
     Vec t2=-t1;
 
-    // we got the 4 possibilities of poses: R1,t1 - R1, t2 - R1,t2 - R2,t2
-    // we do cheirality test to choose one of the 4 candidates
-    // should loop over all correspondences and choose the R,t pair that gave maximum count 
-    Mat P=Mat::zeros(3,4);
-    P.paste(0,0,Mat::eye(3));
-    P.paste(0,3,Vec(0,0,0).col(0));
+    // enforcing proper rotation
+    // if(R1.det()<0){
+    //     R1=-R1;
+    //     t1=-t1;
+    // }
+
+    // if(R2.det()<0){
+    //     R2=-R2;
+    //     t2=-t2;
+    // } 
+
+    // we got the 4 possibilities of poses: R1,t1 - R1, t2 - R2,t1 - R2,t2
 
     Mat P1=Mat::zeros(3,4);
-    P1.paste(0, 0, R1.copy(0,2,0,2));
-    P1.paste(0,3,t1.col(0));
-    int chirality1=Triangulate(u, u_prime, P,P1);
+    P1.paste(0,0,Mat::eye(3));
+    P1.paste(0,3,Vec(0,0,0).col(0));
 
-    Mat P2=Mat::zeros(3,4);
-    P2.paste(0, 0, R1.copy(0,2,0,2));
-    P2.paste(0,3,t2.col(0));
-    int chirality2=Triangulate(u, u_prime, P,P2);
+    Mat P2_1=Mat::zeros(3,4);
+    P2_1.paste(0, 0, R1.copy(0,2,0,2));
+    P2_1.paste(0,3,t1.col(0));
 
-    Mat P3=Mat::zeros(3,4);
-    P3.paste(0, 0, R2.copy(0,2,0,2));
-    P3.paste(0,3,t1.col(0));
-    int chirality3=Triangulate(u, u_prime, P,P3);
+    Mat P2_2=Mat::zeros(3,4);
+    P2_2.paste(0, 0, R1.copy(0,2,0,2));
+    P2_2.paste(0,3,t2.col(0));
 
-    Mat P4=Mat::zeros(3,4);
-    P4.paste(0, 0, R2.copy(0,2,0,2));
-    P4.paste(0,3,t2.col(0));
-    int chirality4=Triangulate(u, u_prime, P,P4);
+    Mat P2_3=Mat::zeros(3,4);
+    P2_3.paste(0, 0, R2.copy(0,2,0,2));
+    P2_3.paste(0,3,t1.col(0));
 
-    if(chirality1>0){return P1;}
-    else if(chirality2>0){return P2;}
-    else if(chirality3>0){return P3;}
-    else if(chirality4>0){return P4;}
-    else {return Mat::zeros(3,4);}
+    Mat P2_4=Mat::zeros(3,4);
+    P2_4.paste(0, 0, R2.copy(0,2,0,2));
+    P2_4.paste(0,3,t2.col(0));
+
+
+    // we loop through the point correspondences and for each point we run the triangulation to compute the cheirality with each of the four poses:
+    int total_1=0, total_2=0, total_3=0, total_4=0;
+
+    for(size_t i=0; i<img1Pts.size(); i++){
+        Vec u(3);
+        Vec u_prime(3);
+
+        u(0)=img1Pts[i].x;
+        u(1)=img1Pts[i].y;
+        u(2)=1.0;
+
+        u_prime(0)=img2Pts[i].x;
+        u_prime(1)=img2Pts[i].y;
+        u_prime(2)=1.0;
+
+        if (Triangulate(u,u_prime,K1*P1,K2*P2_1) > 0)total_1++;
+        if (Triangulate(u,u_prime,K1*P1,K2*P2_2) > 0)total_2++;
+        if (Triangulate(u,u_prime,K1*P1,K2*P2_3) > 0)total_3++;
+        if (Triangulate(u,u_prime,K1*P1,K2*P2_4) > 0)total_4++;
+    }
+
+    int maxTotal = total_1;
+    Mat bestP = P2_1;
+
+    if (total_2 > maxTotal) {
+        maxTotal = total_2;
+        bestP = P2_2;
+    }
+
+    if (total_3 > maxTotal) {
+        maxTotal = total_3;
+        bestP = P2_3;
+    }
+
+    if (total_4 > maxTotal) {
+        maxTotal = total_4;
+        bestP = P2_4;
+    }
+
+    return bestP;
 
 }
