@@ -141,15 +141,13 @@ Mat EstimatePose(const Mat& K1, const Mat& K2, const Mat& F, const std::vector<P
     Vec t2=-t1;
 
     // enforcing proper rotation
-    // if(R1.det()<0){
-    //     R1=-R1;
-    //     t1=-t1;
-    // }
+    if(R1.det()<0){
+        R1=-R1;
+    }
 
-    // if(R2.det()<0){
-    //     R2=-R2;
-    //     t2=-t2;
-    // } 
+    if(R2.det()<0){
+        R2=-R2;
+    } 
 
     // we got the 4 possibilities of poses: R1,t1 - R1, t2 - R2,t1 - R2,t2
 

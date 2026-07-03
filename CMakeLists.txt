@@ -69,6 +69,9 @@ set(SOURCE_FILES
     Renorm.cpp
     RANSAC.cpp
     GaussNewton.cpp
+    GetInliers.cpp
+    Pipeline.cpp
+    PoseEstimation.cpp
     Imagine/SIFT_VL.cpp
     Imagine/vl/generic.c
     Imagine/vl/host.c 
@@ -82,13 +85,13 @@ set(SOURCE_FILES
     CppUnitLite/SimpleString.cpp
 )
 
-add_executable(F_estimator ${SOURCE_FILES})
+add_executable(Realtive_Pose_Estimator ${SOURCE_FILES})
 
 # ------------------------------------------------------------
 # Includes
 # ------------------------------------------------------------
 
-target_include_directories(F_estimator PRIVATE
+target_include_directories(Realtive_Pose_Estimator PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/CppUnitLite
     ${GSL_INCLUDE_DIRS}
@@ -98,7 +101,7 @@ target_include_directories(F_estimator PRIVATE
 # Linking
 # ------------------------------------------------------------
 
-target_link_libraries(F_estimator PRIVATE
+target_link_libraries(Realtive_Pose_Estimator PRIVATE
     ${GSL_LIBRARIES}
     Threads::Threads
     Eigen3::Eigen
@@ -107,7 +110,7 @@ target_link_libraries(F_estimator PRIVATE
 )
 
 if(UNIX)
-    target_link_libraries(F_estimator PRIVATE m)
+    target_link_libraries(Realtive_Pose_Estimator PRIVATE m)
 endif()
 
 include_directories("C:/ENPC/Imagine++-6.0.0/include")

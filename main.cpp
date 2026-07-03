@@ -1,19 +1,21 @@
 #include "libOrsa/libNumerics/matrix.h"
-#include <iostream> 
-#include <cmath>
 #include "FNS.h"
-#include "HEIV.h"
-#include "RANSAC.h"
-#include "Renorm.h"
 #include "GaussNewton.h"
 #include "Initialization.h"
+#include "PoseEstimation.h"
+#include "Pipeline.h"
+
 #include <vector>
+#include <numeric>  
 #include <random>
-#include <iostream>
 #include <fstream>
 #include <sstream>
 #include <iomanip>
 #include <string>
+#include <iostream> 
+#include <cmath>
+#include <algorithm>
+
 #include "./Imagine/Features.h"
 #include <Imagine/Graphics.h>
 #include <Imagine/LinAlg.h>
@@ -27,481 +29,262 @@ typedef libNumerics::vector<double> Vec;
 using namespace Imagine;
 using namespace std;
 
-// ----------------------------------------------------------------------
-
 struct Point2D
 {
     double x;
     double y;
 };
 
-// function that creates the vector E from two point-correspondences:
-Vec fillE(const Point2D& p1, const Point2D& p2, double f0){
-    double x=p1.x;
-    double y=p1.y;
-
-    double xp=p2.x;
-    double yp=p2.y;
-
-    Vec E(9);
-
-    E(0)=x*xp;
-    E(1)=x*yp;
-    E(2)=x*f0;
-    E(3)=y*xp;
-    E(4)=y*yp;
-    E(5)=y*f0;
-    E(6)=f0*xp;
-    E(7)=f0*yp;
-    E(8)= f0*f0;
-
-    return E;
-}
-
-Mat computeV0(double x, double y, double xp, double yp, double f0){
-
-    Mat V0=Mat::zeros(9);
-    double s = f0;
-    
-    // R0
-    V0(0,0)= (x*x) + (xp*xp);
-    V0(0,1)= xp*yp;
-    V0(0,2)= f0 * xp;
-    V0(0,3)= x*y;
-    V0(0,4)= 0;
-    V0(0,5)=0;
-    V0(0,6)=f0*x;
-    V0(0,7)=0;
-    V0(0,8)=0;
-
-    // R1
-    V0(1,0)= xp*yp;
-    V0(1,1)= x*x + yp*yp;
-    V0(1,2)= f0 * yp;
-    V0(1,3)= 0;
-    V0(1,4)= x*y;
-    V0(1,5)=0;
-    V0(1,6)=0;
-    V0(1,7)=f0*x;
-    V0(1,8)=0;
-
-    // R2
-    V0(2,0)= f0*xp;
-    V0(2,1)= f0*yp;
-    V0(2,2)= f0 * f0;
-    V0(2,3)= 0;
-    V0(2,4)= 0;
-    V0(2,5)=0;
-    V0(2,6)=0;
-    V0(2,7)=0;
-    V0(2,8)=0;
-
-    // R3
-    V0(3,0)= x*y;
-    V0(3,1)= 0;
-    V0(3,2)= 0;
-    V0(3,3)= y*y + xp*xp;
-    V0(3,4)= xp*yp;
-    V0(3,5)= f0*xp;
-    V0(3,6)= f0*y;
-    V0(3,7)=0;
-    V0(3,8)=0;
-
-    // R4
-    V0(4,0)= 0;
-    V0(4,1)= x*y;
-    V0(4,2)= 0;
-    V0(4,3)= xp*yp;
-    V0(4,4)= y*y + yp*yp;
-    V0(4,5)= f0*yp;
-    V0(4,6)= 0;
-    V0(4,7)=f0*y;
-    V0(4,8)=0;
-
-    // R5
-    V0(5,0)= 0;
-    V0(5,1)= 0;
-    V0(5,2)= 0;
-    V0(5,3)= f0*xp;
-    V0(5,4)= f0*yp;
-    V0(5,5)= f0*f0;
-    V0(5,6)= 0;
-    V0(5,7)=0;
-    V0(5,8)=0;
-
-    // R6
-    V0(6,0)= f0*x;
-    V0(6,1)= 0;
-    V0(6,2)= 0;
-    V0(6,3)= f0*y;
-    V0(6,4)= 0;
-    V0(6,5)= 0;
-    V0(6,6)= f0*f0;
-    V0(6,7)=0;
-    V0(6,8)=0;
-
-    // R7
-    V0(7,0)= 0;
-    V0(7,1)= f0*x;
-    V0(7,2)= 0;
-    V0(7,3)= 0;
-    V0(7,4)= f0*y;
-    V0(7,5)= 0;
-    V0(7,6)= 0;
-    V0(7,7)= f0*f0;
-    V0(7,8)=0;
-
-    // R8
-    V0(8,0)= 0;
-    V0(8,1)= 0;
-    V0(8,2)= 0;
-    V0(8,3)= 0;
-    V0(8,4)= 0;
-    V0(8,5)= 0;
-    V0(8,6)= 0;
-    V0(8,7)= 0;
-    V0(8,8)=0;
-
-    return V0;
-}
-
-double F_error(const Vec& u, const Vec& u_hat){
-    // normalization at first just in case:
-
-    Vec u1=u;
-    u1/=std::sqrt(u1.qnorm());
-
-    Vec u2=u_hat;
-    u2/=std::sqrt(u2.qnorm());
-
-    Mat I=Mat::eye(9);
-    Mat P=I-(u1*u1.t()); 
-    Vec Puhat=P*u2;
-
-    return std::sqrt(Puhat.qnorm());
-}
-
-double epidistance(Point2D p1, Point2D p2, Mat F){
-    double x=p1.x;
-    double y=p1.y;
-    double xp=p2.x;
-    double yp=p2.y;
-
-    Mat X=Mat::zeros(3,1);
-    Mat Xp=Mat::zeros(3,1);
-    X(0,0)=x;
-    X(1,0)=y;
-    X(2,0)=1.0;
-
-    Xp(0,0)=xp;
-    Xp(1,0)=yp;
-    Xp(2,0)=1.0;
-
-
-    Mat l=F*X; // l is a 3x1 mat
-
-    double num=std::abs(l(0,0)*Xp(0,0) + l(1,0)*Xp(1,0) + l(2,0));
-    double denom=std::sqrt((l(0,0)*l(0,0)) + (l(1,0)*l(1,0)));
-    if(denom<1e-6)denom+=1e-6;
-    
-    return num/denom;
-}
-
-void printM(const Mat& A){
-    std::cout << "Matrix: " << std::endl;
-    for(int i=0;i<A.nrow(); i++){
-        for(int j =0; j<A.ncol(); j++){
-            std::cout << A(i,j) << " "; 
-        }
-        std::cout << "" << std::endl;
-        std::cout << "" << std::endl;
-    }
-}
-
-
-// ---------------------------------------------------------------------
-
-// semi-synthetic images
-
-int main(int argc, char* argv[])
+struct Association
 {
-    srand((unsigned int)time(0));
+    std::string rgb_path;
 
-    std::string s1 = argc>1? argv[1]: srcPath("im1.png");
-    std::string s2 = argc>2? argv[2]: srcPath("im2.png");
+    double tx, ty, tz;
+    double qx, qy, qz, qw;
+};
 
-    // Load and display images
-    // Image<Color,2> I1, I2;
-    // if( ! load(I1, s1.c_str()) ||
-    //     ! load(I2, s2.c_str()) ) {
-    //     cerr<< "Unable to load images" << endl;
-    //     return 1;
-    // }
+std::vector<Association> loadAssociations(const std::string& dataset_path)
+{
+    std::vector<Association> data;
 
-    // int w = I1.width();
-    // openWindow(2*w, I1.height());
-    // display(I1,0,0);
-    // display(I2,w,0);
+    std::string file_path = dataset_path + "/associations.txt";
 
-    // -----------------------------------------------------------------------
-    double f0 = 1200.0;
+    std::ifstream file(file_path);
 
-    vector<Match> matches;
-
-    // getting the inliers from the inliers.txt file provided in the demo of the IPOL journal article: Fundamental Matrix of a Stereo Pair, with A Contrario Elimination of Outliers
-    
-    std::ifstream file("correspondences.txt");
-
-    if (!file.is_open()) {
-        std::cerr << "Failed to open file\n";
-        return 1;
+    if (!file.is_open())
+    {
+        std::cerr << "Failed to open: " << file_path << std::endl;
+        return data;
     }
 
     std::string line;
 
-    while (std::getline(file, line)) {
+    while (std::getline(file, line))
+    {
+        if (line.empty())
+            continue;
+
         std::stringstream ss(line);
-        double x,y,xp,yp;
 
-        while (ss >> x >> y >> xp >> yp) {            
-  
-            Match m{0.0f, 0.0f, 0.0f, 0.0f};
+        double timestamp; // ignored
+        Association a;
 
+        ss >> timestamp;       // skip
+        ss >> a.rgb_path;      // rgb image path
 
-            m.x1=x;
-            m.y1=y;
-            m.x2=xp;
-            m.y2=yp;
+        ss >> a.tx >> a.ty >> a.tz;
+        ss >> a.qx >> a.qy >> a.qz >> a.qw;
 
-            matches.push_back(m);
+        data.push_back(a);
+    }
+
+    return data;
+}
+
+Mat quatToRot(double x, double y, double z, double w)
+{
+    Mat R=Mat::zeros(3);
+
+    R(0,0) = 1 - 2*(y*y + z*z);
+    R(0,1) = 2*(x*y - z*w);
+    R(0,2) = 2*(x*z + y*w);
+
+    R(1,0) = 2*(x*y + z*w);
+    R(1,1) = 1 - 2*(x*x + z*z);
+    R(1,2) = 2*(y*z - x*w);
+
+    R(2,0) = 2*(x*z - y*w);
+    R(2,1) = 2*(y*z + x*w);
+    R(2,2) = 1 - 2*(x*x + y*y);
+
+    return R;
+}
+
+// this function takes R1 t1 and R2 t2 and computes relative pose R and t
+void computeRelativePose(
+    const Mat& R1, const Vec& t1,
+    const Mat& R2, const Vec& t2,
+    Mat& R_rel, Vec& t_rel)
+{
+    // R_rel = R2 * R1^T
+    R_rel = R2 * R1.transpose();
+
+    // t_rel = t2 - R_rel * t1
+    t_rel = t2 - R_rel * t1;
+}
+
+double computeMean(const std::vector<double>& v)
+{
+    if (v.empty()) return 0.0;
+
+    double sum = std::accumulate(v.begin(), v.end(), 0.0);
+    return sum / static_cast<double>(v.size());
+}
+
+double computeMedian(std::vector<double> v) 
+{
+    if (v.empty()) return 0.0;
+
+    std::sort(v.begin(), v.end());
+
+    size_t n = v.size();
+    size_t mid = n / 2;
+
+    if (n % 2 == 0)
+    {
+        return (v[mid - 1] + v[mid]) * 0.5;
+    }
+    else
+    {
+        return v[mid];
+    }
+}
+
+void exportErrorsCSV(
+    const std::vector<double>& rot_fns,
+    const std::vector<double>& trans_fns,
+    const std::vector<double>& rot_gauss,
+    const std::vector<double>& trans_gauss,
+    const std::string& filename)
+{
+    std::ofstream file(filename);
+
+    if (!file.is_open())
+    {
+        std::cerr << "Cannot open file for writing\n";
+        return;
+    }
+
+    file << "rot_fns,trans_fns,rot_gauss,trans_gauss\n";
+
+    size_t n = std::max({
+        rot_fns.size(),
+        trans_fns.size(),
+        rot_gauss.size(),
+        trans_gauss.size()
+    });
+
+    for (size_t i = 0; i < n; i++)
+    {
+        if (i < rot_fns.size()) file << rot_fns[i]; else file << "nan";
+        file << ",";
+
+        if (i < trans_fns.size()) file << trans_fns[i]; else file << "nan";
+        file << ",";
+
+        if (i < rot_gauss.size()) file << rot_gauss[i]; else file << "nan";
+        file << ",";
+
+        if (i < trans_gauss.size()) file << trans_gauss[i]; else file << "nan";
+
+        file << "\n";
+    }
+}
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------
+
+int main(int argc, char* argv[]){
+
+    // Intrinsics provided by TUM RGB-D Dataset for Freiburg 1 RGB data:
+    double fx=517.3, fy=516.5, cx=318.6, cy=255.3;
+    double f0 = (fx + fy) * 0.5;
+    Mat K=Mat::eye(3);
+    K(0,0)=fx;
+    K(0,2)=cx;
+    K(1,1)=fy;
+    K(1,2)=cy;
+    
+    // Pre-processing of the dataset:
+    std::ifstream file("config/dataset.txt");
+    std::string line;
+
+    std::string dataset_path;
+
+    while (std::getline(file, line))
+    {
+        if (line.find("dataset_path=") == 0)
+        {
+            dataset_path = line.substr(std::string("dataset_path=").size());
         }
     }
 
-    // getting the inliers from img1Pts and img2Pts using RANSAC:
-    FMatrix<float,3,3> F_gt= computeF(matches);
-    Mat F_gt_mat=Mat::zeros(3);
-    for(int i=0; i<3; i++){
-        for(int j=0; j<3; j++){
-            F_gt_mat(i,j)=F_gt(i,j);
-        }
+    // we want to extract the associations from the associations.txt file. 
+    // they have the following format:
+    // timestamp rgb/path.png tx ty tz qx qy qz qw
+    // we store them in a vector of Associations where each Association has rgb path and the corresponding tx ty tz qx qy qz qw
+    std::vector<Association> associations = loadAssociations(dataset_path);
+
+    // now, we loop over the associations and run the pipeline to get the rotation and translation errors: 
+    std::vector<double> Rotation_errors_FNS;
+    std::vector<double> Translation_errors_FNS;
+
+    std::vector<double> Rotation_errors_Gauss;
+    std::vector<double> Translation_errors_Gauss;
+
+    for (size_t i = 0; i + 2 < associations.size(); i++)
+    {
+        const auto& a1 = associations[i];
+        const auto& a2 = associations[i + 2];
+
+        Mat R1 = quatToRot(a1.qx, a1.qy, a1.qz, a1.qw);
+        Mat R2 = quatToRot(a2.qx, a2.qy, a2.qz, a2.qw);
+
+        Vec t1(3), t2(3);
+
+        t1(0) = a1.tx; t1(1) = a1.ty; t1(2) = a1.tz;
+        t2(0) = a2.tx; t2(1) = a2.ty; t2(2) = a2.tz;
+
+        Mat R_rel_gt(3,3);
+        Vec t_rel_gt(3);
+
+        computeRelativePose(R1, t1, R2, t2, R_rel, t_rel);
+
+        // image paths
+        std::string I1_path = a1.rgb_path;
+        std::string I2_path = a2.rgb_path;
+
+        // now we run the pipeline to get the errors:
+        // using FNS:
+        Vec errors_FNS=RunPipelineNoiseless(I1_path, I2_path, K, K, f0, 1, R_rel_gt, t_rel_gt);
+        Vec errors_Gauss=RunPipelineNoiseless(I1_path, I2_path, K, K, f0, 2, R_rel_gt, t_rel_gt);
+
+
+        Rotation_errors_FNS.push_back(errors_FNS(0));
+        Rotation_errors_Gauss.push_back(errors_Gauss(0));
+
+        Translation_errors_FNS.push_back(errors_FNS(1));
+        Translation_errors_Gauss.push_back(errors_Gauss(1));
     }
 
-    // now F_gt is the original F estimate that we will fix the inliers accordingly and matches now will only have the inliers returned by RANSAC
-    std::vector<Point2D> img1Pts;
-    std::vector<Point2D> img2Pts;
+    // we export the errors so we can visualize them later using python:
+    exportErrorsCSV(Rotation_errors_FNS, Translation_errors_FNS, Rotation_errors_Gauss, Translation_errors_Gauss, "pose_errors_classical.csv");
 
-    for(int i=0; i<matches.size(); i++){
-        Vec X(3);
-        X(0)=matches[i].x1;
-        X(1)=matches[i].y1;
-        X(2)=1.0;
+    // now we print the mean/median of the errors:
+    double mean_rotation_FNS  = computeMean(Rotation_errors_FNS);
+    double median_rotation_FNS = computeMedian(Rotation_errors_FNS);
 
-        Vec X_p(3);
-        X_p(0)=matches[i].x2;
-        X_p(1)=matches[i].y2;
-        X_p(2)=1.0;
+    double mean_translation_FNS  = computeMean(Translation_errors_FNS);
+    double median_translation_FNS = computeMedian(Translation_errors_FNS);
 
-        Vec Fx=F_gt_mat*X;
+    double mean_rotation_Gauss  = computeMean(Rotation_errors_Gauss);
+    double median_rotation_Gauss = computeMedian(Rotation_errors_Gauss);
 
-        // we have for each match x and x'. we want to change the x' such that we replace it by its projection on its epipolar line Fx. 
-        double a = Fx(0);
-        double b = Fx(1);
-        double c = Fx(2);
-
-        double x = X_p(0);
-        double y = X_p(1);
-
-        double denom = a*a + b*b;
-
-        Vec X_proj(2);
-        X_proj(0) = x - a * (a*x + b*y + c) / denom;
-        X_proj(1) = y - b * (a*x + b*y + c) / denom;
-
-        Point2D p1;
-        Point2D p2;
-
-        p1.x=matches[i].x1;
-        p1.y=matches[i].y1;
-
-        p2.x=X_proj(0);
-        p2.y=X_proj(1);
-
-        img1Pts.push_back(p1);
-        img2Pts.push_back(p2);
-    }
-
-    // now that we have the perfect inliers, we want to controllably add noise to the inliers and to test our methods 
-
-    // double sigma=1.0; // 0.776898 FNS, 1.12612 HEIV, 3.13766 renorm, 0.56562 Gauss Newton
-    double sigma=2.0; // 1.1768 FNS, 2.78838 HEIV, 1.39512 renorm, 1.20804 Gauss Newton
-    // double sigma=3.0; //  2.05779 FNS (1.72909), 2.9991 HEIV (2.60199), 3.39688 Renorm (1.99837), 1.88174 Gauss Newton
-    // double sigma=4.0;  //  2.83332 FNS (2.56861), 2.23421 HEIV (4.14137), 3.3561 renorm (2.77832), 2.47638 Gauss Newton
-
-    const int numTrials = 1000;
-    double total_avg=0.0;
+    double mean_translation_Gauss  = computeMean(Translation_errors_Gauss);
+    double median_translation_Gauss = computeMedian(Translation_errors_Gauss);
 
 
-    // Random number generator
-    std::random_device rd;
-    std::mt19937 gen(rd());
+    std::cout << "Mean rotation error - FNS: " << mean_rotation_FNS << std::endl;
+    std::cout << "Median rotation error - FNS: " << median_rotation_FNS << std::endl;
 
-    // Uniform distribution in [-sigma, sigma]
-    std::uniform_real_distribution<double> dist(-sigma, sigma);
+    std::cout << "Mean rotation error - Gauss: " << mean_rotation_Gauss << std::endl;
+    std::cout << "Median rotation error - Gauss: " << median_rotation_Gauss << std::endl;
 
-    int count=0;
+    std::cout << "Mean translation error - FNS: " << mean_translation_FNS << std::endl;
+    std::cout << "Median translation error - FNS: " << median_translation_FNS << std::endl;
 
-    for (int trial=0; trial<numTrials; trial++)
-    {   
-        std::vector<Point2D> img2Pts_noisy;
-        img2Pts_noisy.reserve(img2Pts.size());   
-
-        for(int i=0; i<img1Pts.size(); i++){
-            double nx = dist(gen);
-            double ny = dist(gen);
-
-            // trying no noise added first
-            // double nx = 0.0;
-            // double ny = 0.0;
-
-
-            double xp=img2Pts[i].x;
-            double yp=img2Pts[i].y;
-
-            Point2D p2;
-
-            p2.x=xp+nx;
-            p2.y=yp+ny;
-
-            img2Pts_noisy.push_back(p2);
-        }
-
-        // printing the correspondences:
-        // std::cout << "correspondences: " << std::endl;
-        // for(int i=0; i<img1Pts.size(); i++){
-        //     std::cout << "u1: " << img1Pts[i].x << " " << img1Pts[i].y << std::endl;
-        //     std::cout << "u2: " << img2Pts[i].x << " " << img2Pts[i].y << std::endl;
-        // }
-
-        Mat Eall=Mat::zeros(9,img1Pts.size());
-        std::vector<Mat> Vall;
-
-        for(int i=0; i<img1Pts.size(); i++){
-            Point2D p1=img1Pts[i];
-            Point2D p2=img2Pts_noisy[i];
-
-            Vec E=fillE(p1,p2,f0);
-
-            for(int j = 0; j < 9; ++j)
-            {
-                Eall(j, i) = E(j);
-            }
-
-            double x=p1.x;
-            double y=p1.y;
-            double xp=p2.x;
-            double yp=p2.y;
-
-            Mat V0=computeV0(x,y,xp,yp,f0);
-
-            // adding V0 to the list Vall
-            Vall.push_back(V0);
-        }
-
-        // we initialize uinit using Taubin method
-        Vec uinit= Taubin(Eall, f0, Vall);
-
-        Vec vinit=uinit.copy(0,7);
-
-
-        // Mat F=Mat::zeros(3);
-        // for(int i=0; i<3; i++){
-        //     for(int j=0; j<3; j++){
-        //         F(i, j) = uinit(i * 3 + j); 
-        //     }
-        // }
-
-        Mat F=Mat::zeros(3);
-
-        // F =HEIV(vinit, Eall, f0);
-        F =FNS(uinit, Eall, Vall);
-        // F = Renorm(uinit, Eall, Vall); 
-        // F = GaussNewton(uinit, Eall, Vall);
-
-        // observation:avg distance to epipolar line error for all methods is relatively the same except for HEIV which is much higher. the same was observed for 2 different examples of image pairs. 
-        // avg error for all 3 methods for images im11 and im22: around 130. for HEIV around 743
-        // avg error for all 3 methods for images im1 and im2: around 83. for HEIV around 841
-        // avg error for all 3 method for images im111 and im222: around 18 - 19 . for HEIV around 110.
-        // avg error for all 3 method for images im1111 and im2222: around 113-141-143. for HEIV around 370.
-
-        // all methods should yield similar results. the comparison is convergence time. must fix HEIV and maybe Renorm!!
-        // problem: sometimes Taubin yielded better results than the other methods ! 
-
-        // de-normalizing F to be closer to F_gt:
-        Mat Norm=Mat::eye(3);
-        Norm(2,2)=f0;
-
-        Mat F_denorm=Norm.t()*F*Norm;
-
-        F=F.t();
-        F_denorm=F_denorm.t();
-
-        double avg_epidist_estim=0;
-
-        for(int i=0; i<img1Pts.size(); i++){
-
-            Mat v1=Mat::zeros(3,1);
-            Mat v2=Mat::zeros(3,1);
-
-            v1(0)=img1Pts[i].x;
-            v1(1)=img1Pts[i].y;
-            v1(2)=f0;
-
-            v2(0)=img2Pts_noisy[i].x;
-            v2(1)=img2Pts_noisy[i].y;
-            v2(2)=f0;  
-
-            // Should be very close to 0
-            Mat v2tF=v2.t()*F; // 1x3 matrix
-            Mat error = v2tF*v1;
-            // std::cout << "Epipolar error: " << error(0) << std::endl;
-
-            
-            // computing the distance from point x' to epipolar line Fx
-            Point2D p1=img1Pts[i];
-            Point2D p2=img2Pts_noisy[i];
-            double epidistance_estim=epidistance(p1 , p2, F_denorm);
-
-            avg_epidist_estim+=epidistance_estim;
-
-            // std::cout << "epi distance estim: " << epidistance_estim << std::endl;
-            // std:: cout << std::endl;
-        }
-
-        // std::cout << "avg epi distance estim: " << avg_epidist_estim/img1Pts.size() << std::endl;
-
-        total_avg+=(avg_epidist_estim/img1Pts.size());
-
-        // Redisplay without matches
-        // display(I1,0,0);
-        // display(I2,w,0);
-        // // click at any point and in an image and will display its corresponding epipolar line in the other image
-
-        // FMatrix<float,3,3> F_denorm_2;
-
-        // for(int i=0;i<3;i++){
-        //     for(int j=0; j<3; j++){
-        //         F_denorm_2(i,j)=F_denorm(i,j);
-        //     }
-        // }
-
-        // displayEpipolar(I1, I2, F_denorm_2);
-
-        // endGraphics();
-        std::cout << "trial " << count <<  " finished!" << std::endl;
-        count+=1; 
-    }
-
-    std::cout << "avg epi distance estim over 1000 trials: " << total_avg/numTrials << std::endl;
+    std::cout << "Mean translation error - Gauss: " << mean_translation_Gauss << std::endl;
+    std::cout << "Median translation error - Gauss: " << median_translation_Gauss << std::endl;
 
     return 0;
+
 }
