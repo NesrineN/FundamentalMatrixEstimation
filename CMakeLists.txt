@@ -67,7 +67,6 @@ set(SOURCE_FILES
     FNS.cpp
     HEIV.cpp
     Renorm.cpp
-    RANSAC.cpp
     GaussNewton.cpp
     GetInliers.cpp
     Pipeline.cpp

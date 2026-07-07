@@ -1,0 +1,27 @@
+finished pipeline
+
+error of pose is huge so im trying to narrow down the source of the error. could be lots of things:
+
+
+- incorrect feature matching 
+- wrong coordinate normalization  / coordinate convention 
+- RANSAC threshold
+- F computation and normalization
+- Essential matrix decomposition
+- R,t solution and cheirality test
+- intrinsic matrix could be wrong
+- associations of images with gt might be faulty
+- radians vs degrees in error computation
+
+
+i will isolate each stage of the pipeline and test it separately .
+
+----------------------------------------------------------------------
+
+1- Matches extraction:
+
+fixed a lot of things in the matches extraction: 
+- Lowe's ratio instead of max threshold for distance to deem matches
+- got the normalization matrices from all points in matches instead of 8 points only
+
+debugging: visualizing the matches before and after RANSAC 

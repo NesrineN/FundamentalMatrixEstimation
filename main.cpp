@@ -29,12 +29,6 @@ typedef libNumerics::vector<double> Vec;
 using namespace Imagine;
 using namespace std;
 
-struct Point2D
-{
-    double x;
-    double y;
-};
-
 struct Association
 {
     std::string rgb_path;
@@ -107,7 +101,7 @@ void computeRelativePose(
     Mat& R_rel, Vec& t_rel)
 {
     // R_rel = R2 * R1^T
-    R_rel = R2 * R1.transpose();
+    R_rel = R2 * R1.t();
 
     // t_rel = t2 - R_rel * t1
     t_rel = t2 - R_rel * t1;
@@ -221,10 +215,10 @@ int main(int argc, char* argv[]){
     std::vector<double> Rotation_errors_Gauss;
     std::vector<double> Translation_errors_Gauss;
 
-    for (size_t i = 0; i + 2 < associations.size(); i++)
+    for (size_t i = 0; i + 1 < associations.size(); i++)
     {
         const auto& a1 = associations[i];
-        const auto& a2 = associations[i + 2];
+        const auto& a2 = associations[i + 1];
 
         Mat R1 = quatToRot(a1.qx, a1.qy, a1.qz, a1.qw);
         Mat R2 = quatToRot(a2.qx, a2.qy, a2.qz, a2.qw);
@@ -237,27 +231,39 @@ int main(int argc, char* argv[]){
         Mat R_rel_gt(3,3);
         Vec t_rel_gt(3);
 
-        computeRelativePose(R1, t1, R2, t2, R_rel, t_rel);
+        computeRelativePose(R1, t1, R2, t2, R_rel_gt, t_rel_gt);
+
+        // debugging:
+        std::cout << "R ground truth is: " << std::endl;
+        printM(R_rel_gt);
+
+        std::cout << "t ground truth is: " << std::endl;
+        printV(t_rel_gt);
 
         // image paths
         std::string I1_path = a1.rgb_path;
         std::string I2_path = a2.rgb_path;
 
+        I1_path = dataset_path + "\\" + I1_path;
+        I2_path = dataset_path + "\\" + I2_path;
+
+        std::cout << "Image 1 path is: " << I1_path << std::endl;
+        std::cout << "Image 2 path is: " << I2_path << std::endl;
+
         // now we run the pipeline to get the errors:
-        // using FNS:
-        Vec errors_FNS=RunPipelineNoiseless(I1_path, I2_path, K, K, f0, 1, R_rel_gt, t_rel_gt);
-        Vec errors_Gauss=RunPipelineNoiseless(I1_path, I2_path, K, K, f0, 2, R_rel_gt, t_rel_gt);
+        Vec errors_FNS=RunPipelineNoiseless(I1_path, I2_path, K, K, f0, R_rel_gt, t_rel_gt, 1);
+        // Vec errors_Gauss=RunPipelineNoiseless(I1_path, I2_path, K, K, f0, R_rel_gt, t_rel_gt, 2);
 
 
         Rotation_errors_FNS.push_back(errors_FNS(0));
-        Rotation_errors_Gauss.push_back(errors_Gauss(0));
+        // Rotation_errors_Gauss.push_back(errors_Gauss(0));
 
         Translation_errors_FNS.push_back(errors_FNS(1));
-        Translation_errors_Gauss.push_back(errors_Gauss(1));
+        // Translation_errors_Gauss.push_back(errors_Gauss(1));
     }
 
     // we export the errors so we can visualize them later using python:
-    exportErrorsCSV(Rotation_errors_FNS, Translation_errors_FNS, Rotation_errors_Gauss, Translation_errors_Gauss, "pose_errors_classical.csv");
+    // exportErrorsCSV(Rotation_errors_FNS, Translation_errors_FNS, Rotation_errors_Gauss, Translation_errors_Gauss, "pose_errors_classical.csv");
 
     // now we print the mean/median of the errors:
     double mean_rotation_FNS  = computeMean(Rotation_errors_FNS);
@@ -266,24 +272,24 @@ int main(int argc, char* argv[]){
     double mean_translation_FNS  = computeMean(Translation_errors_FNS);
     double median_translation_FNS = computeMedian(Translation_errors_FNS);
 
-    double mean_rotation_Gauss  = computeMean(Rotation_errors_Gauss);
-    double median_rotation_Gauss = computeMedian(Rotation_errors_Gauss);
+    // double mean_rotation_Gauss  = computeMean(Rotation_errors_Gauss);
+    // double median_rotation_Gauss = computeMedian(Rotation_errors_Gauss);
 
-    double mean_translation_Gauss  = computeMean(Translation_errors_Gauss);
-    double median_translation_Gauss = computeMedian(Translation_errors_Gauss);
+    // double mean_translation_Gauss  = computeMean(Translation_errors_Gauss);
+    // double median_translation_Gauss = computeMedian(Translation_errors_Gauss);
 
 
     std::cout << "Mean rotation error - FNS: " << mean_rotation_FNS << std::endl;
     std::cout << "Median rotation error - FNS: " << median_rotation_FNS << std::endl;
 
-    std::cout << "Mean rotation error - Gauss: " << mean_rotation_Gauss << std::endl;
-    std::cout << "Median rotation error - Gauss: " << median_rotation_Gauss << std::endl;
+    // std::cout << "Mean rotation error - Gauss: " << mean_rotation_Gauss << std::endl;
+    // std::cout << "Median rotation error - Gauss: " << median_rotation_Gauss << std::endl;
 
     std::cout << "Mean translation error - FNS: " << mean_translation_FNS << std::endl;
     std::cout << "Median translation error - FNS: " << median_translation_FNS << std::endl;
 
-    std::cout << "Mean translation error - Gauss: " << mean_translation_Gauss << std::endl;
-    std::cout << "Median translation error - Gauss: " << median_translation_Gauss << std::endl;
+    // std::cout << "Mean translation error - Gauss: " << mean_translation_Gauss << std::endl;
+    // std::cout << "Median translation error - Gauss: " << median_translation_Gauss << std::endl;
 
     return 0;
 

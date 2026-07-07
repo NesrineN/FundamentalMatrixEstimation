@@ -10,3 +10,4 @@ Mat ComputeM(const Vec& u, const Mat& Eall, const std::vector<Mat>& Vall);
 Mat ComputeL(const Vec& u, const Mat& Eall, const std::vector<Mat>& Vall);
 Vec SVD_U(const Mat& A);
 Mat FNS(const Vec& u, const Mat& Eall, const std::vector<Mat>& Vall);
+Vec SolveEigen(const Mat& A);

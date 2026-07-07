@@ -536,30 +536,6 @@ PoseEstimation.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/PoseEstimation.cpp.s
 .PHONY : PoseEstimation.cpp.s
 
-RANSAC.obj: RANSAC.cpp.obj
-.PHONY : RANSAC.obj
-
-# target to build an object file
-RANSAC.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/RANSAC.cpp.obj
-.PHONY : RANSAC.cpp.obj
-
-RANSAC.i: RANSAC.cpp.i
-.PHONY : RANSAC.i
-
-# target to preprocess a source file
-RANSAC.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/RANSAC.cpp.i
-.PHONY : RANSAC.cpp.i
-
-RANSAC.s: RANSAC.cpp.s
-.PHONY : RANSAC.s
-
-# target to generate assembly for a file
-RANSAC.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/RANSAC.cpp.s
-.PHONY : RANSAC.cpp.s
-
 Renorm.obj: Renorm.cpp.obj
 .PHONY : Renorm.obj
 
@@ -668,9 +644,6 @@ help:
 	@echo ... PoseEstimation.obj
 	@echo ... PoseEstimation.i
 	@echo ... PoseEstimation.s
-	@echo ... RANSAC.obj
-	@echo ... RANSAC.i
-	@echo ... RANSAC.s
 	@echo ... Renorm.obj
 	@echo ... Renorm.i
 	@echo ... Renorm.s

@@ -13,12 +13,14 @@
 #include <Imagine/Graphics.h>
 #include <Imagine/LinAlg.h>
 
-using namespace Imagine;
-using namespace std;
+#pragma once
 
 struct Match {
-    float x1, y1, x2, y2;
+    double x1, y1, x2, y2;
 };
+
+using namespace Imagine;
+using namespace std;
 
 void algoSIFT(Image<Color,2> I1, Image<Color,2> I2, vector<Match>& matches);
 
@@ -32,5 +34,4 @@ FMatrix<float,3,3> eightpointalgo(vector<Match>& matches);
 
 FMatrix<float,3,3> computeF(vector<Match>& matches);
 
-vector<Match> GetInliers(const std::string& I1_path, const std::string& I2_path);
-
+vector<Match> GetInliers(const std::string& I1_path, const std::string& I2_path, Mat& F_RANSAC);

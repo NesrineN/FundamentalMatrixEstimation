@@ -128,26 +128,11 @@ CMakeFiles/Realtive_Pose_Estimator.dir/Renorm.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Realtive_Pose_Estimator.dir/Renorm.cpp.s"
 	C:\msys64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\Renorm.cpp -o CMakeFiles\Realtive_Pose_Estimator.dir\Renorm.cpp.s
 
-CMakeFiles/Realtive_Pose_Estimator.dir/RANSAC.cpp.obj: CMakeFiles/Realtive_Pose_Estimator.dir/flags.make
-CMakeFiles/Realtive_Pose_Estimator.dir/RANSAC.cpp.obj: CMakeFiles/Realtive_Pose_Estimator.dir/includes_CXX.rsp
-CMakeFiles/Realtive_Pose_Estimator.dir/RANSAC.cpp.obj: C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/RANSAC.cpp
-CMakeFiles/Realtive_Pose_Estimator.dir/RANSAC.cpp.obj: CMakeFiles/Realtive_Pose_Estimator.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/Realtive_Pose_Estimator.dir/RANSAC.cpp.obj"
-	C:\msys64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Realtive_Pose_Estimator.dir/RANSAC.cpp.obj -MF CMakeFiles\Realtive_Pose_Estimator.dir\RANSAC.cpp.obj.d -o CMakeFiles\Realtive_Pose_Estimator.dir\RANSAC.cpp.obj -c C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\RANSAC.cpp
-
-CMakeFiles/Realtive_Pose_Estimator.dir/RANSAC.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Realtive_Pose_Estimator.dir/RANSAC.cpp.i"
-	C:\msys64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\RANSAC.cpp > CMakeFiles\Realtive_Pose_Estimator.dir\RANSAC.cpp.i
-
-CMakeFiles/Realtive_Pose_Estimator.dir/RANSAC.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Realtive_Pose_Estimator.dir/RANSAC.cpp.s"
-	C:\msys64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\RANSAC.cpp -o CMakeFiles\Realtive_Pose_Estimator.dir\RANSAC.cpp.s
-
 CMakeFiles/Realtive_Pose_Estimator.dir/GaussNewton.cpp.obj: CMakeFiles/Realtive_Pose_Estimator.dir/flags.make
 CMakeFiles/Realtive_Pose_Estimator.dir/GaussNewton.cpp.obj: CMakeFiles/Realtive_Pose_Estimator.dir/includes_CXX.rsp
 CMakeFiles/Realtive_Pose_Estimator.dir/GaussNewton.cpp.obj: C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/GaussNewton.cpp
 CMakeFiles/Realtive_Pose_Estimator.dir/GaussNewton.cpp.obj: CMakeFiles/Realtive_Pose_Estimator.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/Realtive_Pose_Estimator.dir/GaussNewton.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/Realtive_Pose_Estimator.dir/GaussNewton.cpp.obj"
 	C:\msys64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Realtive_Pose_Estimator.dir/GaussNewton.cpp.obj -MF CMakeFiles\Realtive_Pose_Estimator.dir\GaussNewton.cpp.obj.d -o CMakeFiles\Realtive_Pose_Estimator.dir\GaussNewton.cpp.obj -c C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\GaussNewton.cpp
 
 CMakeFiles/Realtive_Pose_Estimator.dir/GaussNewton.cpp.i: cmake_force
@@ -162,7 +147,7 @@ CMakeFiles/Realtive_Pose_Estimator.dir/GetInliers.cpp.obj: CMakeFiles/Realtive_P
 CMakeFiles/Realtive_Pose_Estimator.dir/GetInliers.cpp.obj: CMakeFiles/Realtive_Pose_Estimator.dir/includes_CXX.rsp
 CMakeFiles/Realtive_Pose_Estimator.dir/GetInliers.cpp.obj: C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/GetInliers.cpp
 CMakeFiles/Realtive_Pose_Estimator.dir/GetInliers.cpp.obj: CMakeFiles/Realtive_Pose_Estimator.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/Realtive_Pose_Estimator.dir/GetInliers.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/Realtive_Pose_Estimator.dir/GetInliers.cpp.obj"
 	C:\msys64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Realtive_Pose_Estimator.dir/GetInliers.cpp.obj -MF CMakeFiles\Realtive_Pose_Estimator.dir\GetInliers.cpp.obj.d -o CMakeFiles\Realtive_Pose_Estimator.dir\GetInliers.cpp.obj -c C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\GetInliers.cpp
 
 CMakeFiles/Realtive_Pose_Estimator.dir/GetInliers.cpp.i: cmake_force
@@ -177,7 +162,7 @@ CMakeFiles/Realtive_Pose_Estimator.dir/Pipeline.cpp.obj: CMakeFiles/Realtive_Pos
 CMakeFiles/Realtive_Pose_Estimator.dir/Pipeline.cpp.obj: CMakeFiles/Realtive_Pose_Estimator.dir/includes_CXX.rsp
 CMakeFiles/Realtive_Pose_Estimator.dir/Pipeline.cpp.obj: C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/Pipeline.cpp
 CMakeFiles/Realtive_Pose_Estimator.dir/Pipeline.cpp.obj: CMakeFiles/Realtive_Pose_Estimator.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/Realtive_Pose_Estimator.dir/Pipeline.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/Realtive_Pose_Estimator.dir/Pipeline.cpp.obj"
 	C:\msys64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Realtive_Pose_Estimator.dir/Pipeline.cpp.obj -MF CMakeFiles\Realtive_Pose_Estimator.dir\Pipeline.cpp.obj.d -o CMakeFiles\Realtive_Pose_Estimator.dir\Pipeline.cpp.obj -c C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\Pipeline.cpp
 
 CMakeFiles/Realtive_Pose_Estimator.dir/Pipeline.cpp.i: cmake_force
@@ -192,7 +177,7 @@ CMakeFiles/Realtive_Pose_Estimator.dir/PoseEstimation.cpp.obj: CMakeFiles/Realti
 CMakeFiles/Realtive_Pose_Estimator.dir/PoseEstimation.cpp.obj: CMakeFiles/Realtive_Pose_Estimator.dir/includes_CXX.rsp
 CMakeFiles/Realtive_Pose_Estimator.dir/PoseEstimation.cpp.obj: C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/PoseEstimation.cpp
 CMakeFiles/Realtive_Pose_Estimator.dir/PoseEstimation.cpp.obj: CMakeFiles/Realtive_Pose_Estimator.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/Realtive_Pose_Estimator.dir/PoseEstimation.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/Realtive_Pose_Estimator.dir/PoseEstimation.cpp.obj"
 	C:\msys64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Realtive_Pose_Estimator.dir/PoseEstimation.cpp.obj -MF CMakeFiles\Realtive_Pose_Estimator.dir\PoseEstimation.cpp.obj.d -o CMakeFiles\Realtive_Pose_Estimator.dir\PoseEstimation.cpp.obj -c C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\PoseEstimation.cpp
 
 CMakeFiles/Realtive_Pose_Estimator.dir/PoseEstimation.cpp.i: cmake_force
@@ -207,7 +192,7 @@ CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/SIFT_VL.cpp.obj: CMakeFiles/Realt
 CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/SIFT_VL.cpp.obj: CMakeFiles/Realtive_Pose_Estimator.dir/includes_CXX.rsp
 CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/SIFT_VL.cpp.obj: C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/Imagine/SIFT_VL.cpp
 CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/SIFT_VL.cpp.obj: CMakeFiles/Realtive_Pose_Estimator.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/SIFT_VL.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/SIFT_VL.cpp.obj"
 	C:\msys64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/SIFT_VL.cpp.obj -MF CMakeFiles\Realtive_Pose_Estimator.dir\Imagine\SIFT_VL.cpp.obj.d -o CMakeFiles\Realtive_Pose_Estimator.dir\Imagine\SIFT_VL.cpp.obj -c C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\Imagine\SIFT_VL.cpp
 
 CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/SIFT_VL.cpp.i: cmake_force
@@ -222,7 +207,7 @@ CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/vl/generic.c.obj: CMakeFiles/Real
 CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/vl/generic.c.obj: CMakeFiles/Realtive_Pose_Estimator.dir/includes_C.rsp
 CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/vl/generic.c.obj: C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/Imagine/vl/generic.c
 CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/vl/generic.c.obj: CMakeFiles/Realtive_Pose_Estimator.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building C object CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/vl/generic.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building C object CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/vl/generic.c.obj"
 	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/vl/generic.c.obj -MF CMakeFiles\Realtive_Pose_Estimator.dir\Imagine\vl\generic.c.obj.d -o CMakeFiles\Realtive_Pose_Estimator.dir\Imagine\vl\generic.c.obj -c C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\Imagine\vl\generic.c
 
 CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/vl/generic.c.i: cmake_force
@@ -237,7 +222,7 @@ CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/vl/host.c.obj: CMakeFiles/Realtiv
 CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/vl/host.c.obj: CMakeFiles/Realtive_Pose_Estimator.dir/includes_C.rsp
 CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/vl/host.c.obj: C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/Imagine/vl/host.c
 CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/vl/host.c.obj: CMakeFiles/Realtive_Pose_Estimator.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building C object CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/vl/host.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building C object CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/vl/host.c.obj"
 	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/vl/host.c.obj -MF CMakeFiles\Realtive_Pose_Estimator.dir\Imagine\vl\host.c.obj.d -o CMakeFiles\Realtive_Pose_Estimator.dir\Imagine\vl\host.c.obj -c C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\Imagine\vl\host.c
 
 CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/vl/host.c.i: cmake_force
@@ -252,7 +237,7 @@ CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/vl/imop.c.obj: CMakeFiles/Realtiv
 CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/vl/imop.c.obj: CMakeFiles/Realtive_Pose_Estimator.dir/includes_C.rsp
 CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/vl/imop.c.obj: C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/Imagine/vl/imop.c
 CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/vl/imop.c.obj: CMakeFiles/Realtive_Pose_Estimator.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building C object CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/vl/imop.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building C object CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/vl/imop.c.obj"
 	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/vl/imop.c.obj -MF CMakeFiles\Realtive_Pose_Estimator.dir\Imagine\vl\imop.c.obj.d -o CMakeFiles\Realtive_Pose_Estimator.dir\Imagine\vl\imop.c.obj -c C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\Imagine\vl\imop.c
 
 CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/vl/imop.c.i: cmake_force
@@ -267,7 +252,7 @@ CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/vl/sift.c.obj: CMakeFiles/Realtiv
 CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/vl/sift.c.obj: CMakeFiles/Realtive_Pose_Estimator.dir/includes_C.rsp
 CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/vl/sift.c.obj: C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/Imagine/vl/sift.c
 CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/vl/sift.c.obj: CMakeFiles/Realtive_Pose_Estimator.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building C object CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/vl/sift.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building C object CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/vl/sift.c.obj"
 	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/vl/sift.c.obj -MF CMakeFiles\Realtive_Pose_Estimator.dir\Imagine\vl\sift.c.obj.d -o CMakeFiles\Realtive_Pose_Estimator.dir\Imagine\vl\sift.c.obj -c C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\Imagine\vl\sift.c
 
 CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/vl/sift.c.i: cmake_force
@@ -282,7 +267,7 @@ CMakeFiles/Realtive_Pose_Estimator.dir/Initialization.cpp.obj: CMakeFiles/Realti
 CMakeFiles/Realtive_Pose_Estimator.dir/Initialization.cpp.obj: CMakeFiles/Realtive_Pose_Estimator.dir/includes_CXX.rsp
 CMakeFiles/Realtive_Pose_Estimator.dir/Initialization.cpp.obj: C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/Initialization.cpp
 CMakeFiles/Realtive_Pose_Estimator.dir/Initialization.cpp.obj: CMakeFiles/Realtive_Pose_Estimator.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/Realtive_Pose_Estimator.dir/Initialization.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/Realtive_Pose_Estimator.dir/Initialization.cpp.obj"
 	C:\msys64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Realtive_Pose_Estimator.dir/Initialization.cpp.obj -MF CMakeFiles\Realtive_Pose_Estimator.dir\Initialization.cpp.obj.d -o CMakeFiles\Realtive_Pose_Estimator.dir\Initialization.cpp.obj -c C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\Initialization.cpp
 
 CMakeFiles/Realtive_Pose_Estimator.dir/Initialization.cpp.i: cmake_force
@@ -297,7 +282,7 @@ CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/Test.cpp.obj: CMakeFiles/Real
 CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/Test.cpp.obj: CMakeFiles/Realtive_Pose_Estimator.dir/includes_CXX.rsp
 CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/Test.cpp.obj: C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/CppUnitLite/Test.cpp
 CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/Test.cpp.obj: CMakeFiles/Realtive_Pose_Estimator.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/Test.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/Test.cpp.obj"
 	C:\msys64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/Test.cpp.obj -MF CMakeFiles\Realtive_Pose_Estimator.dir\CppUnitLite\Test.cpp.obj.d -o CMakeFiles\Realtive_Pose_Estimator.dir\CppUnitLite\Test.cpp.obj -c C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\CppUnitLite\Test.cpp
 
 CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/Test.cpp.i: cmake_force
@@ -312,7 +297,7 @@ CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/TestResult.cpp.obj: CMakeFile
 CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/TestResult.cpp.obj: CMakeFiles/Realtive_Pose_Estimator.dir/includes_CXX.rsp
 CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/TestResult.cpp.obj: C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/CppUnitLite/TestResult.cpp
 CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/TestResult.cpp.obj: CMakeFiles/Realtive_Pose_Estimator.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/TestResult.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/TestResult.cpp.obj"
 	C:\msys64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/TestResult.cpp.obj -MF CMakeFiles\Realtive_Pose_Estimator.dir\CppUnitLite\TestResult.cpp.obj.d -o CMakeFiles\Realtive_Pose_Estimator.dir\CppUnitLite\TestResult.cpp.obj -c C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\CppUnitLite\TestResult.cpp
 
 CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/TestResult.cpp.i: cmake_force
@@ -327,7 +312,7 @@ CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/TestRegistry.cpp.obj: CMakeFi
 CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/TestRegistry.cpp.obj: CMakeFiles/Realtive_Pose_Estimator.dir/includes_CXX.rsp
 CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/TestRegistry.cpp.obj: C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/CppUnitLite/TestRegistry.cpp
 CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/TestRegistry.cpp.obj: CMakeFiles/Realtive_Pose_Estimator.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/TestRegistry.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/TestRegistry.cpp.obj"
 	C:\msys64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/TestRegistry.cpp.obj -MF CMakeFiles\Realtive_Pose_Estimator.dir\CppUnitLite\TestRegistry.cpp.obj.d -o CMakeFiles\Realtive_Pose_Estimator.dir\CppUnitLite\TestRegistry.cpp.obj -c C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\CppUnitLite\TestRegistry.cpp
 
 CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/TestRegistry.cpp.i: cmake_force
@@ -342,7 +327,7 @@ CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/Failure.cpp.obj: CMakeFiles/R
 CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/Failure.cpp.obj: CMakeFiles/Realtive_Pose_Estimator.dir/includes_CXX.rsp
 CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/Failure.cpp.obj: C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/CppUnitLite/Failure.cpp
 CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/Failure.cpp.obj: CMakeFiles/Realtive_Pose_Estimator.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/Failure.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/Failure.cpp.obj"
 	C:\msys64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/Failure.cpp.obj -MF CMakeFiles\Realtive_Pose_Estimator.dir\CppUnitLite\Failure.cpp.obj.d -o CMakeFiles\Realtive_Pose_Estimator.dir\CppUnitLite\Failure.cpp.obj -c C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\CppUnitLite\Failure.cpp
 
 CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/Failure.cpp.i: cmake_force
@@ -357,7 +342,7 @@ CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/SimpleString.cpp.obj: CMakeFi
 CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/SimpleString.cpp.obj: CMakeFiles/Realtive_Pose_Estimator.dir/includes_CXX.rsp
 CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/SimpleString.cpp.obj: C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/CppUnitLite/SimpleString.cpp
 CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/SimpleString.cpp.obj: CMakeFiles/Realtive_Pose_Estimator.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/SimpleString.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/SimpleString.cpp.obj"
 	C:\msys64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/SimpleString.cpp.obj -MF CMakeFiles\Realtive_Pose_Estimator.dir\CppUnitLite\SimpleString.cpp.obj.d -o CMakeFiles\Realtive_Pose_Estimator.dir\CppUnitLite\SimpleString.cpp.obj -c C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\CppUnitLite\SimpleString.cpp
 
 CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/SimpleString.cpp.i: cmake_force
@@ -374,7 +359,6 @@ Realtive_Pose_Estimator_OBJECTS = \
 "CMakeFiles/Realtive_Pose_Estimator.dir/FNS.cpp.obj" \
 "CMakeFiles/Realtive_Pose_Estimator.dir/HEIV.cpp.obj" \
 "CMakeFiles/Realtive_Pose_Estimator.dir/Renorm.cpp.obj" \
-"CMakeFiles/Realtive_Pose_Estimator.dir/RANSAC.cpp.obj" \
 "CMakeFiles/Realtive_Pose_Estimator.dir/GaussNewton.cpp.obj" \
 "CMakeFiles/Realtive_Pose_Estimator.dir/GetInliers.cpp.obj" \
 "CMakeFiles/Realtive_Pose_Estimator.dir/Pipeline.cpp.obj" \
@@ -398,7 +382,6 @@ Realtive_Pose_Estimator.exe: CMakeFiles/Realtive_Pose_Estimator.dir/main.cpp.obj
 Realtive_Pose_Estimator.exe: CMakeFiles/Realtive_Pose_Estimator.dir/FNS.cpp.obj
 Realtive_Pose_Estimator.exe: CMakeFiles/Realtive_Pose_Estimator.dir/HEIV.cpp.obj
 Realtive_Pose_Estimator.exe: CMakeFiles/Realtive_Pose_Estimator.dir/Renorm.cpp.obj
-Realtive_Pose_Estimator.exe: CMakeFiles/Realtive_Pose_Estimator.dir/RANSAC.cpp.obj
 Realtive_Pose_Estimator.exe: CMakeFiles/Realtive_Pose_Estimator.dir/GaussNewton.cpp.obj
 Realtive_Pose_Estimator.exe: CMakeFiles/Realtive_Pose_Estimator.dir/GetInliers.cpp.obj
 Realtive_Pose_Estimator.exe: CMakeFiles/Realtive_Pose_Estimator.dir/Pipeline.cpp.obj
@@ -427,7 +410,7 @@ Realtive_Pose_Estimator.exe: C:/ENPC/6.9.1/mingw_64/lib/libQt6Core.a
 Realtive_Pose_Estimator.exe: CMakeFiles/Realtive_Pose_Estimator.dir/linkLibs.rsp
 Realtive_Pose_Estimator.exe: CMakeFiles/Realtive_Pose_Estimator.dir/objects1.rsp
 Realtive_Pose_Estimator.exe: CMakeFiles/Realtive_Pose_Estimator.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Linking CXX executable Realtive_Pose_Estimator.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\USER\Desktop\Sorbonne\Internship\material\Implementations\Kanatani-F-Estimation\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Linking CXX executable Realtive_Pose_Estimator.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\Realtive_Pose_Estimator.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

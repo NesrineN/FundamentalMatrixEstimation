@@ -1,12 +1,12 @@
 #include "libOrsa/libNumerics/matrix.h"
-#include <iostream> 
-#include <cmath>
 #include "FNS.h"
-#include "HEIV.h"
-#include "RANSAC.h"
-#include "Renorm.h"
 #include "GaussNewton.h"
 #include "Initialization.h"
+#include "./Imagine/Features.h"
+#include "PoseEstimation.h"
+#include "GetInliers.h"
+
+#include <cmath>
 #include <vector>
 #include <random>
 #include <iostream>
@@ -14,13 +14,8 @@
 #include <sstream>
 #include <iomanip>
 #include <string>
-#include "./Imagine/Features.h"
 #include <Imagine/Graphics.h>
 #include <Imagine/LinAlg.h>
-#include "PoseEstimation.h"
-
-#include <Eigen/Dense>
-#include <Eigen/Eigenvalues>
 
 const double PI = 3.14159265358979323846;
 
@@ -30,11 +25,6 @@ typedef libNumerics::vector<double> Vec;
 using namespace Imagine;
 using namespace std;
 
-struct Point2D
-{
-    double x;
-    double y;
-};
 
 // function that creates the vector E from two point-correspondences:
 Vec fillE(const Point2D& p1, const Point2D& p2, double f0){
@@ -58,6 +48,36 @@ Vec fillE(const Point2D& p1, const Point2D& p2, double f0){
 
     return E;
 }
+
+// Mat computeV0(double x, double y, double xp, double yp, double f0) {
+//     // Vectors representing partial derivatives of E with respect to x, y, xp, yp
+//     Vec dx(9), dy(9), dxp(9), dyp(9);
+
+//     // dE/dx
+//     dx(0) = xp; dx(1) = yp; dx(2) = f0;
+//     dx(3) = 0;  dx(4) = 0;  dx(5) = 0;
+//     dx(6) = 0;  dx(7) = 0;  dx(8) = 0;
+
+//     // dE/dy
+//     dy(0) = 0;  dy(1) = 0;  dy(2) = 0;
+//     dy(3) = xp; dy(4) = yp; dy(5) = f0;
+//     dy(6) = 0;  dy(7) = 0;  dy(8) = 0;
+
+//     // dE/dxp
+//     dxp(0) = x;  dxp(1) = 0;  dxp(2) = 0;
+//     dxp(3) = y;  dxp(4) = 0;  dxp(5) = 0;
+//     dxp(6) = f0; dxp(7) = 0;  dxp(8) = 0;
+
+//     // dE/dyp
+//     dyp(0) = 0;  dyp(1) = x;  dyp(2) = 0;
+//     dyp(3) = 0;  dyp(4) = y;  dyp(5) = 0;
+//     dyp(6) = 0;  dyp(7) = f0; dyp(8) = 0;
+
+//     // V0 = dx*dx^T + dy*dy^T + dxp*dxp^T + dyp*dyp^T
+//     Mat V0 = dx * dx.t() + dy * dy.t() + dxp * dxp.t() + dyp * dyp.t();
+
+//     return V0;
+// }
 
 Mat computeV0(double x, double y, double xp, double yp, double f0){
 
@@ -166,7 +186,7 @@ Mat computeV0(double x, double y, double xp, double yp, double f0){
     return V0;
 }
 
-Mat GetF(const std::vector<Point2D>& img1Pts, const std::vector<Point2D>& img2Pts, const double& f0, const int& method){
+Mat GetF(const std::vector<Point2D>& img1Pts, const std::vector<Point2D>& img2Pts, const Mat& F_RANSAC, const double& f0, const int& method){
     Mat Eall=Mat::zeros(9,img1Pts.size());
     std::vector<Mat> Vall;
 
@@ -193,7 +213,30 @@ Mat GetF(const std::vector<Point2D>& img1Pts, const std::vector<Point2D>& img2Pt
     }
 
     // we initialize uinit using Taubin method
-    Vec uinit= Taubin(Eall, f0, Vall);
+    // Vec uinit= Taubin(Eall, f0, Vall);
+
+    // Mat F=Mat::zeros(3);
+    // for(int i=0; i<3; i++){
+    //     for(int j=0; j<3; j++){
+    //         F(i, j) = uinit(i * 3 + j); 
+    //     }
+    // }
+
+    // we initialize uinit using RANSAC's F after integrating /f0 into it: 
+    Mat F_kan_init = F_RANSAC;  
+    F_kan_init(0,2) /= f0;
+    F_kan_init(1,2) /= f0;
+    F_kan_init(2,0) /= f0;
+    F_kan_init(2,1) /= f0;
+    F_kan_init(2,2) /= (f0*f0);
+
+    Vec uinit(9);
+    for(int i=0; i<3; i++){
+        for(int j=0; j<3; j++){
+            uinit(i*3 + j)=F_kan_init(i,j);
+        }
+    }
+    uinit/=std::sqrt(uinit.qnorm());
 
     Mat F=Mat::zeros(3);
 
@@ -205,9 +248,14 @@ Mat GetF(const std::vector<Point2D>& img1Pts, const std::vector<Point2D>& img2Pt
         F = GaussNewton(uinit, Eall, Vall);
     }
     
-    F=F.t();
+    F=F.t(); // transposing back to get the F that solves for x'T F x=0 -- the standard Hartley & Zisserman convention 
 
-    return F;
+    // De-normalizing F:
+    Mat Norm=Mat::eye(3);
+    Norm(2,2)=f0;
+    Mat F_denorm=Norm.t()*F*Norm;
+
+    return F_denorm;
 }
 
 void printM(const Mat& A){
@@ -223,7 +271,7 @@ void printM(const Mat& A){
 
 void printV(const Vec& V){
     std::cout << "Vector: " << std::endl;
-    for(int i=0;i<V.ncol(); i++){
+    for(int i=0;i<V.nrow(); i++){
         std::cout << V(i) << std::endl;
     }
 
@@ -275,7 +323,7 @@ double translation_error(const Vec& t_gt, const Vec& t_pred){
     a /= n1;
     b /= n2;
 
-    double c = std::abs(dot(a, b));
+    double c = (dot(a, b));
 
     c = clamp(c, -1.0, 1.0);
 
@@ -284,14 +332,44 @@ double translation_error(const Vec& t_gt, const Vec& t_pred){
     return angle * 180.0 / PI;
 }
 
-Vec RunPipelineNoiseless(const std::string& I1_path, const std::string& I2_path, const Mat& K1, const Mat& K2, const double& f0, const int& method=1, const Mat& R_gt, const Vec& t_gt){
+// returns the distance from x' to the epipolar line Fx
+double epidistance(Point2D p1, Point2D p2, Mat F){
+    double x=p1.x;
+    double y=p1.y;
+    double xp=p2.x;
+    double yp=p2.y;
+
+    Mat X=Mat::zeros(3,1);
+    Mat Xp=Mat::zeros(3,1);
+    X(0,0)=x;
+    X(1,0)=y;
+    X(2,0)=1.0;
+
+    Xp(0,0)=xp;
+    Xp(1,0)=yp;
+    Xp(2,0)=1.0;
+
+
+    Mat l=F*X; // l is a 3x1 mat
+
+    double num=std::abs(l(0,0)*Xp(0,0) + l(1,0)*Xp(1,0) + l(2,0));
+    double denom=std::sqrt((l(0,0)*l(0,0)) + (l(1,0)*l(1,0)));
+    if(denom<1e-6)denom+=1e-6;
+    
+    return num/denom;
+}
+
+Vec RunPipelineNoiseless(const std::string& I1_path, const std::string& I2_path, const Mat& K1, const Mat& K2, const double& f0, const Mat& R_gt, const Vec& t_gt, const int& method=1){
 
     // 1. Get the matches/inliers from the image pairs using SIFT + RANSAC and 8-point algorithm as a starting point
-    vector<Match> matches=GetInliers(I1_path, I2_path);
+    Mat F_RANSAC=Mat::zeros(3);
+    vector<Match> matches=GetInliers(I1_path, I2_path, F_RANSAC);
+    F_RANSAC=F_RANSAC.t(); // transposing before giving it to FNS as initial F estimation because FNS is solving xT F x' =0 and RANSAC 8-point algo was solving x'T F x=0
 
     // 2. Using the matches, we want to fill the vectors of 2D point matches img1Pts and img2Pts
     std::vector<Point2D> img1Pts;
     std::vector<Point2D> img2Pts;
+
     for(int i=0; i<matches.size(); i++){
         Point2D p1;
         Point2D p2;
@@ -299,7 +377,7 @@ Vec RunPipelineNoiseless(const std::string& I1_path, const std::string& I2_path,
         p1.x=matches[i].x1;
         p1.y=matches[i].y1;
 
-        p2.x=matches[i].x2
+        p2.x=matches[i].x2;
         p2.y=matches[i].y2;
 
         img1Pts.push_back(p1);
@@ -307,21 +385,110 @@ Vec RunPipelineNoiseless(const std::string& I1_path, const std::string& I2_path,
     }
 
     // 3. Now, we want to run the method of choice: either FNS or Gauss-Newton to compute the fundamental matrix from the inliers
-    Mat F=GetF(img1Pts, img2Pts, f0, method);
+    if(method==1){
+        std::cout << "----Computing F using FNS----" << std::endl;
+    }
+    else{
+        std::cout << "----Computing F using Gauss-Newton----" << std::endl;
+    }
+
+    Mat F=GetF(img1Pts, img2Pts, F_RANSAC, f0, method);
+
+    // debugging. making sure the epipolar error is small:
+
+    double avg_epidist_estim=0;
+    double avg_epidist_estim_RANSAC=0;
+    for(int i=0; i<img1Pts.size(); i++){        
+        // computing the distance from point x' to epipolar line Fx
+        Point2D p1=img1Pts[i];
+        Point2D p2=img2Pts[i];
+        double epidistance_estim=epidistance(p1 , p2, F);
+        double epidistance_estim_RANSAC=epidistance(p1,p2,F_RANSAC.t());
+
+        avg_epidist_estim+=epidistance_estim;
+        avg_epidist_estim_RANSAC+=epidistance_estim_RANSAC;
+
+        // std::cout << "epi distance estim: " << epidistance_estim << std::endl;
+        // std:: cout << std::endl;
+    }
+
+    std::cout << "avg epi distance estim: " << avg_epidist_estim/img1Pts.size() << std::endl;
+    std::cout << "avg epi distance estim RANSAC: " << avg_epidist_estim_RANSAC/img1Pts.size() << std::endl;
 
     // 4. After that, we want to do relative pose estimation given F and the intrinsic matrices K1 and K2:
     Mat P2=EstimatePose(K1, K2, F, img1Pts, img2Pts);
     
     // debugging
+    std::cout << "P2:" << std::endl;
     printM(P2);
 
     // 5. From P2, we will extract R and t 
     Mat R_pred=P2.copy(0,2,0,2);
-    Vec t_pred=P2.copyCols(3,3);
+    Mat t_pred_mat=P2.copyCols(3,3);
+
+    std::cout << "t_pred-mat:" << std::endl;
+    printM(t_pred_mat);
+
+    Vec t_pred(3);
+    t_pred(0)=t_pred_mat(0,0);
+    t_pred(1)=t_pred_mat(1,0);
+    t_pred(2)=t_pred_mat(2,0);
 
     // debugging 
+    std::cout << "R_pred and t_pred:" << std::endl;
     printM(R_pred);
     printV(t_pred);
+
+    // debugging: cheirality and reprojection test to test our R and t without gt
+    int count=0;
+    for(int i=0; i<img1Pts.size(); i++){        
+        Vec u(2);
+        Vec u_p(2);
+
+        u(0)=img1Pts[i].x;
+        u(1)=img1Pts[i].y;
+
+        u_p(0)=img2Pts[i].x;
+        u_p(1)=img2Pts[i].y;
+
+        Mat Eye=Mat::zeros(3,4);
+        Eye(0,0)=1.0;
+        Eye(1,1)=1.0;
+        Eye(2,2)=1.0;
+
+        Mat P1_pixel=K1*Eye;
+        Mat P2_pixel=K2*P2;
+
+        if(Triangulate(u, u_p, P1_pixel, P2_pixel, R_pred, t_pred)>0) count+=1;
+    }
+    std::cout << "Number of inliers: " << img1Pts.size() << std::endl;
+    std::cout << "Cheirality test result: " << count << std::endl;
+
+    // debugging: average reprojection error using the obtained R and t: 
+    double total_squared_error = 0.0;
+    int point_count = 0;
+    for(int i=0; i<img1Pts.size(); i++){
+        Vec u(2);
+        Vec u_p(2);
+
+        u(0)=img1Pts[i].x;
+        u(1)=img1Pts[i].y;
+
+        u_p(0)=img2Pts[i].x;
+        u_p(1)=img2Pts[i].y;
+
+        Mat Eye=Mat::zeros(3,4);
+        Eye(0,0)=1.0;
+        Eye(1,1)=1.0;
+        Eye(2,2)=1.0;
+
+        Mat P1_pixel=K1*Eye;
+        Mat P2_pixel=K2*P2;
+
+        total_squared_error+=ReprojectionError(u, u_p, P1_pixel, P2_pixel);
+        point_count+=2;
+    }
+    std::cout << "The average reprojection error over all matches is: " << std::sqrt(total_squared_error / point_count) << std::endl;
 
     // 6. Finally, we print the Rotation and Translation error between the predicted and the ground truth:
     double rot_err=rotation_error(R_gt, R_pred);

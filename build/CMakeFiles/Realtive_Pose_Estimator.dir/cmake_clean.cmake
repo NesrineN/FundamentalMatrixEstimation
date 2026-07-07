@@ -33,8 +33,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/Realtive_Pose_Estimator.dir/Pipeline.cpp.obj.d"
   "CMakeFiles/Realtive_Pose_Estimator.dir/PoseEstimation.cpp.obj"
   "CMakeFiles/Realtive_Pose_Estimator.dir/PoseEstimation.cpp.obj.d"
-  "CMakeFiles/Realtive_Pose_Estimator.dir/RANSAC.cpp.obj"
-  "CMakeFiles/Realtive_Pose_Estimator.dir/RANSAC.cpp.obj.d"
   "CMakeFiles/Realtive_Pose_Estimator.dir/Renorm.cpp.obj"
   "CMakeFiles/Realtive_Pose_Estimator.dir/Renorm.cpp.obj.d"
   "CMakeFiles/Realtive_Pose_Estimator.dir/main.cpp.obj"

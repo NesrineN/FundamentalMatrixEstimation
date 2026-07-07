@@ -254,3 +254,6 @@ reprojection
 
 Gauss newton and FNS???????????????????
 Renorm is much slower than HEIV 
+
+
+cmake -G "MinGW Makefiles" -B build -DCMAKE_CXX_COMPILER="C:/msys64/mingw64/bin/g++.exe"

@@ -3,7 +3,6 @@
 #include <cmath>
 #include "FNS.h"
 #include "HEIV.h"
-#include "RANSAC.h"
 #include "Renorm.h"
 #include "GaussNewton.h"
 #include "Initialization.h"
@@ -30,12 +29,6 @@ typedef libNumerics::vector<double> Vec;
 using namespace Imagine;
 using namespace std;
 
-struct Point2D
-{
-    double x;
-    double y;
-};
-
 // function that creates the vector E from two point-correspondences:
 Vec fillE(const Point2D& p1, const Point2D& p2, double f0);
 
@@ -57,4 +50,6 @@ double rotation_error(const Mat& R_gt, const Mat& R_pred);
 
 double translation_error(const Vec& t_gt, const Vec& t_pred);
 
-Vec RunPipelineNoiseless(const std::string& I1_path, const std::string& I2_path, const Mat& K1, const Mat& K2, const double& f0, const int& method=1, const Mat& R_gt, const Vec& t_gt);
+double epidistance(Point2D p1, Point2D p2, Mat F);
+
+Vec RunPipelineNoiseless(const std::string& I1_path, const std::string& I2_path, const Mat& K1, const Mat& K2, const double& f0, const Mat& R_gt, const Vec& t_gt, const int& method=1);
