@@ -4,6 +4,7 @@
 #include "Initialization.h"
 #include "PoseEstimation.h"
 #include "Pipeline.h"
+#include "GetInliers.h"
 
 #include <vector>
 #include <numeric>  
@@ -77,6 +78,9 @@ std::vector<Association> loadAssociations(const std::string& dataset_path)
 
 Mat quatToRot(double x, double y, double z, double w)
 {
+    double qnorm = std::sqrt(x*x + y*y + z*z + w*w);
+    std::cout << "quaternion norm: " << qnorm << std::endl; // should be ~1.0
+
     Mat R=Mat::zeros(3);
 
     R(0,0) = 1 - 2*(y*y + z*z);
@@ -94,17 +98,31 @@ Mat quatToRot(double x, double y, double z, double w)
     return R;
 }
 
+Mat orthogonalizeRotation(const Mat& R) {
+    Mat U(3,3), V(3,3);
+    Vec S(3);
+    R.SVD(U, S, V);
+    Mat R_ortho = U * V.t();
+    if (R_ortho.det() < 0) {
+        for (int i=0;i<3;i++) U(i,2) = -U(i,2);
+        R_ortho = U * V.t();
+    }
+    return R_ortho;
+}
+
 // this function takes R1 t1 and R2 t2 and computes relative pose R and t
 void computeRelativePose(
     const Mat& R1, const Vec& t1,
     const Mat& R2, const Vec& t2,
     Mat& R_rel, Vec& t_rel)
 {
-    // R_rel = R2 * R1^T
-    R_rel = R2 * R1.t();
+    Mat R1o = orthogonalizeRotation(R1);
+    Mat R2o = orthogonalizeRotation(R2);
 
-    // t_rel = t2 - R_rel * t1
-    t_rel = t2 - R_rel * t1;
+    R_rel = R2o.t() * R1o;
+    R_rel = orthogonalizeRotation(R_rel); // clean up any residual multiplication drift too
+
+    t_rel = R2o.t() * (t1 - t2);
 }
 
 double computeMean(const std::vector<double>& v)
@@ -181,12 +199,20 @@ int main(int argc, char* argv[]){
 
     // Intrinsics provided by TUM RGB-D Dataset for Freiburg 1 RGB data:
     double fx=517.3, fy=516.5, cx=318.6, cy=255.3;
-    double f0 = (fx + fy) * 0.5;
+    // distortion parameters provided by TUM RGB-D
+    double k1=0.2624;
+    double k2=-0.9531;
+    double p1=-0.0054;
+    double p2=0.0026;
+    double k3=1.1633;
+
     Mat K=Mat::eye(3);
     K(0,0)=fx;
     K(0,2)=cx;
     K(1,1)=fy;
     K(1,2)=cy;
+
+    double f0 = (fx + fy) * 0.5;
     
     // Pre-processing of the dataset:
     std::ifstream file("config/dataset.txt");
@@ -215,10 +241,10 @@ int main(int argc, char* argv[]){
     std::vector<double> Rotation_errors_Gauss;
     std::vector<double> Translation_errors_Gauss;
 
-    for (size_t i = 0; i + 1 < associations.size(); i++)
+    for (size_t i = 0; i + 12 < associations.size(); i++)
     {
         const auto& a1 = associations[i];
-        const auto& a2 = associations[i + 1];
+        const auto& a2 = associations[i + 12];
 
         Mat R1 = quatToRot(a1.qx, a1.qy, a1.qz, a1.qw);
         Mat R2 = quatToRot(a2.qx, a2.qy, a2.qz, a2.qw);
@@ -233,12 +259,14 @@ int main(int argc, char* argv[]){
 
         computeRelativePose(R1, t1, R2, t2, R_rel_gt, t_rel_gt);
 
-        // debugging:
-        std::cout << "R ground truth is: " << std::endl;
-        printM(R_rel_gt);
+        std::cout << "square magnitude of t_gt is: " << t_rel_gt.qnorm() << std::endl;
 
-        std::cout << "t ground truth is: " << std::endl;
-        printV(t_rel_gt);
+        // debugging:
+        // std::cout << "R ground truth is: " << std::endl;
+        // printM(R_rel_gt);
+
+        // std::cout << "t ground truth is: " << std::endl;
+        // printV(t_rel_gt);
 
         // image paths
         std::string I1_path = a1.rgb_path;
@@ -250,8 +278,15 @@ int main(int argc, char* argv[]){
         std::cout << "Image 1 path is: " << I1_path << std::endl;
         std::cout << "Image 2 path is: " << I2_path << std::endl;
 
+        // Load images
+        Image<Color,2> I1, I2;
+        if( ! load(I1, I1_path.c_str()) ||
+            ! load(I2, I2_path.c_str()) ) {
+            cerr<< "Unable to load images" << endl;
+        }
+
         // now we run the pipeline to get the errors:
-        Vec errors_FNS=RunPipelineNoiseless(I1_path, I2_path, K, K, f0, R_rel_gt, t_rel_gt, 1);
+        Vec errors_FNS=RunPipelineNoiseless(I1, I2, I1_path, I2_path, K, K, f0, R_rel_gt, t_rel_gt, 1, fx,  fy,  cx,  cy, k1,  k2,  p1,  p2,  k3);
         // Vec errors_Gauss=RunPipelineNoiseless(I1_path, I2_path, K, K, f0, R_rel_gt, t_rel_gt, 2);
 
 

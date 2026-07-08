@@ -1,13 +1,20 @@
 #include "libOrsa/libNumerics/matrix.h"
 #include <vector>
 #include "PoseEstimation.h"
+#include "Pipeline.h"
+#include "./Imagine/Features.h"
+#include <Imagine/Graphics.h>
+#include <Imagine/LinAlg.h>
 
 typedef libNumerics::matrix<double> Mat;
 typedef libNumerics::vector<double> Vec;
 
+
+using namespace Imagine;
+
 // assuming P1= K1[I|0]  P2=K2[R|t]
 // U=(u,v,1) and U_prime=(u',v',1) are pixel coordinates 
-int Triangulate(const Vec& U, const Vec& U_prime, const Mat& P, const Mat& P_prime, const Mat& R, const Vec& t){
+int Triangulate(Image<Color,2> I1, Image<Color,2> I2, const Vec& U, const Vec& U_prime, const Mat& P, const Mat& P_prime, const Mat& R, const Vec& t){
     // extracting the coordinates from the u and u' vectors
     double u= U(0);
     double v= U(1);
@@ -63,6 +70,27 @@ int Triangulate(const Vec& U, const Vec& U_prime, const Mat& P, const Mat& P_pri
         double z1=X1(2);
         double z2=X2(2);
 
+        // std::cout << "z1=" << z1 << " z2=" << z2 << std::endl;
+
+        if(z1<-100 || z2<-100){
+            // vector<Match> matches;
+            // Match m;
+            // m.x1=u;
+            // m.y1=v;
+            // m.x2=u_p;
+            // m.y2=v_p;
+
+            // matches.push_back(m);
+
+            // int W = I1.width() + I2.width();
+            // int H = max(I1.height(), I2.height());
+            // Window w1 = openWindow(W, H);
+            // drawMatches( w1, I1, I2, matches);
+            // click();
+            // closeWindow(w1);
+            // std::cout << "z1=" << z1 << " z2=" << z2 << std::endl;
+        }
+
         if(z1>0 && z2>0){
             return 1;
         }
@@ -74,7 +102,7 @@ int Triangulate(const Vec& U, const Vec& U_prime, const Mat& P, const Mat& P_pri
     }
     else{
         std::cout << "w_hom was zero" << std::endl;
-        return -1; // point behind camera
+        return -1; // same res as if point behind camera
     }
 }
 
@@ -183,27 +211,98 @@ Mat Normaliza_Mat(const Mat& A){
 
 }
 
+// Reorders columns of U, V (and S) so the near-zero singular value ends up at index 2,
+// regardless of what order the library's SVD returned them in.
+void reorderForEssentialDecomposition(Mat& U, Vec& S, Mat& V) {
+    int minIdx = 0;
+    for (int i = 1; i < 3; ++i)
+        if (S(i) < S(minIdx)) minIdx = i;
+
+    if (minIdx == 2) return; // already in the right spot
+
+    std::vector<int> order(3);
+    if (minIdx == 0)      order = {1, 2, 0};  // even permutation
+    else /* minIdx==1 */  order = {2, 0, 1};  // even permutation
+
+    Mat U_new(3,3), V_new(3,3);
+    Vec S_new(3);
+    for (int newCol = 0; newCol < 3; ++newCol) {
+        int oldCol = order[newCol];
+        for (int r = 0; r < 3; ++r) {
+            U_new(r, newCol) = U(r, oldCol);
+            V_new(r, newCol) = V(r, oldCol);
+        }
+        S_new(newCol) = S(oldCol);
+    }
+    U = U_new; V = V_new; S = S_new;
+}
+
+Mat skew(const Vec& t) {
+    Mat T = Mat::zeros(3,3);
+    T(0,1) = -t(2); T(0,2) =  t(1);
+    T(1,0) =  t(2); T(1,2) = -t(0);
+    T(2,0) = -t(1); T(2,1) =  t(0);
+    return T;
+}
+
+double compareE(const Mat& E_est, const Mat& E_gt) {
+    // normalize both to unit Frobenius norm
+    Vec e1(9), e2(9);
+    for(int i=0;i<3;i++) for(int j=0;j<3;j++){
+        e1(i*3+j) = E_est(i,j);
+        e2(i*3+j) = E_gt(i,j);
+    }
+    e1 /= std::sqrt(e1.qnorm());
+    e2 /= std::sqrt(e2.qnorm());
+
+    double diff_pos = (e1 - e2).qnorm();
+    double diff_neg = (e1 + e2).qnorm();
+
+    return std::sqrt(std::min(diff_pos, diff_neg)); // normalized Frobenius distance, sign-invariant
+}
+
 // assumes P1=[I|0] and returns P2=[R|t] 
-Mat EstimatePose(const Mat& K1, const Mat& K2, const Mat& F, const std::vector<Point2D>& img1Pts, const std::vector<Point2D>& img2Pts){
+Mat EstimatePose(Image<Color,2> I1, Image<Color,2> I2, const Mat& K1, const Mat& K2, const Mat& F, const std::vector<Point2D>& img1Pts, const std::vector<Point2D>& img2Pts, const Mat& R_gt, const Vec& t_gt){
     Mat E=K2.t()*F*K1;
 
-    Mat E_norm=Normaliza_Mat(E); // normalizing E
+    Mat E_norm=E;
 
     Mat U(E_norm.nrow(), E_norm.nrow());
     Mat V(E_norm.ncol(), E_norm.ncol());
     Vec S(std::min(E_norm.nrow(), E_norm.ncol()));
     E_norm.SVD(U, S, V);
 
-    // enforcing singular value correction (s,s,0)  
-    double s = (S(0) + S(1)) / 2.0;
+    // debugging:
+    std::cout << "4 singular values of E: " << std::endl;
+    std::cout << S(0) << " " << S(1) <<  " " << S(2) << std::endl;
+
+    // enforcing singular value correction (s,s,0)
+    int minIdx = 0;
+    for (int i = 1; i < 3; ++i)
+        if (S(i) < S(minIdx)) minIdx = i;
+
+    // average the other two 
+    double s = 0.0;
+    int count = 0;
+    for (int i = 0; i < 3; ++i) {
+        if (i != minIdx) { s += S(i); count++; }
+    }
+    s /= count;
+
     Mat Sigma = Mat::zeros(3);
-    Sigma(0,0) = s;
-    Sigma(1,1) = s;
-    Sigma(2,2) = 0;
+    for (int i = 0; i < 3; ++i)
+        Sigma(i,i) = (i == minIdx) ? 0.0 : s;
 
     E_norm = U * Sigma * V.t();
 
+    // debugging E_norm and E_gt
+    Mat E_gt = skew(t_gt) * R_gt;
+    std::cout << "difference between E and E_gt: " << compareE(E_norm, E_gt) << std::endl;
+
+
     E_norm.SVD(U, S, V);
+
+    reorderForEssentialDecomposition(U, S, V);
 
     Mat W=Mat::zeros(3);
     W(0,1)=-1;
@@ -227,6 +326,16 @@ Mat EstimatePose(const Mat& K1, const Mat& K2, const Mat& F, const std::vector<P
     } 
 
     // we got the 4 possibilities of poses: R1,t1 - R1, t2 - R2,t1 - R2,t2
+
+    // debugging directly with gt:
+    double best_rot_err = 1e9, best_trans_err = 1e9;
+    Mat candidates_R[4] = {R1, R1, R2, R2};
+    Vec candidates_t[4] = {t1, t2, t1, t2};
+    for (int i = 0; i < 4; i++) {
+        double re = rotation_error(R_gt, candidates_R[i]);
+        double te = translation_error(t_gt, candidates_t[i]);
+        std::cout << "candidate " << i << ": rot_err=" << re << " trans_err=" << te << std::endl;
+    }
 
     Mat P1=Mat::zeros(3,4);
     P1.paste(0,0,Mat::eye(3));
@@ -264,10 +373,10 @@ Mat EstimatePose(const Mat& K1, const Mat& K2, const Mat& F, const std::vector<P
         u_prime(1)=img2Pts[i].y;
         u_prime(2)=1.0;
 
-        if (Triangulate(u,u_prime,K1*P1,K2*P2_1, R1, t1) > 0)total_1++;
-        if (Triangulate(u,u_prime,K1*P1,K2*P2_2, R1, t2) > 0)total_2++;
-        if (Triangulate(u,u_prime,K1*P1,K2*P2_3, R2, t1) > 0)total_3++;
-        if (Triangulate(u,u_prime,K1*P1,K2*P2_4, R2, t2) > 0)total_4++;
+        if (Triangulate(I1, I2, u,u_prime,K1*P1,K2*P2_1, R1, t1) > 0)total_1++;
+        if (Triangulate(I1, I2, u,u_prime,K1*P1,K2*P2_2, R1, t2) > 0)total_2++;
+        if (Triangulate(I1, I2, u,u_prime,K1*P1,K2*P2_3, R2, t1) > 0)total_3++;
+        if (Triangulate(I1, I2, u,u_prime,K1*P1,K2*P2_4, R2, t2) > 0)total_4++;
     }
 
     std::cout << "Totals: " << std::endl;

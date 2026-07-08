@@ -75,7 +75,7 @@ Vec SolveEigen(const Mat& A){
     Eigen::VectorXd u = es.eigenvectors().col(0);
 
     // debug
-    std::cout << "Eigen value:" << es.eigenvalues()(0) << std::endl;
+    // std::cout << "Eigen value:" << es.eigenvalues()(0) << std::endl;
 
     int size=u.size();
     Vec unew(size);
@@ -125,12 +125,12 @@ Mat FNS(const Vec& u, const Mat& Eall, const std::vector<Mat>& Vall){
         double d1 = (unew - uold).qnorm();
         double d2 = (unew + uold).qnorm();
 
-        std::cout << "iter " << i << " min(d1,d2)=" << std::min(d1,d2) << std::endl;
+        // std::cout << "iter " << i << " min(d1,d2)=" << std::min(d1,d2) << std::endl;
 
         uold=unew;
 
         if(std::min(d1,d2) < 1e-4) {
-            std::cout << "converged at iter " << i << std::endl;
+            // std::cout << "converged at iter " << i << std::endl;
             break;
         }
 

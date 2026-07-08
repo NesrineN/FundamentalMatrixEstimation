@@ -12,6 +12,8 @@
 #include "./Imagine/Features.h"
 #include <Imagine/Graphics.h>
 #include <Imagine/LinAlg.h>
+#include "libOrsa/libNumerics/matrix.h"
+#include "PoseEstimation.h"
 
 #pragma once
 
@@ -22,7 +24,20 @@ struct Match {
 using namespace Imagine;
 using namespace std;
 
+typedef libNumerics::matrix<double> Mat;
+typedef libNumerics::vector<double> Vec;
+
+Point2D undistortPoint(double u, double v,
+                        double fx, double fy, double cx, double cy,
+                        double k1, double k2, double p1, double p2, double k3);
+
+void undistortMatches(std::vector<Match>& matches,
+                       double fx, double fy, double cx, double cy,
+                       double k1, double k2, double p1, double p2, double k3);                        
+
 void algoSIFT(Image<Color,2> I1, Image<Color,2> I2, vector<Match>& matches);
+
+void removeDuplicateMatches(std::vector<Match>& matches, double eps = 1e-6);
 
 vector<FMatrix<float,3,3>> compute_N(vector<Match>& matches);
 
@@ -34,4 +49,6 @@ FMatrix<float,3,3> eightpointalgo(vector<Match>& matches);
 
 FMatrix<float,3,3> computeF(vector<Match>& matches);
 
-vector<Match> GetInliers(const std::string& I1_path, const std::string& I2_path, Mat& F_RANSAC);
+void drawMatches(Window w, Image<Color,2> I1, Image<Color,2> I2, const vector<Match>& matches);
+
+vector<Match> GetInliers(const std::string& I1_path, const std::string& I2_path, Mat& F_RANSAC, double fx, double fy, double cx, double cy, double k1, double k2, double p1, double p2, double k3);

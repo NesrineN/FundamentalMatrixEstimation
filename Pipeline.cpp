@@ -359,11 +359,12 @@ double epidistance(Point2D p1, Point2D p2, Mat F){
     return num/denom;
 }
 
-Vec RunPipelineNoiseless(const std::string& I1_path, const std::string& I2_path, const Mat& K1, const Mat& K2, const double& f0, const Mat& R_gt, const Vec& t_gt, const int& method=1){
+Vec RunPipelineNoiseless(Image<Color,2> I1, Image<Color,2> I2, const std::string& I1_path, const std::string& I2_path, const Mat& K1, const Mat& K2, const double& f0, const Mat& R_gt, const Vec& t_gt, const int& method, double fx, double fy, double cx, double cy,
+                       double k1, double k2, double p1, double p2, double k3){
 
     // 1. Get the matches/inliers from the image pairs using SIFT + RANSAC and 8-point algorithm as a starting point
     Mat F_RANSAC=Mat::zeros(3);
-    vector<Match> matches=GetInliers(I1_path, I2_path, F_RANSAC);
+    vector<Match> matches=GetInliers(I1_path, I2_path, F_RANSAC, fx,  fy,  cx,  cy,  k1,  k2,  p1,  p2,  k3);
     F_RANSAC=F_RANSAC.t(); // transposing before giving it to FNS as initial F estimation because FNS is solving xT F x' =0 and RANSAC 8-point algo was solving x'T F x=0
 
     // 2. Using the matches, we want to fill the vectors of 2D point matches img1Pts and img2Pts
@@ -416,18 +417,18 @@ Vec RunPipelineNoiseless(const std::string& I1_path, const std::string& I2_path,
     std::cout << "avg epi distance estim RANSAC: " << avg_epidist_estim_RANSAC/img1Pts.size() << std::endl;
 
     // 4. After that, we want to do relative pose estimation given F and the intrinsic matrices K1 and K2:
-    Mat P2=EstimatePose(K1, K2, F, img1Pts, img2Pts);
+    Mat P2=EstimatePose(I1,I2, K1, K2, F, img1Pts, img2Pts, R_gt, t_gt);
     
     // debugging
-    std::cout << "P2:" << std::endl;
-    printM(P2);
+    // std::cout << "P2:" << std::endl;
+    // printM(P2);
 
     // 5. From P2, we will extract R and t 
     Mat R_pred=P2.copy(0,2,0,2);
     Mat t_pred_mat=P2.copyCols(3,3);
 
-    std::cout << "t_pred-mat:" << std::endl;
-    printM(t_pred_mat);
+    // std::cout << "t_pred-mat:" << std::endl;
+    // printM(t_pred_mat);
 
     Vec t_pred(3);
     t_pred(0)=t_pred_mat(0,0);
@@ -435,9 +436,9 @@ Vec RunPipelineNoiseless(const std::string& I1_path, const std::string& I2_path,
     t_pred(2)=t_pred_mat(2,0);
 
     // debugging 
-    std::cout << "R_pred and t_pred:" << std::endl;
-    printM(R_pred);
-    printV(t_pred);
+    // std::cout << "R_pred and t_pred:" << std::endl;
+    // printM(R_pred);
+    // printV(t_pred);
 
     // debugging: cheirality and reprojection test to test our R and t without gt
     int count=0;
@@ -459,7 +460,7 @@ Vec RunPipelineNoiseless(const std::string& I1_path, const std::string& I2_path,
         Mat P1_pixel=K1*Eye;
         Mat P2_pixel=K2*P2;
 
-        if(Triangulate(u, u_p, P1_pixel, P2_pixel, R_pred, t_pred)>0) count+=1;
+        if(Triangulate(I1, I2, u, u_p, P1_pixel, P2_pixel, R_pred, t_pred)>0) count+=1;
     }
     std::cout << "Number of inliers: " << img1Pts.size() << std::endl;
     std::cout << "Cheirality test result: " << count << std::endl;

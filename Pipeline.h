@@ -1,11 +1,12 @@
 #include "libOrsa/libNumerics/matrix.h"
-#include <iostream> 
-#include <cmath>
 #include "FNS.h"
-#include "HEIV.h"
-#include "Renorm.h"
 #include "GaussNewton.h"
 #include "Initialization.h"
+#include "./Imagine/Features.h"
+#include "PoseEstimation.h"
+#include "GetInliers.h"
+
+#include <cmath>
 #include <vector>
 #include <random>
 #include <iostream>
@@ -13,13 +14,8 @@
 #include <sstream>
 #include <iomanip>
 #include <string>
-#include "./Imagine/Features.h"
 #include <Imagine/Graphics.h>
 #include <Imagine/LinAlg.h>
-#include "PoseEstimation.h"
-
-#include <Eigen/Dense>
-#include <Eigen/Eigenvalues>
 
 const double PI = 3.14159265358979323846;
 
@@ -52,4 +48,5 @@ double translation_error(const Vec& t_gt, const Vec& t_pred);
 
 double epidistance(Point2D p1, Point2D p2, Mat F);
 
-Vec RunPipelineNoiseless(const std::string& I1_path, const std::string& I2_path, const Mat& K1, const Mat& K2, const double& f0, const Mat& R_gt, const Vec& t_gt, const int& method=1);
+Vec RunPipelineNoiseless(Image<Color,2> I1, Image<Color,2> I2, const std::string& I1_path, const std::string& I2_path, const Mat& K1, const Mat& K2, const double& f0, const Mat& R_gt, const Vec& t_gt, const int& method, double fx, double fy, double cx, double cy,
+                       double k1, double k2, double p1, double p2, double k3);

@@ -13,6 +13,7 @@
 #include <Imagine/Graphics.h>
 #include <Imagine/LinAlg.h>
 #include "libOrsa/libNumerics/matrix.h"
+#include "PoseEstimation.h"
 
 typedef libNumerics::matrix<double> Mat;
 typedef libNumerics::vector<double> Vec;
@@ -26,6 +27,51 @@ struct Match {
 
 static const double BETA = 0.01f; // Probability of failure
 
+// UNDISTORTING THE PIXELS:
+// Undistorts a single pixel point (u,v) given camera intrinsics and distortion coefficients.
+// Returns the corresponding *undistorted* pixel coordinates, still in pixel units.
+Point2D undistortPoint(double u, double v,
+                        double fx, double fy, double cx, double cy,
+                        double k1, double k2, double p1, double p2, double k3) {
+    // Step 1: convert to normalized (distorted) coordinates
+    double x = (u - cx) / fx;
+    double y = (v - cy) / fy;
+
+    double x0 = x, y0 = y;
+
+    // Step 2: iteratively solve for the undistorted normalized coordinates
+    // (standard fixed-point iteration, same approach OpenCV's undistortPoints uses)
+    for (int iter = 0; iter < 10; iter++) {
+        double r2 = x*x + y*y;
+        double r4 = r2*r2;
+        double r6 = r4*r2;
+        double radial = 1.0 + k1*r2 + k2*r4 + k3*r6;
+
+        double dx = 2*p1*x*y + p2*(r2 + 2*x*x);
+        double dy = p1*(r2 + 2*y*y) + 2*p2*x*y;
+
+        x = (x0 - dx) / radial;
+        y = (y0 - dy) / radial;
+    }
+
+    // Step 3: convert back to pixel coordinates using the SAME K
+    // (so the result is still in pixel space, just distortion-corrected)
+    Point2D result;
+    result.x = x * fx + cx;
+    result.y = y * fy + cy;
+    return result;
+}
+
+void undistortMatches(std::vector<Match>& matches,
+                       double fx, double fy, double cx, double cy,
+                       double k1, double k2, double p1, double p2, double k3) {
+    for (auto& m : matches) {
+        Point2D p1u = undistortPoint(m.x1, m.y1, fx, fy, cx, cy, k1, k2, p1, p2, k3);
+        Point2D p2u = undistortPoint(m.x2, m.y2, fx, fy, cx, cy, k1, k2, p1, p2, k3);
+        m.x1 = p1u.x; m.y1 = p1u.y;
+        m.x2 = p2u.x; m.y2 = p2u.y;
+    }
+}
 
 // first we will implement a function that takes a couple of images and extracts the matching points from them: 
 // Display SIFT points and fill vector of point correspondences
@@ -78,6 +124,24 @@ void algoSIFT(Image<Color,2> I1, Image<Color,2> I2,
             matches.push_back(m);
         }
     }
+}
+
+void removeDuplicateMatches(std::vector<Match>& matches, double eps = 1e-6) {
+    // sort by (x1,y1,x2,y2) so duplicates end up adjacent
+    std::sort(matches.begin(), matches.end(), [](const Match& a, const Match& b) {
+        if (std::abs(a.x1 - b.x1) > 1e-9) return a.x1 < b.x1;
+        if (std::abs(a.y1 - b.y1) > 1e-9) return a.y1 < b.y1;
+        if (std::abs(a.x2 - b.x2) > 1e-9) return a.x2 < b.x2;
+        return a.y2 < b.y2;
+    });
+
+    auto isDuplicate = [eps](const Match& a, const Match& b) {
+        return std::abs(a.x1 - b.x1) < eps && std::abs(a.y1 - b.y1) < eps &&
+               std::abs(a.x2 - b.x2) < eps && std::abs(a.y2 - b.y2) < eps;
+    };
+
+    auto last = std::unique(matches.begin(), matches.end(), isDuplicate);
+    matches.erase(last, matches.end());
 }
 
 // Function for computing the Normalization Matrices that we will use to normalize the matches
@@ -402,8 +466,11 @@ FMatrix<float,3,3> computeF(vector<Match>& matches) {
     N1=N_list[0];
     N2=N_list[1];
 
-    std::random_device rd;
-    std::mt19937 gen(rd());
+    std::mt19937 gen(42); // fixed seed — reproducible across runs only for debugging! 
+
+    // uncomment the below and comment the seed for prduction
+    // std::random_device rd;
+    // std::mt19937 gen(rd());
 
     for(int i=0; i<Niter; i++)
     {
@@ -524,17 +591,56 @@ FMatrix<float,3,3> computeF(vector<Match>& matches) {
 // }
 
 // draws points for every match: red point in I1, green point in I2.
-void drawMatches(Window w, Image<Color,2> I1, Image<Color,2> I2, const vector<Match>& matches) {
+// void drawMatches(Window w, Image<Color,2> I1, Image<Color,2> I2, const vector<Match>& matches) {
+//     setActiveWindow(w);
+//     display(I1, 0, 0);
+//     display(I2, I1.width(), 0);
+//     for (const auto& m : matches) {
+//         drawCircle((int)m.x1, (int)m.y1, 3, Color(255,0,0), 2);
+//         drawCircle((int)m.x2 + I1.width(), (int)m.y2, 3, Color(0,255,0), 2);
+//     }
+// }
+
+// Draws matches as colored dots: each match gets a unique color, and the same
+// color is used for both the point in image 1 and its corresponding point in image 2.
+// No connecting lines - just color-coded dots to visually pair matches without clutter.
+void drawMatches(Window w, Image<Color,2> I1, Image<Color,2> I2,
+                      const vector<Match>& matches, int maxToDraw = 150) {
     setActiveWindow(w);
     display(I1, 0, 0);
     display(I2, I1.width(), 0);
-    for (const auto& m : matches) {
-        drawCircle((int)m.x1, (int)m.y1, 3, Color(255,0,0), 2);
-        drawCircle((int)m.x2 + I1.width(), (int)m.y2, 3, Color(0,255,0), 2);
+
+    // subsample if there are too many matches to keep it visually readable
+    vector<int> indices(matches.size());
+    for (size_t i = 0; i < indices.size(); i++) indices[i] = i;
+
+    if ((int)indices.size() > maxToDraw) {
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::shuffle(indices.begin(), indices.end(), gen);
+        indices.resize(maxToDraw);
+    }
+
+    // deterministic per-index color generator so re-running with the same
+    // subsample order gives the same colors (useful for comparing screenshots)
+    std::mt19937 colorGen(12345);
+    std::uniform_int_distribution<int> colorDist(50, 255); // avoid near-black colors
+
+    for (int idx : indices) {
+        const Match& m = matches[idx];
+
+        Color c((unsigned char)colorDist(colorGen),
+        (unsigned char)colorDist(colorGen),
+        (unsigned char)colorDist(colorGen));
+
+        // point in image 1
+        fillCircle((int)m.x1, (int)m.y1, 4, c);
+        // point in image 2 (shifted by I1's width to sit in the right half)
+        fillCircle((int)m.x2 + I1.width(), (int)m.y2, 4, c);
     }
 }
 
-vector<Match> GetInliers(const std::string& I1_path, const std::string& I2_path, Mat& F_RANSAC){
+vector<Match> GetInliers(const std::string& I1_path, const std::string& I2_path, Mat& F_RANSAC, double fx, double fy, double cx, double cy, double k1, double k2, double p1, double p2, double k3){
     vector<Match> matches;
 
     // Load images
@@ -546,6 +652,8 @@ vector<Match> GetInliers(const std::string& I1_path, const std::string& I2_path,
     }
 
     algoSIFT(I1, I2, matches);
+    undistortMatches(matches, fx,  fy,  cx,  cy,  k1,  k2,  p1,  p2,  k3);
+    removeDuplicateMatches(matches);
 
     // debugging: we visualize the matches before RANSAC
     int W = I1.width() + I2.width();
@@ -556,7 +664,7 @@ vector<Match> GetInliers(const std::string& I1_path, const std::string& I2_path,
     closeWindow(w1);
 
     FMatrix<float,3,3> F = computeF(matches);
-    cout << "F="<< endl << F;
+    // cout << "F="<< endl << F;
     const int n = (int)matches.size();
     cout << " matches: " << n << endl;
 
