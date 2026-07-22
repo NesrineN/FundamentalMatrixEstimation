@@ -87,6 +87,53 @@ Vec SolveEigen(const Mat& A){
     return unew;
 }
 
+// General n x m SVD using Eigen
+void EigenSVD(const Mat& A, Mat& U, Vec& S, Mat& V) {
+    int rows = A.nrow();
+    int cols = A.ncol();
+
+    Eigen::MatrixXd eigenA(rows, cols);
+    for (int i = 0; i < rows; i++)
+        for (int j = 0; j < cols; j++)
+            eigenA(i,j) = A(i,j);
+
+    Eigen::JacobiSVD<Eigen::MatrixXd> svd(eigenA, Eigen::ComputeFullU | Eigen::ComputeFullV);
+
+    Eigen::MatrixXd eU = svd.matrixU();          // rows x rows
+    Eigen::MatrixXd eV = svd.matrixV();          // cols x cols
+    Eigen::VectorXd eS = svd.singularValues();   // min(rows,cols)
+
+    U = Mat(rows, rows);
+    for (int i = 0; i < rows; i++)
+        for (int j = 0; j < rows; j++)
+            U(i,j) = eU(i,j);
+
+    V = Mat(cols, cols);
+    for (int i = 0; i < cols; i++)
+        for (int j = 0; j < cols; j++)
+            V(i,j) = eV(i,j);
+
+    int minDim = std::min(rows, cols);
+    S = Vec(minDim);
+    for (int i = 0; i < minDim; i++)
+        S(i) = eS(i);
+}
+
+void EigenSVD3x3(const Mat& A, Mat& U, Vec& S, Mat& V) {
+    Eigen::Matrix3d eigenA;
+    for (int i=0;i<3;i++) for (int j=0;j<3;j++) eigenA(i,j)=A(i,j);
+
+    Eigen::JacobiSVD<Eigen::Matrix3d> svd(eigenA, Eigen::ComputeFullU | Eigen::ComputeFullV);
+
+    Eigen::Matrix3d eU = svd.matrixU();
+    Eigen::Matrix3d eV = svd.matrixV();
+    Eigen::Vector3d eS = svd.singularValues();
+
+    U = Mat(3,3); V = Mat(3,3); S = Vec(3);
+    for (int i=0;i<3;i++) for (int j=0;j<3;j++) { U(i,j)=eU(i,j); V(i,j)=eV(i,j); }
+    for (int i=0;i<3;i++) S(i)=eS(i);
+}
+
 Vec SVD_U(const Mat& A){
 
     Mat U(A.nrow(), A.nrow());
@@ -98,6 +145,8 @@ Vec SVD_U(const Mat& A){
     // Vec S(A.ncol());
     // Mat V=Mat::zeros(A.ncol());
 
+    // EigenSVD3x3(A, U, S, V);
+    // EigenSVD(A, U, S, V);
     A.SVD(U, S, V);
     Vec unew=V.col(V.ncol()-1);
     return unew;
@@ -152,7 +201,8 @@ Mat FNS(const Vec& u, const Mat& Eall, const std::vector<Mat>& Vall){
     Mat U(3,3);
     Mat V(3,3);
     Vec S(3);
-    F.SVD(U,S,V);
+    EigenSVD3x3( F, U, S, V);
+    // F.SVD(U,S,V);
 
     int minIndex = 0;
         for (int i = 1; i < 3; ++i)

@@ -1,0 +1,9 @@
+Method: FNS
+Skipping frame: 20
+Number of pairs: 190
+Rotation threshold for discarding: 40 deg
+Number of discarded pairs: 6
+Mean rotation error: 40.4489 deg
+Median rotation error: 7.75049 deg
+Mean translation error: 57.6418 deg
+Median translation error: 53.9792 deg

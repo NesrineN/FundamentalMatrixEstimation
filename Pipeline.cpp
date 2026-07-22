@@ -387,10 +387,10 @@ Vec RunPipelineNoiseless(Image<Color,2> I1, Image<Color,2> I2, const std::string
 
     // 3. Now, we want to run the method of choice: either FNS or Gauss-Newton to compute the fundamental matrix from the inliers
     if(method==1){
-        std::cout << "----Computing F using FNS----" << std::endl;
+        // std::cout << "----Computing F using FNS----" << std::endl;
     }
     else{
-        std::cout << "----Computing F using Gauss-Newton----" << std::endl;
+        // std::cout << "----Computing F using Gauss-Newton----" << std::endl;
     }
 
     Mat F=GetF(img1Pts, img2Pts, F_RANSAC, f0, method);
@@ -413,8 +413,8 @@ Vec RunPipelineNoiseless(Image<Color,2> I1, Image<Color,2> I2, const std::string
         // std:: cout << std::endl;
     }
 
-    std::cout << "avg epi distance estim: " << avg_epidist_estim/img1Pts.size() << std::endl;
-    std::cout << "avg epi distance estim RANSAC: " << avg_epidist_estim_RANSAC/img1Pts.size() << std::endl;
+    // std::cout << "avg epi distance estim: " << avg_epidist_estim/img1Pts.size() << std::endl;
+    // std::cout << "avg epi distance estim RANSAC: " << avg_epidist_estim_RANSAC/img1Pts.size() << std::endl;
 
     // 4. After that, we want to do relative pose estimation given F and the intrinsic matrices K1 and K2:
     Mat P2=EstimatePose(I1,I2, K1, K2, F, img1Pts, img2Pts, R_gt, t_gt);
@@ -462,8 +462,8 @@ Vec RunPipelineNoiseless(Image<Color,2> I1, Image<Color,2> I2, const std::string
 
         if(Triangulate(I1, I2, u, u_p, P1_pixel, P2_pixel, R_pred, t_pred)>0) count+=1;
     }
-    std::cout << "Number of inliers: " << img1Pts.size() << std::endl;
-    std::cout << "Cheirality test result: " << count << std::endl;
+    // std::cout << "Number of inliers: " << img1Pts.size() << std::endl;
+    // std::cout << "Cheirality test result: " << count << std::endl;
 
     // debugging: average reprojection error using the obtained R and t: 
     double total_squared_error = 0.0;
@@ -489,14 +489,14 @@ Vec RunPipelineNoiseless(Image<Color,2> I1, Image<Color,2> I2, const std::string
         total_squared_error+=ReprojectionError(u, u_p, P1_pixel, P2_pixel);
         point_count+=2;
     }
-    std::cout << "The average reprojection error over all matches is: " << std::sqrt(total_squared_error / point_count) << std::endl;
+    // std::cout << "The average reprojection error over all matches is: " << std::sqrt(total_squared_error / point_count) << std::endl;
 
     // 6. Finally, we print the Rotation and Translation error between the predicted and the ground truth:
     double rot_err=rotation_error(R_gt, R_pred);
     double trans_err=translation_error(t_gt, t_pred);
 
-    std::cout << "The Rotation error is: " << rot_err << std::endl; 
-    std::cout << "The Translation error is: " << trans_err << std::endl; 
+    // std::cout << "The Rotation error is: " << rot_err << std::endl; 
+    // std::cout << "The Translation error is: " << trans_err << std::endl; 
 
     Vec errors(2);
     errors(0)=rot_err;

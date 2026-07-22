@@ -25,6 +25,17 @@ struct Match {
     double x1, y1, x2, y2;
 };
 
+void printM_here(const Mat& A){
+    std::cout << "Matrix: " << std::endl;
+    for(int i=0;i<A.nrow(); i++){
+        for(int j =0; j<A.ncol(); j++){
+            std::cout << A(i,j) << " "; 
+        }
+        std::cout << "" << std::endl;
+        std::cout << "" << std::endl;
+    }
+}
+
 static const double BETA = 0.01f; // Probability of failure
 
 // UNDISTORTING THE PIXELS:
@@ -83,12 +94,12 @@ void algoSIFT(Image<Color,2> I1, Image<Color,2> I2,
     D.setFirstOctave(-1);
     Array<SIFTDetector::Feature> feats1 = D.run(I1);
     // drawFeatures(feats1, Coords<2>(0,0));
-    cout << "Im1: " << feats1.size() << flush;
+    // std::cout << "Im1: " << feats1.size() << flush;
     Array<SIFTDetector::Feature> feats2 = D.run(I2);
     // drawFeatures(feats2, Coords<2>(I1.width(),0));
-    cout << " Im2: " << feats2.size() << flush;
+    // std::cout << " Im2: " << feats2.size() << flush;
 
-    const double RATIO_THRESH = 0.6; // Lowe ratio
+    const double RATIO_THRESH = 0.6; // Lowe ratio 0.6
 
     // const double MAX_DISTANCE = 100.0*100.0;
 
@@ -149,34 +160,34 @@ void removeDuplicateMatches(std::vector<Match>& matches, double eps = 1e-6) {
 // "The points are translated so that their centroid is at the origin".
 // "The points are then scaled so that the average distance from the origin is equal to √2".
 // "This transformation is applied to each of the two images independently".
-vector<FMatrix<float,3,3>> compute_N(vector<Match>& matches){
+vector<FMatrix<double,3,3>> compute_N(vector<Match>& matches){
     
-    vector<FMatrix<float,3,3>> N_list;
-    FMatrix<float,3,3> N1; // the Normalization matrix for Image 1
-    FMatrix<float,3,3> N2; // the Normalization matrix for Image 2
+    vector<FMatrix<double,3,3>> N_list;
+    FMatrix<double,3,3> N1; // the Normalization matrix for Image 1
+    FMatrix<double,3,3> N2; // the Normalization matrix for Image 2
 
     // we will calculate the centroid of points of each image, then the distance from all points of an image to its centroid, get the scale and fill the matrix with it and the centroid
     // the aim is to translate the points so their centroid is at the origin and to scale the points so that the average distance from the origin is sqrt(2). 
 
     // for I1:
-    float xbar1=0.f;
-    float ybar1=0.f;
+    double xbar1=0.f;
+    double ybar1=0.f;
     for(int j=0;j<matches.size();j++){
         xbar1=xbar1+matches[j].x1;
         ybar1=ybar1+matches[j].y1;
     }
-    xbar1/=(float)matches.size(); // centroid
-    ybar1/=(float)matches.size(); // centroid
+    xbar1/=(double)matches.size(); // centroid
+    ybar1/=(double)matches.size(); // centroid
 
-    float distance1=0.f;
+    double distance1=0.f;
 
     for(int ii=0;ii<matches.size();ii++){
         distance1=distance1+(sqrt(pow((matches[ii].x1-xbar1),2)+pow((matches[ii].y1-ybar1),2)));
     }
 
-    distance1/=(float)matches.size(); // distance of points from the centroid
+    distance1/=(double)matches.size(); // distance of points from the centroid
     if(distance1 < 1e-8f) distance1 = 1.0f; // to avoid dividing by zero in case distance is very close to zero
-    float s1=sqrt(2.0f)/distance1; // scale to normalize by
+    double s1=sqrt(2.0f)/distance1; // scale to normalize by
     
     N1.fill(0.0f);
     N1(0,0)=s1;
@@ -192,21 +203,21 @@ vector<FMatrix<float,3,3>> compute_N(vector<Match>& matches){
     N_list.push_back(N1);
 
     // for I2:
-    float xbar2=0.f;
-    float ybar2=0.f;
+    double xbar2=0.f;
+    double ybar2=0.f;
     for(int id=0;id<matches.size();id++){
         xbar2=xbar2+matches[id].x2;
         ybar2=ybar2+matches[id].y2;
     }
-    xbar2/=(float)matches.size();
-    ybar2/=(float)matches.size();
-    float distance2=0.f;
+    xbar2/=(double)matches.size();
+    ybar2/=(double)matches.size();
+    double distance2=0.f;
     for(int ind=0;ind<matches.size();ind++){
         distance2=distance2+(sqrt(pow((matches[ind].x2-xbar2),2)+pow((matches[ind].y2-ybar2),2)));
     }
-    distance2/=(float)matches.size();
+    distance2/=(double)matches.size();
     if(distance2 < 1e-8f) distance2 = 1.0f;    
-    float s2=sqrt(2.0f)/distance2;
+    double s2=sqrt(2.0f)/distance2;
 
     N2.fill(0.0f);
     N2(0,0)=s2;
@@ -223,25 +234,24 @@ vector<FMatrix<float,3,3>> compute_N(vector<Match>& matches){
 
 
     return N_list;
-
 }
 
 
 // Function that takes the matches and the two normalization matrices N1 for I1 and N2 for I2 and normalizes the matches, returns the normalized matches
-vector<Match> normalize_matches(FMatrix<float,3,3> N1, FMatrix<float,3,3> N2, vector<Match>& matches){
+vector<Match> normalize_matches(FMatrix<double,3,3> N1, FMatrix<double,3,3> N2, vector<Match>& matches){
     
     vector<Match> subset_normalized;
     for(int match_id=0;match_id<matches.size(); match_id++){
         Match m=matches[match_id];
         Match m_normalized;
 
-        FVector<float,3> X1h, X2h; // point correspondences in a match in homogeneous system
+        FVector<double,3> X1h, X2h; // point correspondences in a match in homogeneous system
         X1h[0]= m.x1;  X1h[1]= m.y1;  X1h[2]= 1.0f;
         X2h[0]= m.x2;  X2h[1]= m.y2;  X2h[2]= 1.0f;
 
         // we normalize both
-        FVector<float,3> X1n= N1 * X1h;
-        FVector<float,3> X2n= N2 * X2h;
+        FVector<double,3> X1n= N1 * X1h;
+        FVector<double,3> X2n= N2 * X2h;
 
         // we assign to m_normalized after returning to euclidean 2d:
         m_normalized.x1= X1n[0] / X1n[2];
@@ -261,23 +271,23 @@ vector<Match> normalize_matches(FMatrix<float,3,3> N1, FMatrix<float,3,3> N2, ve
 // for each correspondence, we calculate the epipolar constraint x'^T . F. x , and the epipolar lines F.x and F^T.x'
 // error is d^2= epipolar constraint ^2 / a^2 + b^2 + a'^2 + b'^2   where a and b are the first 2 coefficients of Fx and a' and b' are the first 2 coefficients of F^T.x'
 // finally, we check if d is <= distMax (threshold) , if yes , we mark as inlier and return the index of the inlier
-vector<int> mark_inliers(FMatrix<float,3,3>& Fcandid, vector<Match>& matches, float distMax){
+vector<int> mark_inliers(FMatrix<double,3,3>& Fcandid, vector<Match>& matches, double distMax){
         
         vector<int> Inliers; // has the indices of the matches considered inliers.
         for(int id=0; id<matches.size();id++){
             Match m=matches[id];
 
-            FVector<float,3> X1h, X2h; // point correspondences in a match in homogeneous system
+            FVector<double,3> X1h, X2h; // point correspondences in a match in homogeneous system
             X1h[0]= m.x1;  X1h[1]= m.y1;  X1h[2]= 1.0f;
             X2h[0]= m.x2;  X2h[1]= m.y2;  X2h[2]= 1.0f;
 
-            float l[3]; // this is the epipolar line F.xi
+            double l[3]; // this is the epipolar line F.xi
             for (int j = 0; j < 3; j++){
                 l[j] = Fcandid(j,0)*X1h[0] + Fcandid(j,1)*X1h[1] + Fcandid(j,2)*X1h[2];
             }
 
-            float l2[3]; // this is the epipolar line F^T.x'i
-            FMatrix<float,3,3> Ftcandid = transpose(Fcandid);
+            double l2[3]; // this is the epipolar line F^T.x'i
+            FMatrix<double,3,3> Ftcandid = transpose(Fcandid);
             for (int j = 0; j < 3; j++){
                 l2[j] = Ftcandid(j,0)*X2h[0] + Ftcandid(j,1)*X2h[1] + Ftcandid(j,2)*X2h[2];
             }            
@@ -286,7 +296,7 @@ vector<int> mark_inliers(FMatrix<float,3,3>& Fcandid, vector<Match>& matches, fl
             
             // we split the calculation of the epipolar constraint for better ease
             // Step 1: Fx = F * x
-            float Fx[3];
+            double Fx[3];
             for (int i = 0; i < 3; ++i) {
                 Fx[i] = 0.0f;
                 for (int j = 0; j < 3; ++j) {
@@ -295,21 +305,21 @@ vector<int> mark_inliers(FMatrix<float,3,3>& Fcandid, vector<Match>& matches, fl
             }
 
             // Step 2: s = x'^T * Fx
-            float s = 0.0f;
+            double s = 0.0;
             for (int i = 0; i < 3; ++i) {
                 s += X2h[i] * Fx[i];
             }
 
             // Step 3: numerator
-            float numerator = s * s;
+            double numerator = s * s;
 
 
-            float denom=l[0]*l[0] + l[1]*l[1] + l2[0]*l2[0] + l2[1]*l2[1];
+            double denom=l[0]*l[0] + l[1]*l[1] + l2[0]*l2[0] + l2[1]*l2[1];
 
             if(denom<1e-8f){denom=1e-8f;} // to make sure we don't divide by zero
             
-            float di2 = numerator/denom; 
-            float di=sqrt(di2);
+            double di2 = numerator/denom; 
+            double di=sqrt(di2);
             
             if(di<=distMax){
                 // m is an inlier, we add it to the temporary vector Inliers which stores the inliers' indices 
@@ -320,9 +330,9 @@ vector<int> mark_inliers(FMatrix<float,3,3>& Fcandid, vector<Match>& matches, fl
 }
 
 // Function that calculates the Fundamental Matrix using correspondences in matches vector. It returns the F computed and the rank of the matrix A (done to skip samples in RANSAC that produced a degenerate A)
-FMatrix<float,3,3> eightpointalgo(vector<Match>& matches, const FMatrix<float,3,3>& N1, const FMatrix<float,3,3>& N2){
+FMatrix<double,3,3> eightpointalgo(vector<Match>& matches, const FMatrix<double,3,3>& N1, const FMatrix<double,3,3>& N2){
     
-    FMatrix<float,3,3> Fcandid; // to be returned 
+    FMatrix<double,3,3> Fcandid; // to be returned 
 
     int n=matches.size(); // number of matches we have in our case
     // we need AT LEAST 8 points
@@ -348,7 +358,7 @@ FMatrix<float,3,3> eightpointalgo(vector<Match>& matches, const FMatrix<float,3,
 
     // A was created using the epipolar constraint x'^T.F.x=0 
 
-    Matrix<float> A(n,9);
+    Matrix<double> A(n,9);
 
     for(int j=0;j<n;j++){
         A(j,0)=subset_normalized[j].x2*subset_normalized[j].x1;
@@ -363,10 +373,10 @@ FMatrix<float,3,3> eightpointalgo(vector<Match>& matches, const FMatrix<float,3,
     }
 
     // computing SVD of A
-    Matrix<float> U(n,n);
-    Matrix<float> V(9,9);
+    Matrix<double> U(n,n);
+    Matrix<double> V(9,9);
     int minimum=min(n,9);
-    Vector<float>S(minimum);
+    Vector<double>S(minimum);
     svd(A, U, S, V);
 
     int rank = 0;
@@ -380,11 +390,11 @@ FMatrix<float,3,3> eightpointalgo(vector<Match>& matches, const FMatrix<float,3,
         return Fcandid;
     }
 
-    Vector<float>f(9);
+    Vector<double>f(9);
     f=V.getRow(V.nrow() - 1); // this is the column V9 which is the solution to Af=0 (the svd function returns V as V^T that's why we took row instead of column)
 
     // Reshaping the vector f into a matrix Fncandid (Fnormalized-candidate)
-    FMatrix<float,3,3> Fncandid;
+    FMatrix<double,3,3> Fncandid;
     for (int id=0; id<3; id++){
         for (int j=0; j<3; j++){
             Fncandid(id,j)= f[id*3 + j];
@@ -392,14 +402,14 @@ FMatrix<float,3,3> eightpointalgo(vector<Match>& matches, const FMatrix<float,3,
     }
 
     // STEP 3: we set singular value in 3rd column to 0 and recompute Fnormalized-candidate
-    FMatrix<float,3,3> Uf;
-    FMatrix<float,3,3> Vf;
-    FVector<float,3> Sf;
+    FMatrix<double,3,3> Uf;
+    FMatrix<double,3,3> Vf;
+    FVector<double,3> Sf;
     svd(Fncandid, Uf, Sf, Vf);
     Sf[2] = 0;
 
     // changing the Sf vector to a 3x3 matrix:
-    FMatrix<float,3,3> Sfm; 
+    FMatrix<double,3,3> Sfm; 
     Sfm.fill(0.0f);
     for(int id=0;id<3;id++){
         for(int j=0;j<3;j++){
@@ -410,6 +420,14 @@ FMatrix<float,3,3> eightpointalgo(vector<Match>& matches, const FMatrix<float,3,
     }
 
     Fncandid=Uf*Sfm*Vf;
+
+    // debugging:
+    // Mat Fncandid_mat=Mat::zeros(3);
+    // for (int i = 0; i < 3; i++)
+    //     for (int j = 0; j < 3; j++)
+    //         Fncandid_mat(i,j) = Fncandid(i,j);
+
+    // std::cout << "Fncandid (normalized space):" << std::endl; printM_here(Fncandid_mat);
 
     // STEP 4: we denormalize F to get Fcandidate
     Fcandid=transpose(N2)*Fncandid*N1;
@@ -439,11 +457,11 @@ FMatrix<float,3,3> eightpointalgo(vector<Match>& matches, const FMatrix<float,3,
 
 // RANSAC algorithm to compute F from point matches (8-point algorithm)
 // Parameter matches is filtered to keep only inliers as output.
-FMatrix<float,3,3> computeF(vector<Match>& matches) {
-    const float distMax = 1.5f; // Pixel error for inlier/outlier discrimination
+FMatrix<double,3,3> computeF(vector<Match>& matches) {
+    const double distMax = 1.5; // Pixel error for inlier/outlier discrimination
     // 100000
     int Niter=100000; // Adjusted dynamically
-    FMatrix<float,3,3> bestF;
+    FMatrix<double,3,3> bestF;
 
     bestF.fill(0.0f); // safe default
 
@@ -452,16 +470,16 @@ FMatrix<float,3,3> computeF(vector<Match>& matches) {
     // we make sure matches has at least 8 correspondences
     if(matches.size() < 8) {
         cerr << "Not enough matches to estimate F (need >= 8)" << endl;
-        return FMatrix<float,3,3>();
+        return FMatrix<double,3,3>();
     }
 
     // --------------- TODO ------------
     // DO NOT FORGET NORMALIZATION OF POINTS
 
-    FMatrix<float,3,3> N1 ;
-    FMatrix<float,3,3> N2;
+    FMatrix<double,3,3> N1 ;
+    FMatrix<double,3,3> N2;
 
-    vector<FMatrix<float,3,3>> N_list;
+    vector<FMatrix<double,3,3>> N_list;
     N_list=compute_N(matches);
     N1=N_list[0];
     N2=N_list[1];
@@ -495,7 +513,7 @@ FMatrix<float,3,3> computeF(vector<Match>& matches) {
 
         // STEP 2: we apply the 8-point algorithm on the subset chosen to get Fcandidate 
 
-        FMatrix<float,3,3> Fcandid=eightpointalgo(subset, N1, N2);
+        FMatrix<double,3,3> Fcandid=eightpointalgo(subset, N1, N2);
         
         // if the Fcandid returned is all 0s that means the submatches of this RANSAC iteration gave a degenerate A matrix, we skip this iteration of RANSAC
         bool isZero = true;
@@ -528,9 +546,9 @@ FMatrix<float,3,3> computeF(vector<Match>& matches) {
             bestF=Fcandid;
             
             // STEP 5: Lastly, if we got a better F, we change Niter dynamically --> Niter=log beta / log(1-(m/n)^k)
-            float w = float(in_nbr) / float(matches.size());
+            double w = double(in_nbr) / double(matches.size());
             if (w > 0.0f && w < 1.0f) {
-                float p = log(BETA) / log(1.0f - std::pow(w, (double)8));
+                double p = log(BETA) / log(1.0f - std::pow(w, (double)8));
                 if (p > 0) Niter = min(Niter, (int)ceilf(p));
             }
         }
@@ -543,7 +561,7 @@ FMatrix<float,3,3> computeF(vector<Match>& matches) {
         matches.push_back(all[bestInliers[i]]);
 
     
-    vector<FMatrix<float,3,3>> N_list_final = compute_N(matches);
+    vector<FMatrix<double,3,3>> N_list_final = compute_N(matches);
 
     // STEP 6: Finally, we re-compute F using all the inliers obtained in bestInliers
     bestF=eightpointalgo(matches, N_list_final[0], N_list_final[1]);
@@ -654,27 +672,28 @@ vector<Match> GetInliers(const std::string& I1_path, const std::string& I2_path,
     algoSIFT(I1, I2, matches);
     undistortMatches(matches, fx,  fy,  cx,  cy,  k1,  k2,  p1,  p2,  k3);
     removeDuplicateMatches(matches);
+    // std::cout << "raw matches after SIFT+ratio-test+dedup: " << matches.size() << std::endl;
 
     // debugging: we visualize the matches before RANSAC
-    int W = I1.width() + I2.width();
-    int H = max(I1.height(), I2.height());
-    Window w1 = openWindow(W, H);
-    drawMatches(w1, I1, I2, matches);   // before RANSAC
-    click();
-    closeWindow(w1);
+    // int W = I1.width() + I2.width();
+    // int H = max(I1.height(), I2.height());
+    // Window w1 = openWindow(W, H);
+    // drawMatches(w1, I1, I2, matches);   // before RANSAC
+    // click();
+    // closeWindow(w1);
 
-    FMatrix<float,3,3> F = computeF(matches);
+    FMatrix<double,3,3> F = computeF(matches);
     // cout << "F="<< endl << F;
     const int n = (int)matches.size();
-    cout << " matches: " << n << endl;
+    // std::cout << " matches: " << n << std::endl;
 
     // debugging: we visualize the matches after RANSAC
-    int W2 = I1.width() + I2.width();
-    int H2 = max(I1.height(), I2.height());
-    Window w2 = openWindow(W2, H2);
-    drawMatches(w2, I1, I2, matches);   // after RANSAC
-    click();
-    closeWindow(w2);
+    // int W2 = I1.width() + I2.width();
+    // int H2 = max(I1.height(), I2.height());
+    // Window w2 = openWindow(W2, H2);
+    // drawMatches(w2, I1, I2, matches);   // after RANSAC
+    // click();
+    // closeWindow(w2);
 
     for(int i=0; i<3; i++){
         for(int j=0; j<3; j++){

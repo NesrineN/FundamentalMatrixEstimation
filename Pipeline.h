@@ -30,10 +30,9 @@ Vec fillE(const Point2D& p1, const Point2D& p2, double f0);
 
 Mat computeV0(double x, double y, double xp, double yp, double f0);
 
-Mat GetF(const std::vector<Point2D>& img1Pts, const std::vector<Point2D>& img2Pts, const double& f0, const int& method);
+Mat GetF(const std::vector<Point2D>& img1Pts, const std::vector<Point2D>& img2Pts, const Mat& F_RANSAC, const double& f0, const int& method);
 
 void printM(const Mat& A);
-
 void printV(const Vec& V);
 
 double trace(const Mat& R);

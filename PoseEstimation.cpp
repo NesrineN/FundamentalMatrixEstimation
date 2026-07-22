@@ -5,6 +5,8 @@
 #include "./Imagine/Features.h"
 #include <Imagine/Graphics.h>
 #include <Imagine/LinAlg.h>
+#include <Eigen/Dense>
+#include "FNS.h"
 
 typedef libNumerics::matrix<double> Mat;
 typedef libNumerics::vector<double> Vec;
@@ -50,7 +52,8 @@ int Triangulate(Image<Color,2> I1, Image<Color,2> I2, const Vec& U, const Vec& U
     Mat W(4,4);
     Mat V(4,4);
     Vec S(4);
-    A.SVD(W,S,V);
+    EigenSVD(A, W, S, V);
+    // A.SVD(W,S,V);
 
     Vec solution = V.col(V.ncol()-1);
 
@@ -106,6 +109,13 @@ int Triangulate(Image<Color,2> I1, Image<Color,2> I2, const Vec& U, const Vec& U
     }
 }
 
+double reprojError(const Vec& X_3d_homogeneous, const Mat& P, double u_observed, double v_observed) {
+    Vec proj = P * X_3d_homogeneous; // 3x1
+    double u_proj = proj(0)/proj(2);
+    double v_proj = proj(1)/proj(2);
+    return std::sqrt((u_proj-u_observed)*(u_proj-u_observed) + (v_proj-v_observed)*(v_proj-v_observed));
+}
+
 double ReprojectionError(const Vec& U, const Vec& U_prime, const Mat& P, const Mat& P_prime){
     // extracting the coordinates from the u and u' vectors
     double u= U(0);
@@ -142,7 +152,8 @@ double ReprojectionError(const Vec& U, const Vec& U_prime, const Mat& P, const M
     Mat W(4,4);
     Mat V(4,4);
     Vec S(4);
-    A.SVD(W,S,V);
+    EigenSVD(A, W, S, V);
+    // A.SVD(W,S,V);
 
     Vec solution = V.col(V.ncol()-1);
 
@@ -265,16 +276,21 @@ double compareE(const Mat& E_est, const Mat& E_gt) {
 Mat EstimatePose(Image<Color,2> I1, Image<Color,2> I2, const Mat& K1, const Mat& K2, const Mat& F, const std::vector<Point2D>& img1Pts, const std::vector<Point2D>& img2Pts, const Mat& R_gt, const Vec& t_gt){
     Mat E=K2.t()*F*K1;
 
-    Mat E_norm=E;
+    // Normalizing E to unit Frobenius norm
+    Vec e_vec(9);
+    for (int i=0;i<3;i++) for (int j=0;j<3;j++) e_vec(i*3+j) = E(i,j);
+    double norm = std::sqrt(e_vec.qnorm());  
+    Mat E_norm = E / norm;
 
     Mat U(E_norm.nrow(), E_norm.nrow());
     Mat V(E_norm.ncol(), E_norm.ncol());
     Vec S(std::min(E_norm.nrow(), E_norm.ncol()));
-    E_norm.SVD(U, S, V);
+    EigenSVD3x3(E_norm, U, S, V);
+    // E_norm.SVD(U, S, V);
 
     // debugging:
-    std::cout << "4 singular values of E: " << std::endl;
-    std::cout << S(0) << " " << S(1) <<  " " << S(2) << std::endl;
+    // std::cout << "4 singular values of E: " << std::endl;
+    // std::cout << S(0) << " " << S(1) <<  " " << S(2) << std::endl;
 
     // enforcing singular value correction (s,s,0)
     int minIdx = 0;
@@ -297,12 +313,12 @@ Mat EstimatePose(Image<Color,2> I1, Image<Color,2> I2, const Mat& K1, const Mat&
 
     // debugging E_norm and E_gt
     Mat E_gt = skew(t_gt) * R_gt;
-    std::cout << "difference between E and E_gt: " << compareE(E_norm, E_gt) << std::endl;
+    // std::cout << "difference between E and E_gt: " << compareE(E_norm, E_gt) << std::endl;
 
+    EigenSVD3x3(E_norm, U, S, V);
+    // E_norm.SVD(U, S, V);
 
-    E_norm.SVD(U, S, V);
-
-    reorderForEssentialDecomposition(U, S, V);
+    // reorderForEssentialDecomposition(U, S, V);
 
     Mat W=Mat::zeros(3);
     W(0,1)=-1;
@@ -328,14 +344,14 @@ Mat EstimatePose(Image<Color,2> I1, Image<Color,2> I2, const Mat& K1, const Mat&
     // we got the 4 possibilities of poses: R1,t1 - R1, t2 - R2,t1 - R2,t2
 
     // debugging directly with gt:
-    double best_rot_err = 1e9, best_trans_err = 1e9;
-    Mat candidates_R[4] = {R1, R1, R2, R2};
-    Vec candidates_t[4] = {t1, t2, t1, t2};
-    for (int i = 0; i < 4; i++) {
-        double re = rotation_error(R_gt, candidates_R[i]);
-        double te = translation_error(t_gt, candidates_t[i]);
-        std::cout << "candidate " << i << ": rot_err=" << re << " trans_err=" << te << std::endl;
-    }
+    // double best_rot_err = 1e9, best_trans_err = 1e9;
+    // Mat candidates_R[4] = {R1, R1, R2, R2};
+    // Vec candidates_t[4] = {t1, t2, t1, t2};
+    // for (int i = 0; i < 4; i++) {
+    //     double re = rotation_error(R_gt, candidates_R[i]);
+    //     double te = translation_error(t_gt, candidates_t[i]);
+    //     std::cout << "candidate " << i << ": rot_err=" << re << " trans_err=" << te << std::endl;
+    // }
 
     Mat P1=Mat::zeros(3,4);
     P1.paste(0,0,Mat::eye(3));
@@ -379,11 +395,11 @@ Mat EstimatePose(Image<Color,2> I1, Image<Color,2> I2, const Mat& K1, const Mat&
         if (Triangulate(I1, I2, u,u_prime,K1*P1,K2*P2_4, R2, t2) > 0)total_4++;
     }
 
-    std::cout << "Totals: " << std::endl;
-    std::cout << total_1 << " "
-          << total_2 << " "
-          << total_3 << " "
-          << total_4 << std::endl;
+    // std::cout << "Totals: " << std::endl;
+    // std::cout << total_1 << " "
+    //       << total_2 << " "
+    //       << total_3 << " "
+    //       << total_4 << std::endl;
 
     int maxTotal = total_1;
     Mat bestP = P2_1;
