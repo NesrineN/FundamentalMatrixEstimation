@@ -70,6 +70,7 @@ set(SOURCE_FILES
     GaussNewton.cpp
     GetInliers.cpp
     Pipeline.cpp
+    ORSAWrapper.cpp
     PoseEstimation.cpp
     Imagine/SIFT_VL.cpp
     Imagine/vl/generic.c
@@ -82,6 +83,17 @@ set(SOURCE_FILES
     CppUnitLite/TestRegistry.cpp
     CppUnitLite/Failure.cpp
     CppUnitLite/SimpleString.cpp
+
+    # --- libOrsa: library sources only, NOT the *_test.cpp demo executables ---
+    libOrsa/fundamental_model.cpp
+    libOrsa/homography_model.cpp     # pulled in transitively; needed now that it's linked
+    libOrsa/orsa.cpp
+    libOrsa/ransac.cpp
+    libOrsa/lrtsac.cpp
+    libOrsa/model_estimator.cpp
+    libOrsa/conditioning.cpp
+    libOrsa/sampling.cpp
+    libOrsa/libNumerics/numerics.cpp
 )
 
 add_executable(Realtive_Pose_Estimator ${SOURCE_FILES})
@@ -93,6 +105,8 @@ add_executable(Realtive_Pose_Estimator ${SOURCE_FILES})
 target_include_directories(Realtive_Pose_Estimator PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/CppUnitLite
+    ${CMAKE_CURRENT_SOURCE_DIR}/libOrsa          # <-- add this
+    ${CMAKE_CURRENT_SOURCE_DIR}/libOrsa/libNumerics
     ${GSL_INCLUDE_DIRS}
 )
 

@@ -4,6 +4,7 @@
 #include "Initialization.h"
 #include "PoseEstimation.h"
 #include "Pipeline.h"
+#include "Match.h"
 #include "GetInliers.h"
 
 #include <vector>
@@ -210,6 +211,8 @@ int main(int argc, char* argv[]){
     int skipping_frame = 5;
     int method = 1;
     int stride=5;
+    bool inspect_single_pair = false;
+    size_t inspect_index = 0;
 
     if (argc > 1) {
         skipping_frame = std::atoi(argv[1]);
@@ -233,6 +236,11 @@ int main(int argc, char* argv[]){
             std::cerr << "Invalid stride argument, falling back to default (5)" << std::endl;
             stride = 5;
         }
+    }
+
+    if (argc > 4) {
+        inspect_index = (size_t)std::atoi(argv[4]);
+        inspect_single_pair = true;
     }
 
     std::string method_name = (method == 1) ? "FNS" : "GaussNewton";
@@ -276,6 +284,74 @@ int main(int argc, char* argv[]){
     // we store them in a vector of Associations where each Association has rgb path and the corresponding tx ty tz qx qy qz qw
     std::vector<Association> associations = loadAssociations(dataset_path);
 
+    int pair_index = 0;
+    int discarded=0;
+    double rotation_threshold=40.0;
+
+    // --------------------- PAIR INSPECTION CODE -------------------------------------------------
+    // if there is an argument inserted for the pair index, take those and output the results for that only 
+    if(inspect_single_pair){
+
+        if (inspect_index + skipping_frame >= associations.size()) {
+            std::cerr << "Invalid pair_index: " << inspect_index
+                    << " (with skipping_frame=" << skipping_frame
+                    << ", associations.size()=" << associations.size() << ")" << std::endl;
+            return 1;
+        }
+
+        const auto& a1 = associations[inspect_index];
+        const auto& a2 = associations[inspect_index + skipping_frame];
+
+        Mat R1 = quatToRot(a1.qx, a1.qy, a1.qz, a1.qw);
+        Mat R2 = quatToRot(a2.qx, a2.qy, a2.qz, a2.qw);
+
+        Vec t1(3), t2(3);
+
+        t1(0) = a1.tx; t1(1) = a1.ty; t1(2) = a1.tz;
+        t2(0) = a2.tx; t2(1) = a2.ty; t2(2) = a2.tz;
+
+        Mat R_rel_gt(3,3);
+        Vec t_rel_gt(3);
+
+        computeRelativePose(R1, t1, R2, t2, R_rel_gt, t_rel_gt);
+
+        double true_rotation_magnitude = rotationMagnitude(R_rel_gt); 
+        std::cout << "True rotation magnitude between the 2 scenes is: " << true_rotation_magnitude << std::endl;
+        // if (true_rotation_magnitude > rotation_threshold) {
+        //     discarded++;
+        //     continue;
+        // }
+
+        // image paths
+        std::string I1_path = a1.rgb_path;
+        std::string I2_path = a2.rgb_path;
+
+        std::cout << "Running on Images: " << I1_path << " and " << I2_path << std::endl;
+
+        std::string I1_path_complete = dataset_path + "\\" + I1_path;
+        std::string I2_path_complete = dataset_path + "\\" + I2_path;
+
+        // std::cout << "Image 1 path is: " << I1_path << std::endl;
+        // std::cout << "Image 2 path is: " << I2_path << std::endl;
+
+        // Load images
+        Image<Color,2> I1, I2;
+        if( ! load(I1, I1_path_complete.c_str()) ||
+            ! load(I2, I2_path_complete.c_str()) ) {
+            cerr<< "Unable to load images" << endl;
+        }
+
+        // now we run the pipeline to get the errors:
+        Vec info=RunPipelineNoiseless(I1, I2, I1_path_complete, I2_path_complete, K, K, f0, R_rel_gt, t_rel_gt, method, fx,  fy,  cx,  cy, k1,  k2,  p1,  p2,  k3);
+
+        std::cout << "Rotation error is: " << info(0) << std::endl;
+        std::cout << "Translation error is: " << info(1) << std::endl;
+        std::cout << "nbr of inliers is: " << info(2) << std::endl;
+
+        return 0;
+    }
+    // ----------------------------------------------------------------------------------------
+
     // now, we loop over the associations and run the pipeline to get the rotation and translation errors: 
     std::vector<double> Rotation_errors;
     std::vector<double> Translation_errors;
@@ -284,11 +360,7 @@ int main(int argc, char* argv[]){
     std::string summary_filename = "summary_results_" + method_name + "_skip" + std::to_string(skipping_frame) + ".txt";
 
     std::ofstream csv(csv_filename);
-    csv << "pair_index,image1,image2,t_gt_sq_magnitude,skipping_frame,method,rotation_error,translation_error\n";
-
-    int pair_index = 0;
-    int discarded=0;
-    double rotation_threshold=40.0;
+    csv << "pair_index,image1,image2,t_gt_sq_magnitude,r_gt_magnitude,skipping_frame,inliers,match_coverage,method,rotation_error,translation_error\n";
 
     for (size_t i = 0; i + skipping_frame < associations.size(); i+=stride)
     {
@@ -342,20 +414,23 @@ int main(int argc, char* argv[]){
         }
 
         // now we run the pipeline to get the errors:
-        Vec errors=RunPipelineNoiseless(I1, I2, I1_path_complete, I2_path_complete, K, K, f0, R_rel_gt, t_rel_gt, method, fx,  fy,  cx,  cy, k1,  k2,  p1,  p2,  k3);
+        Vec info=RunPipelineNoiseless(I1, I2, I1_path_complete, I2_path_complete, K, K, f0, R_rel_gt, t_rel_gt, method, fx,  fy,  cx,  cy, k1,  k2,  p1,  p2,  k3);
 
-        Rotation_errors.push_back(errors(0));
+        Rotation_errors.push_back(info(0));
 
-        Translation_errors.push_back(errors(1));
+        Translation_errors.push_back(info(1));
 
         csv << pair_index << ","
         << I1_path << ","
         << I2_path << ","
         << t_rel_gt.qnorm() << ","
+        << true_rotation_magnitude << ","
         << skipping_frame << ","
+        << info(2) << ","
+        << info(3) << ","
         << method_name << ","
-        << errors(0) << ","
-        << errors(1) << "\n";
+        << info(0) << ","
+        << info(1) << "\n";
 
         std::cout << "Association " << pair_index << " done!" << std::endl;
         pair_index++;

@@ -18,8 +18,9 @@ struct Point2D
 typedef libNumerics::matrix<double> Mat;
 typedef libNumerics::vector<double> Vec;
 
+Vec TriangulatePoint(const Vec& U, const Vec& U_prime, const Mat& P, const Mat& P_prime);
 int Triangulate(Image<Color,2> I1, Image<Color,2> I2, const Vec& U, const Vec& U_prime, const Mat& P, const Mat& P_prime, const Mat& R, const Vec& t);
-double ReprojectionError(const Vec& U, const Vec& U_prime, const Mat& P, const Mat& P_prime);
+double reprojError(const Vec& X_3d_homogeneous, const Mat& P, double u_observed, double v_observed);
 Mat Normaliza_Mat(const Mat& A);
 Mat skew(const Vec& t);
 void reorderForEssentialDecomposition(Mat& U, Vec& S, Mat& V);

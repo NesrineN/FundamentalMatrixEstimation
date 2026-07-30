@@ -24,6 +24,10 @@
 #ifndef HOMOGRAPHY_MODEL_H_
 #define HOMOGRAPHY_MODEL_H_
 
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+
 #include "model_estimator.hpp"
 #include "match.hpp"
 

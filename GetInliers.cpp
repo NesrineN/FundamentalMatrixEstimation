@@ -10,9 +10,11 @@
 #include <iomanip>
 
 #include "./Imagine/Features.h"
+#include "Match.h"
 #include <Imagine/Graphics.h>
 #include <Imagine/LinAlg.h>
 #include "libOrsa/libNumerics/matrix.h"
+#include "ORSAWrapper.h"
 #include "PoseEstimation.h"
 
 typedef libNumerics::matrix<double> Mat;
@@ -21,9 +23,9 @@ typedef libNumerics::vector<double> Vec;
 using namespace Imagine;
 using namespace std;
 
-struct Match {
-    double x1, y1, x2, y2;
-};
+// struct Match {
+//     double x1, y1, x2, y2;
+// };
 
 void printM_here(const Mat& A){
     std::cout << "Matrix: " << std::endl;
@@ -73,7 +75,7 @@ Point2D undistortPoint(double u, double v,
     return result;
 }
 
-void undistortMatches(std::vector<Match>& matches,
+void undistortMatches(std::vector<SiftMatch>& matches,
                        double fx, double fy, double cx, double cy,
                        double k1, double k2, double p1, double p2, double k3) {
     for (auto& m : matches) {
@@ -87,7 +89,7 @@ void undistortMatches(std::vector<Match>& matches,
 // first we will implement a function that takes a couple of images and extracts the matching points from them: 
 // Display SIFT points and fill vector of point correspondences
 void algoSIFT(Image<Color,2> I1, Image<Color,2> I2,
-              vector<Match>& matches) {
+              vector<SiftMatch>& matches) {
 
     // Find interest points
     SIFTDetector D;
@@ -127,7 +129,7 @@ void algoSIFT(Image<Color,2> I1, Image<Color,2> I2,
         // ratio test: best match must be clearly better than the runner-up
         // (squared distances, so compare best < ratio^2 * second)
         if (best < RATIO_THRESH * RATIO_THRESH * second) {
-            Match m;
+            SiftMatch m;
             m.x1 = f1.pos.x();
             m.y1 = f1.pos.y();
             m.x2 = feats2[bestJ].pos.x();
@@ -137,16 +139,16 @@ void algoSIFT(Image<Color,2> I1, Image<Color,2> I2,
     }
 }
 
-void removeDuplicateMatches(std::vector<Match>& matches, double eps = 1e-6) {
+void removeDuplicateMatches(std::vector<SiftMatch>& matches, double eps = 1e-6) {
     // sort by (x1,y1,x2,y2) so duplicates end up adjacent
-    std::sort(matches.begin(), matches.end(), [](const Match& a, const Match& b) {
+    std::sort(matches.begin(), matches.end(), [](const SiftMatch& a, const SiftMatch& b) {
         if (std::abs(a.x1 - b.x1) > 1e-9) return a.x1 < b.x1;
         if (std::abs(a.y1 - b.y1) > 1e-9) return a.y1 < b.y1;
         if (std::abs(a.x2 - b.x2) > 1e-9) return a.x2 < b.x2;
         return a.y2 < b.y2;
     });
 
-    auto isDuplicate = [eps](const Match& a, const Match& b) {
+    auto isDuplicate = [eps](const SiftMatch& a, const SiftMatch& b) {
         return std::abs(a.x1 - b.x1) < eps && std::abs(a.y1 - b.y1) < eps &&
                std::abs(a.x2 - b.x2) < eps && std::abs(a.y2 - b.y2) < eps;
     };
@@ -160,7 +162,7 @@ void removeDuplicateMatches(std::vector<Match>& matches, double eps = 1e-6) {
 // "The points are translated so that their centroid is at the origin".
 // "The points are then scaled so that the average distance from the origin is equal to √2".
 // "This transformation is applied to each of the two images independently".
-vector<FMatrix<double,3,3>> compute_N(vector<Match>& matches){
+vector<FMatrix<double,3,3>> compute_N(vector<SiftMatch>& matches){
     
     vector<FMatrix<double,3,3>> N_list;
     FMatrix<double,3,3> N1; // the Normalization matrix for Image 1
@@ -238,12 +240,12 @@ vector<FMatrix<double,3,3>> compute_N(vector<Match>& matches){
 
 
 // Function that takes the matches and the two normalization matrices N1 for I1 and N2 for I2 and normalizes the matches, returns the normalized matches
-vector<Match> normalize_matches(FMatrix<double,3,3> N1, FMatrix<double,3,3> N2, vector<Match>& matches){
+vector<SiftMatch> normalize_matches(FMatrix<double,3,3> N1, FMatrix<double,3,3> N2, vector<SiftMatch>& matches){
     
-    vector<Match> subset_normalized;
+    vector<SiftMatch> subset_normalized;
     for(int match_id=0;match_id<matches.size(); match_id++){
-        Match m=matches[match_id];
-        Match m_normalized;
+        SiftMatch m=matches[match_id];
+        SiftMatch m_normalized;
 
         FVector<double,3> X1h, X2h; // point correspondences in a match in homogeneous system
         X1h[0]= m.x1;  X1h[1]= m.y1;  X1h[2]= 1.0f;
@@ -271,11 +273,11 @@ vector<Match> normalize_matches(FMatrix<double,3,3> N1, FMatrix<double,3,3> N2, 
 // for each correspondence, we calculate the epipolar constraint x'^T . F. x , and the epipolar lines F.x and F^T.x'
 // error is d^2= epipolar constraint ^2 / a^2 + b^2 + a'^2 + b'^2   where a and b are the first 2 coefficients of Fx and a' and b' are the first 2 coefficients of F^T.x'
 // finally, we check if d is <= distMax (threshold) , if yes , we mark as inlier and return the index of the inlier
-vector<int> mark_inliers(FMatrix<double,3,3>& Fcandid, vector<Match>& matches, double distMax){
+vector<int> mark_inliers(FMatrix<double,3,3>& Fcandid, vector<SiftMatch>& matches, double distMax){
         
         vector<int> Inliers; // has the indices of the matches considered inliers.
         for(int id=0; id<matches.size();id++){
-            Match m=matches[id];
+            SiftMatch m=matches[id];
 
             FVector<double,3> X1h, X2h; // point correspondences in a match in homogeneous system
             X1h[0]= m.x1;  X1h[1]= m.y1;  X1h[2]= 1.0f;
@@ -330,7 +332,7 @@ vector<int> mark_inliers(FMatrix<double,3,3>& Fcandid, vector<Match>& matches, d
 }
 
 // Function that calculates the Fundamental Matrix using correspondences in matches vector. It returns the F computed and the rank of the matrix A (done to skip samples in RANSAC that produced a degenerate A)
-FMatrix<double,3,3> eightpointalgo(vector<Match>& matches, const FMatrix<double,3,3>& N1, const FMatrix<double,3,3>& N2){
+FMatrix<double,3,3> eightpointalgo(vector<SiftMatch>& matches, const FMatrix<double,3,3>& N1, const FMatrix<double,3,3>& N2){
     
     FMatrix<double,3,3> Fcandid; // to be returned 
 
@@ -351,7 +353,7 @@ FMatrix<double,3,3> eightpointalgo(vector<Match>& matches, const FMatrix<double,
     // N1=N_list[0];
     // N2=N_list[1];
 
-    vector<Match> subset_normalized;
+    vector<SiftMatch> subset_normalized;
     subset_normalized=normalize_matches(N1, N2, matches);
 
     // STEP 2: We create matrix A and get its SVD
@@ -457,7 +459,7 @@ FMatrix<double,3,3> eightpointalgo(vector<Match>& matches, const FMatrix<double,
 
 // RANSAC algorithm to compute F from point matches (8-point algorithm)
 // Parameter matches is filtered to keep only inliers as output.
-FMatrix<double,3,3> computeF(vector<Match>& matches) {
+FMatrix<double,3,3> computeF(vector<SiftMatch>& matches) {
     const double distMax = 1.5; // Pixel error for inlier/outlier discrimination
     // 100000
     int Niter=100000; // Adjusted dynamically
@@ -494,7 +496,7 @@ FMatrix<double,3,3> computeF(vector<Match>& matches) {
     {
         // STEP 1: we randomly pick 8 correspondences of the matches. k=8 
 
-        vector<Match> subset;
+        vector<SiftMatch> subset;
         int nMatches = matches.size();
 
         std::uniform_int_distribution<> dist(0, nMatches - 1);
@@ -555,7 +557,7 @@ FMatrix<double,3,3> computeF(vector<Match>& matches) {
     }
 
     // Updating matches with inliers only
-    vector<Match> all=matches;
+    vector<SiftMatch> all=matches;
     matches.clear();
     for(size_t i=0; i<bestInliers.size(); i++)
         matches.push_back(all[bestInliers[i]]);
@@ -623,7 +625,7 @@ FMatrix<double,3,3> computeF(vector<Match>& matches) {
 // color is used for both the point in image 1 and its corresponding point in image 2.
 // No connecting lines - just color-coded dots to visually pair matches without clutter.
 void drawMatches(Window w, Image<Color,2> I1, Image<Color,2> I2,
-                      const vector<Match>& matches, int maxToDraw = 150) {
+                      const vector<SiftMatch>& matches, int maxToDraw = 150) {
     setActiveWindow(w);
     display(I1, 0, 0);
     display(I2, I1.width(), 0);
@@ -645,7 +647,7 @@ void drawMatches(Window w, Image<Color,2> I1, Image<Color,2> I2,
     std::uniform_int_distribution<int> colorDist(50, 255); // avoid near-black colors
 
     for (int idx : indices) {
-        const Match& m = matches[idx];
+        const SiftMatch& m = matches[idx];
 
         Color c((unsigned char)colorDist(colorGen),
         (unsigned char)colorDist(colorGen),
@@ -658,8 +660,8 @@ void drawMatches(Window w, Image<Color,2> I1, Image<Color,2> I2,
     }
 }
 
-vector<Match> GetInliers(const std::string& I1_path, const std::string& I2_path, Mat& F_RANSAC, double fx, double fy, double cx, double cy, double k1, double k2, double p1, double p2, double k3){
-    vector<Match> matches;
+vector<SiftMatch> GetInliers(const std::string& I1_path, const std::string& I2_path, Mat& F_RANSAC, double fx, double fy, double cx, double cy, double k1, double k2, double p1, double p2, double k3){
+    vector<SiftMatch> matches;
 
     // Load images
     Image<Color,2> I1, I2;
@@ -682,18 +684,21 @@ vector<Match> GetInliers(const std::string& I1_path, const std::string& I2_path,
     // click();
     // closeWindow(w1);
 
-    FMatrix<double,3,3> F = computeF(matches);
+    double sigma = 0.0;
+    libNumerics::matrix<double> F = computeF_ORSA(matches, I1.width(), I1.height(), I2.width(), I2.height(), &sigma);
+
+    // FMatrix<double,3,3> F = computeF(matches);
     // cout << "F="<< endl << F;
     const int n = (int)matches.size();
     // std::cout << " matches: " << n << std::endl;
 
     // debugging: we visualize the matches after RANSAC
-    // int W2 = I1.width() + I2.width();
-    // int H2 = max(I1.height(), I2.height());
-    // Window w2 = openWindow(W2, H2);
-    // drawMatches(w2, I1, I2, matches);   // after RANSAC
-    // click();
-    // closeWindow(w2);
+    int W2 = I1.width() + I2.width();
+    int H2 = max(I1.height(), I2.height());
+    Window w2 = openWindow(W2, H2);
+    drawMatches(w2, I1, I2, matches);   // after RANSAC
+    click();
+    closeWindow(w2);
 
     for(int i=0; i<3; i++){
         for(int j=0; j<3; j++){

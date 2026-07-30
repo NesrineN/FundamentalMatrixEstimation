@@ -5,6 +5,7 @@
 #include "./Imagine/Features.h"
 #include "PoseEstimation.h"
 #include "GetInliers.h"
+#include "Match.h"
 
 #include <cmath>
 #include <vector>
@@ -222,6 +223,12 @@ Mat GetF(const std::vector<Point2D>& img1Pts, const std::vector<Point2D>& img2Pt
     //     }
     // }
 
+    // ADDED AFTER ORSA:
+    // Vec f_vec(9);
+    // for (int i=0;i<3;i++) for (int j=0;j<3;j++) f_vec(i*3+j) = F_RANSAC(i,j);
+    // double f_norm = std::sqrt(f_vec.qnorm());
+    // Mat F_RANSAC_normalized = F_RANSAC / f_norm;
+
     // we initialize uinit using RANSAC's F after integrating /f0 into it: 
     Mat F_kan_init = F_RANSAC;  
     F_kan_init(0,2) /= f0;
@@ -250,6 +257,7 @@ Mat GetF(const std::vector<Point2D>& img1Pts, const std::vector<Point2D>& img2Pt
     
     F=F.t(); // transposing back to get the F that solves for x'T F x=0 -- the standard Hartley & Zisserman convention 
 
+    // REMOVED THIS IN ORSA
     // De-normalizing F:
     Mat Norm=Mat::eye(3);
     Norm(2,2)=f0;
@@ -359,13 +367,39 @@ double epidistance(Point2D p1, Point2D p2, Mat F){
     return num/denom;
 }
 
+
+// Computes the fraction of an N x N grid over the image that contains at least
+// one match point (in image 1). Returns a value in [0,1]; higher = more spread out.
+double computeGridCoverage(const vector<SiftMatch>& matches, int imgWidth, int imgHeight, int gridN = 8) {
+    vector<vector<bool>> occupied(gridN, vector<bool>(gridN, false));
+
+    double cellW = (double)imgWidth / gridN;
+    double cellH = (double)imgHeight / gridN;
+
+    for (const auto& m : matches) {
+        int cx = std::min(gridN - 1, (int)(m.x1 / cellW));
+        int cy = std::min(gridN - 1, (int)(m.y1 / cellH));
+        if (cx >= 0 && cy >= 0) occupied[cy][cx] = true;
+    }
+
+    int occupiedCount = 0;
+    for (int i = 0; i < gridN; i++)
+        for (int j = 0; j < gridN; j++)
+            if (occupied[i][j]) occupiedCount++;
+
+    return (double)occupiedCount / (gridN * gridN);
+}
+
+
 Vec RunPipelineNoiseless(Image<Color,2> I1, Image<Color,2> I2, const std::string& I1_path, const std::string& I2_path, const Mat& K1, const Mat& K2, const double& f0, const Mat& R_gt, const Vec& t_gt, const int& method, double fx, double fy, double cx, double cy,
                        double k1, double k2, double p1, double p2, double k3){
 
-    // 1. Get the matches/inliers from the image pairs using SIFT + RANSAC and 8-point algorithm as a starting point
+    // 1. Get the matches/inliers from the image pairs usi`ng SIFT + RANSAC and 8-point algorithm as a starting point
     Mat F_RANSAC=Mat::zeros(3);
-    vector<Match> matches=GetInliers(I1_path, I2_path, F_RANSAC, fx,  fy,  cx,  cy,  k1,  k2,  p1,  p2,  k3);
-    F_RANSAC=F_RANSAC.t(); // transposing before giving it to FNS as initial F estimation because FNS is solving xT F x' =0 and RANSAC 8-point algo was solving x'T F x=0
+    vector<SiftMatch> matches=GetInliers(I1_path, I2_path, F_RANSAC, fx,  fy,  cx,  cy,  k1,  k2,  p1,  p2,  k3);
+    
+    // removed for ORSA
+    // F_RANSAC=F_RANSAC.t(); // transposing before giving it to FNS as initial F estimation because FNS is solving xT F x' =0 and RANSAC 8-point algo was solving x'T F x=0
 
     // 2. Using the matches, we want to fill the vectors of 2D point matches img1Pts and img2Pts
     std::vector<Point2D> img1Pts;
@@ -466,29 +500,29 @@ Vec RunPipelineNoiseless(Image<Color,2> I1, Image<Color,2> I2, const std::string
     // std::cout << "Cheirality test result: " << count << std::endl;
 
     // debugging: average reprojection error using the obtained R and t: 
-    double total_squared_error = 0.0;
-    int point_count = 0;
-    for(int i=0; i<img1Pts.size(); i++){
-        Vec u(2);
-        Vec u_p(2);
+    // double total_squared_error = 0.0;
+    // int point_count = 0;
+    // for(int i=0; i<img1Pts.size(); i++){
+    //     Vec u(2);
+    //     Vec u_p(2);
 
-        u(0)=img1Pts[i].x;
-        u(1)=img1Pts[i].y;
+    //     u(0)=img1Pts[i].x;
+    //     u(1)=img1Pts[i].y;
 
-        u_p(0)=img2Pts[i].x;
-        u_p(1)=img2Pts[i].y;
+    //     u_p(0)=img2Pts[i].x;
+    //     u_p(1)=img2Pts[i].y;
 
-        Mat Eye=Mat::zeros(3,4);
-        Eye(0,0)=1.0;
-        Eye(1,1)=1.0;
-        Eye(2,2)=1.0;
+    //     Mat Eye=Mat::zeros(3,4);
+    //     Eye(0,0)=1.0;
+    //     Eye(1,1)=1.0;
+    //     Eye(2,2)=1.0;
 
-        Mat P1_pixel=K1*Eye;
-        Mat P2_pixel=K2*P2;
+    //     Mat P1_pixel=K1*Eye;
+    //     Mat P2_pixel=K2*P2;
 
-        total_squared_error+=ReprojectionError(u, u_p, P1_pixel, P2_pixel);
-        point_count+=2;
-    }
+    //     total_squared_error+=ReprojectionError(u, u_p, P1_pixel, P2_pixel);
+    //     point_count+=2;
+    // }
     // std::cout << "The average reprojection error over all matches is: " << std::sqrt(total_squared_error / point_count) << std::endl;
 
     // 6. Finally, we print the Rotation and Translation error between the predicted and the ground truth:
@@ -498,9 +532,13 @@ Vec RunPipelineNoiseless(Image<Color,2> I1, Image<Color,2> I2, const std::string
     // std::cout << "The Rotation error is: " << rot_err << std::endl; 
     // std::cout << "The Translation error is: " << trans_err << std::endl; 
 
-    Vec errors(2);
-    errors(0)=rot_err;
-    errors(1)=trans_err;
+    double coverage=computeGridCoverage(matches, I1.width(), I1.height());
 
-    return errors;
+    Vec info(4);
+    info(0)=rot_err;
+    info(1)=trans_err;
+    info(2)=matches.size();
+    info(3)=coverage;
+
+    return info;
 }

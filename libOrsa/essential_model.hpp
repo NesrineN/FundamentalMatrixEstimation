@@ -23,7 +23,7 @@
 #ifndef MMM_ORSA_ESSENTIAL_MODEL_HPP
 #define MMM_ORSA_ESSENTIAL_MODEL_HPP
 
-#include "eigen/Eigen/Eigen"
+#include <Eigen/Eigen>
 
 #include "fundamental_model.hpp"
 #include "match.hpp"

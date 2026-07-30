@@ -4,6 +4,7 @@
 #include "Initialization.h"
 #include "PoseEstimation.h"
 #include "Pipeline.h"
+#include "Match.h
 #include "GetInliers.h"
 
 #include <vector>
@@ -78,8 +79,8 @@ std::vector<Association> loadAssociations(const std::string& dataset_path)
 
 Mat quatToRot(double x, double y, double z, double w)
 {
-    double qnorm = std::sqrt(x*x + y*y + z*z + w*w);
-    std::cout << "quaternion norm: " << qnorm << std::endl; // should be ~1.0
+    // double qnorm = std::sqrt(x*x + y*y + z*z + w*w);
+    // std::cout << "quaternion norm: " << qnorm << std::endl; // should be ~1.0
 
     Mat R=Mat::zeros(3);
 
@@ -193,9 +194,58 @@ void exportErrorsCSV(
     }
 }
 
+double rotationMagnitude(const Mat& R) {
+    double tr = R(0,0) + R(1,1) + R(2,2);
+    double c = (tr - 1.0) / 2.0;
+
+    c = std::max(-1.0, std::min(1.0, c));
+
+    double angle_rad = std::acos(c);
+    return angle_rad * 180.0 / PI;
+}
+
 // ----------------------------------------------------------------------------------------------------------------------------------------------
 
 int main(int argc, char* argv[]){
+
+    int skipping_frame = 5;
+    int method = 1;
+    int stride=5;
+    bool inspect_single_pair = false;
+    size_t inspect_index = 0;
+
+    if (argc > 1) {
+        skipping_frame = std::atoi(argv[1]);
+        if (skipping_frame <= 0) {
+            std::cerr << "Invalid skipping_frame argument, falling back to default (5)" << std::endl;
+            skipping_frame = 5;
+        }
+    }
+
+    if (argc > 2) {
+        method = std::atoi(argv[2]);
+        if (method != 1 && method != 2) {
+            std::cerr << "Invalid method argument (must be 1 or 2), falling back to default (1, FNS)" << std::endl;
+            method = 1;
+        }
+    }
+
+    if (argc > 3) {
+        stride = std::atoi(argv[3]);
+        if (stride <= 0) {
+            std::cerr << "Invalid stride argument, falling back to default (5)" << std::endl;
+            stride = 5;
+        }
+    }
+
+    if (argc > 4) {
+        inspect_index = (size_t)std::atoi(argv[4]);
+        inspect_single_pair = true;
+    }
+
+    std::string method_name = (method == 1) ? "FNS" : "GaussNewton";
+
+    std::cout << "Running with skipping_frame=" << skipping_frame << ", method=" << method_name << std::endl;
 
     // Intrinsics provided by TUM RGB-D Dataset for Freiburg 1 RGB data:
     double fx=517.3, fy=516.5, cx=318.6, cy=255.3;
@@ -235,16 +285,32 @@ int main(int argc, char* argv[]){
     std::vector<Association> associations = loadAssociations(dataset_path);
 
     // now, we loop over the associations and run the pipeline to get the rotation and translation errors: 
-    std::vector<double> Rotation_errors_FNS;
-    std::vector<double> Translation_errors_FNS;
+    std::vector<double> Rotation_errors;
+    std::vector<double> Translation_errors;
 
-    std::vector<double> Rotation_errors_Gauss;
-    std::vector<double> Translation_errors_Gauss;
+    std::string csv_filename = "pose_results_" + method_name + "_skip" + std::to_string(skipping_frame) + ".csv";
+    std::string summary_filename = "summary_results_" + method_name + "_skip" + std::to_string(skipping_frame) + ".txt";
 
-    for (size_t i = 0; i + 12 < associations.size(); i++)
-    {
-        const auto& a1 = associations[i];
-        const auto& a2 = associations[i + 12];
+    std::ofstream csv(csv_filename);
+    csv << "pair_index,image1,image2,t_gt_sq_magnitude,r_gt_magnitude,skipping_frame,inliers,match_coverage,method,rotation_error,translation_error\n";
+
+    int pair_index = 0;
+    int discarded=0;
+    double rotation_threshold=40.0;
+
+    // --------------------- PAIR INSPECTION CODE -------------------------------------------------
+    // if there is an argument inserted for the pair index, take those and output the results for that only 
+    if(inspect_single_pair){
+
+        if (inspect_index + skipping_frame >= associations.size()) {
+            std::cerr << "Invalid pair_index: " << inspect_index
+                    << " (with skipping_frame=" << skipping_frame
+                    << ", associations.size()=" << associations.size() << ")" << std::endl;
+            return 1;
+        }
+
+        const auto& a1 = associations[inspect_index];
+        const auto& a2 = associations[inspect_index + skipping_frame];
 
         Mat R1 = quatToRot(a1.qx, a1.qy, a1.qz, a1.qw);
         Mat R2 = quatToRot(a2.qx, a2.qy, a2.qz, a2.qw);
@@ -259,10 +325,62 @@ int main(int argc, char* argv[]){
 
         computeRelativePose(R1, t1, R2, t2, R_rel_gt, t_rel_gt);
 
-        std::cout << "square magnitude of t_gt is: " << t_rel_gt.qnorm() << std::endl;
+        double true_rotation_magnitude = rotationMagnitude(R_rel_gt); 
+        std::cout << "True rotation magnitude between the 2 scenes is: " << true_rotation_magnitude << std::endl;
+        // if (true_rotation_magnitude > rotation_threshold) {
+        //     discarded++;
+        //     continue;
+        // }
 
-        std::cout << "R_gt is: " << std::endl;
-        printM(R_rel_gt);
+        // image paths
+        std::string I1_path = a1.rgb_path;
+        std::string I2_path = a2.rgb_path;
+
+        std::cout << "Running on Images: " << I1_path << " and " << I2_path << std::endl;
+
+        std::string I1_path_complete = dataset_path + "\\" + I1_path;
+        std::string I2_path_complete = dataset_path + "\\" + I2_path;
+
+        // std::cout << "Image 1 path is: " << I1_path << std::endl;
+        // std::cout << "Image 2 path is: " << I2_path << std::endl;
+
+        // Load images
+        Image<Color,2> I1, I2;
+        if( ! load(I1, I1_path_complete.c_str()) ||
+            ! load(I2, I2_path_complete.c_str()) ) {
+            cerr<< "Unable to load images" << endl;
+        }
+
+        // now we run the pipeline to get the errors:
+        Vec info=RunPipelineNoiseless(I1, I2, I1_path_complete, I2_path_complete, K, K, f0, R_rel_gt, t_rel_gt, method, fx,  fy,  cx,  cy, k1,  k2,  p1,  p2,  k3);
+
+        std::cout << "Rotation error is: " << info(0) << std::endl;
+        std::cout << "Translation error is: " << info(1) << std::endl;
+        std::cout << "nbr of inliers is: " << info(2) << std::endl;
+
+        return 0;
+    }
+    // ----------------------------------------------------------------------------------------
+
+    for (size_t i = 0; i + skipping_frame < associations.size(); i+=stride)
+    {
+        const auto& a1 = associations[i];
+        const auto& a2 = associations[i + skipping_frame];
+
+        Mat R1 = quatToRot(a1.qx, a1.qy, a1.qz, a1.qw);
+        Mat R2 = quatToRot(a2.qx, a2.qy, a2.qz, a2.qw);
+
+        Vec t1(3), t2(3);
+
+        t1(0) = a1.tx; t1(1) = a1.ty; t1(2) = a1.tz;
+        t2(0) = a2.tx; t2(1) = a2.ty; t2(2) = a2.tz;
+
+        Mat R_rel_gt(3,3);
+        Vec t_rel_gt(3);
+
+        computeRelativePose(R1, t1, R2, t2, R_rel_gt, t_rel_gt);
+
+        // std::cout << "square magnitude of t_gt is: " << t_rel_gt.qnorm() << std::endl;
 
         // debugging:
         // std::cout << "R ground truth is: " << std::endl;
@@ -271,63 +389,82 @@ int main(int argc, char* argv[]){
         // std::cout << "t ground truth is: " << std::endl;
         // printV(t_rel_gt);
 
+        // discarding pairs that have huge motion between them 
+        double true_rotation_magnitude = rotationMagnitude(R_rel_gt); 
+        if (true_rotation_magnitude > rotation_threshold) {
+            discarded++;
+            continue;
+        }
+
         // image paths
         std::string I1_path = a1.rgb_path;
         std::string I2_path = a2.rgb_path;
 
-        I1_path = dataset_path + "\\" + I1_path;
-        I2_path = dataset_path + "\\" + I2_path;
+        std::string I1_path_complete = dataset_path + "\\" + I1_path;
+        std::string I2_path_complete = dataset_path + "\\" + I2_path;
 
-        std::cout << "Image 1 path is: " << I1_path << std::endl;
-        std::cout << "Image 2 path is: " << I2_path << std::endl;
+        // std::cout << "Image 1 path is: " << I1_path << std::endl;
+        // std::cout << "Image 2 path is: " << I2_path << std::endl;
 
         // Load images
         Image<Color,2> I1, I2;
-        if( ! load(I1, I1_path.c_str()) ||
-            ! load(I2, I2_path.c_str()) ) {
+        if( ! load(I1, I1_path_complete.c_str()) ||
+            ! load(I2, I2_path_complete.c_str()) ) {
             cerr<< "Unable to load images" << endl;
         }
 
         // now we run the pipeline to get the errors:
-        Vec errors_FNS=RunPipelineNoiseless(I1, I2, I1_path, I2_path, K, K, f0, R_rel_gt, t_rel_gt, 1, fx,  fy,  cx,  cy, k1,  k2,  p1,  p2,  k3);
-        // Vec errors_Gauss=RunPipelineNoiseless(I1_path, I2_path, K, K, f0, R_rel_gt, t_rel_gt, 2);
+        Vec info=RunPipelineNoiseless(I1, I2, I1_path_complete, I2_path_complete, K, K, f0, R_rel_gt, t_rel_gt, method, fx,  fy,  cx,  cy, k1,  k2,  p1,  p2,  k3);
 
+        Rotation_errors.push_back(info(0));
 
-        Rotation_errors_FNS.push_back(errors_FNS(0));
-        // Rotation_errors_Gauss.push_back(errors_Gauss(0));
+        Translation_errors.push_back(info(1));
 
-        Translation_errors_FNS.push_back(errors_FNS(1));
-        // Translation_errors_Gauss.push_back(errors_Gauss(1));
+        csv << pair_index << ","
+        << I1_path << ","
+        << I2_path << ","
+        << t_rel_gt.qnorm() << ","
+        << true_rotation_magnitude << ","
+        << skipping_frame << ","
+        << info(2) << ","
+        << info(3) << ","
+        << method_name << ","
+        << info(0) << ","
+        << info(1) << "\n";
+
+        std::cout << "Association " << pair_index << " done!" << std::endl;
+        pair_index++;
     }
+    csv.close();
 
     // we export the errors so we can visualize them later using python:
     // exportErrorsCSV(Rotation_errors_FNS, Translation_errors_FNS, Rotation_errors_Gauss, Translation_errors_Gauss, "pose_errors_classical.csv");
 
     // now we print the mean/median of the errors:
-    double mean_rotation_FNS  = computeMean(Rotation_errors_FNS);
-    double median_rotation_FNS = computeMedian(Rotation_errors_FNS);
+    double mean_rotation  = computeMean(Rotation_errors);
+    double median_rotation = computeMedian(Rotation_errors);
 
-    double mean_translation_FNS  = computeMean(Translation_errors_FNS);
-    double median_translation_FNS = computeMedian(Translation_errors_FNS);
+    double mean_translation  = computeMean(Translation_errors);
+    double median_translation = computeMedian(Translation_errors);
 
-    // double mean_rotation_Gauss  = computeMean(Rotation_errors_Gauss);
-    // double median_rotation_Gauss = computeMedian(Rotation_errors_Gauss);
+    std::cout << "Discarded pairs with huge motion: " << discarded << std::endl;
+    std::cout << "Mean rotation error - " << method_name << ": " << mean_rotation << std::endl;
+    std::cout << "Median rotation error - " << method_name << ": " << median_rotation << std::endl;
+    std::cout << "Mean translation error - " << method_name << ": " << mean_translation << std::endl;
+    std::cout << "Median translation error - " << method_name << ": " << median_translation << std::endl;
 
-    // double mean_translation_Gauss  = computeMean(Translation_errors_Gauss);
-    // double median_translation_Gauss = computeMedian(Translation_errors_Gauss);
 
-
-    std::cout << "Mean rotation error - FNS: " << mean_rotation_FNS << std::endl;
-    std::cout << "Median rotation error - FNS: " << median_rotation_FNS << std::endl;
-
-    // std::cout << "Mean rotation error - Gauss: " << mean_rotation_Gauss << std::endl;
-    // std::cout << "Median rotation error - Gauss: " << median_rotation_Gauss << std::endl;
-
-    std::cout << "Mean translation error - FNS: " << mean_translation_FNS << std::endl;
-    std::cout << "Median translation error - FNS: " << median_translation_FNS << std::endl;
-
-    // std::cout << "Mean translation error - Gauss: " << mean_translation_Gauss << std::endl;
-    // std::cout << "Median translation error - Gauss: " << median_translation_Gauss << std::endl;
+    std::ofstream summary(summary_filename);
+    summary << "Method: " << method_name << "\n";
+    summary << "Skipping frame: " << skipping_frame << "\n";
+    summary << "Number of pairs: " << Rotation_errors.size() << "\n";
+    summary << "Rotation threshold for discarding: " << rotation_threshold << " deg\n";
+    summary << "Number of discarded pairs: " << discarded << "\n";
+    summary << "Mean rotation error: "   << mean_rotation   << " deg\n";
+    summary << "Median rotation error: " << median_rotation << " deg\n";
+    summary << "Mean translation error: "   << mean_translation   << " deg\n";
+    summary << "Median translation error: " << median_translation << " deg\n";
+    summary.close();
 
     return 0;
 

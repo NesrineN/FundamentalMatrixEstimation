@@ -20,6 +20,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+
 #ifndef CUBICROOTS_H_
 #define CUBICROOTS_H_
 

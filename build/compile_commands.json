@@ -43,6 +43,12 @@
 },
 {
   "directory": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGLWIDGETS_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DSRCDIR=C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/Realtive_Pose_Estimator.dir/includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\Realtive_Pose_Estimator.dir\\ORSAWrapper.cpp.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\ORSAWrapper.cpp",
+  "file": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/ORSAWrapper.cpp",
+  "output": "CMakeFiles/Realtive_Pose_Estimator.dir/ORSAWrapper.cpp.obj"
+},
+{
+  "directory": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/build",
   "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGLWIDGETS_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DSRCDIR=C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/Realtive_Pose_Estimator.dir/includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\Realtive_Pose_Estimator.dir\\PoseEstimation.cpp.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\PoseEstimation.cpp",
   "file": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/PoseEstimation.cpp",
   "output": "CMakeFiles/Realtive_Pose_Estimator.dir/PoseEstimation.cpp.obj"
@@ -112,5 +118,59 @@
   "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGLWIDGETS_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DSRCDIR=C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/Realtive_Pose_Estimator.dir/includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\Realtive_Pose_Estimator.dir\\CppUnitLite\\SimpleString.cpp.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\CppUnitLite\\SimpleString.cpp",
   "file": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/CppUnitLite/SimpleString.cpp",
   "output": "CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/SimpleString.cpp.obj"
+},
+{
+  "directory": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGLWIDGETS_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DSRCDIR=C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/Realtive_Pose_Estimator.dir/includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\Realtive_Pose_Estimator.dir\\libOrsa\\fundamental_model.cpp.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\libOrsa\\fundamental_model.cpp",
+  "file": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/libOrsa/fundamental_model.cpp",
+  "output": "CMakeFiles/Realtive_Pose_Estimator.dir/libOrsa/fundamental_model.cpp.obj"
+},
+{
+  "directory": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGLWIDGETS_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DSRCDIR=C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/Realtive_Pose_Estimator.dir/includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\Realtive_Pose_Estimator.dir\\libOrsa\\homography_model.cpp.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\libOrsa\\homography_model.cpp",
+  "file": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/libOrsa/homography_model.cpp",
+  "output": "CMakeFiles/Realtive_Pose_Estimator.dir/libOrsa/homography_model.cpp.obj"
+},
+{
+  "directory": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGLWIDGETS_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DSRCDIR=C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/Realtive_Pose_Estimator.dir/includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\Realtive_Pose_Estimator.dir\\libOrsa\\orsa.cpp.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\libOrsa\\orsa.cpp",
+  "file": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/libOrsa/orsa.cpp",
+  "output": "CMakeFiles/Realtive_Pose_Estimator.dir/libOrsa/orsa.cpp.obj"
+},
+{
+  "directory": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGLWIDGETS_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DSRCDIR=C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/Realtive_Pose_Estimator.dir/includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\Realtive_Pose_Estimator.dir\\libOrsa\\ransac.cpp.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\libOrsa\\ransac.cpp",
+  "file": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/libOrsa/ransac.cpp",
+  "output": "CMakeFiles/Realtive_Pose_Estimator.dir/libOrsa/ransac.cpp.obj"
+},
+{
+  "directory": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGLWIDGETS_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DSRCDIR=C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/Realtive_Pose_Estimator.dir/includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\Realtive_Pose_Estimator.dir\\libOrsa\\lrtsac.cpp.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\libOrsa\\lrtsac.cpp",
+  "file": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/libOrsa/lrtsac.cpp",
+  "output": "CMakeFiles/Realtive_Pose_Estimator.dir/libOrsa/lrtsac.cpp.obj"
+},
+{
+  "directory": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGLWIDGETS_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DSRCDIR=C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/Realtive_Pose_Estimator.dir/includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\Realtive_Pose_Estimator.dir\\libOrsa\\model_estimator.cpp.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\libOrsa\\model_estimator.cpp",
+  "file": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/libOrsa/model_estimator.cpp",
+  "output": "CMakeFiles/Realtive_Pose_Estimator.dir/libOrsa/model_estimator.cpp.obj"
+},
+{
+  "directory": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGLWIDGETS_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DSRCDIR=C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/Realtive_Pose_Estimator.dir/includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\Realtive_Pose_Estimator.dir\\libOrsa\\conditioning.cpp.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\libOrsa\\conditioning.cpp",
+  "file": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/libOrsa/conditioning.cpp",
+  "output": "CMakeFiles/Realtive_Pose_Estimator.dir/libOrsa/conditioning.cpp.obj"
+},
+{
+  "directory": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGLWIDGETS_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DSRCDIR=C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/Realtive_Pose_Estimator.dir/includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\Realtive_Pose_Estimator.dir\\libOrsa\\sampling.cpp.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\libOrsa\\sampling.cpp",
+  "file": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/libOrsa/sampling.cpp",
+  "output": "CMakeFiles/Realtive_Pose_Estimator.dir/libOrsa/sampling.cpp.obj"
+},
+{
+  "directory": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGLWIDGETS_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DSRCDIR=C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/Realtive_Pose_Estimator.dir/includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\Realtive_Pose_Estimator.dir\\libOrsa\\libNumerics\\numerics.cpp.obj -c C:\\Users\\USER\\Desktop\\Sorbonne\\Internship\\material\\Implementations\\Kanatani-F-Estimation\\libOrsa\\libNumerics\\numerics.cpp",
+  "file": "C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/libOrsa/libNumerics/numerics.cpp",
+  "output": "CMakeFiles/Realtive_Pose_Estimator.dir/libOrsa/libNumerics/numerics.cpp.obj"
 }
 ]

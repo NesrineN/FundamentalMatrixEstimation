@@ -397,6 +397,15 @@ Vulkan_LIBRARY:FILEPATH=Vulkan_LIBRARY-NOTFOUND
 //Path to a program.
 WINDEPLOYQT_EXECUTABLE:FILEPATH=C:/ENPC/6.9.1/mingw_64/bin/windeployqt.exe
 
+//Value Computed by CMake
+libNumerics_BINARY_DIR:STATIC=C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/build/libOrsa/libNumerics
+
+//Value Computed by CMake
+libNumerics_IS_TOP_LEVEL:STATIC=OFF
+
+//Value Computed by CMake
+libNumerics_SOURCE_DIR:STATIC=C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/libOrsa/libNumerics
+
 //Path to a library.
 pkgcfg_lib_GSL_gsl:FILEPATH=C:/msys64/mingw64/lib/libgsl.dll.a
 

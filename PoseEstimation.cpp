@@ -5,6 +5,7 @@
 #include "./Imagine/Features.h"
 #include <Imagine/Graphics.h>
 #include <Imagine/LinAlg.h>
+#include "Match.h"
 #include <Eigen/Dense>
 #include "FNS.h"
 
@@ -13,6 +14,48 @@ typedef libNumerics::vector<double> Vec;
 
 
 using namespace Imagine;
+
+Vec TriangulatePoint(const Vec& U, const Vec& U_prime, const Mat& P, const Mat& P_prime){
+    double u= U(0);
+    double v= U(1);
+    double u_p= U_prime(0);
+    double v_p= U_prime(1);
+
+    // creating the matrix A that is 4x4
+    Mat A= Mat::zeros(4,4);
+
+    Mat p0=P.copyRows(0,0);
+    Mat p1=P.copyRows(1,1);
+    Mat p2=P.copyRows(2, 2);
+
+    Mat p0p=P_prime.copyRows(0,0);
+    Mat p1p=P_prime.copyRows(1,1);
+    Mat p2p=P_prime.copyRows(2, 2);
+
+    // Row 0: uP3T-P1T
+    Mat row0= u*p2 - p0;
+    // Row 1: vP3T-P2T
+    Mat row1= v*p2 - p1;
+    // Row 2: u'P3'T - P1'T  
+    Mat row2= u_p*p2p - p0p;
+    // Row 3: v'P3'T - P2'T
+    Mat row3= v_p*p2p - p1p;
+
+    A.paste(0, 0, row0);
+    A.paste(1,0, row1);
+    A.paste(2,0, row2);
+    A.paste(3,0, row3);
+
+    // Solving Minimum of AX subject to ||X||=1 using SVD Decomposition
+    Mat W(4,4);
+    Mat V(4,4);
+    Vec S(4);
+    EigenSVD(A, W, S, V);
+
+    Vec solution = V.col(V.ncol()-1);
+
+    return solution;
+}
 
 // assuming P1= K1[I|0]  P2=K2[R|t]
 // U=(u,v,1) and U_prime=(u',v',1) are pixel coordinates 
@@ -116,90 +159,6 @@ double reprojError(const Vec& X_3d_homogeneous, const Mat& P, double u_observed,
     return std::sqrt((u_proj-u_observed)*(u_proj-u_observed) + (v_proj-v_observed)*(v_proj-v_observed));
 }
 
-double ReprojectionError(const Vec& U, const Vec& U_prime, const Mat& P, const Mat& P_prime){
-    // extracting the coordinates from the u and u' vectors
-    double u= U(0);
-    double v= U(1);
-    double u_p= U_prime(0);
-    double v_p= U_prime(1);
-
-    // creating the matrix A that is 4x4
-    Mat A= Mat::zeros(4,4);
-
-    Mat p0=P.copyRows(0,0);
-    Mat p1=P.copyRows(1,1);
-    Mat p2=P.copyRows(2, 2);
-
-    Mat p0p=P_prime.copyRows(0,0);
-    Mat p1p=P_prime.copyRows(1,1);
-    Mat p2p=P_prime.copyRows(2, 2);
-
-    // Row 0: uP3T-P1T
-    Mat row0= u*p2 - p0;
-    // Row 1: vP3T-P2T
-    Mat row1= v*p2 - p1;
-    // Row 2: u'P3'T - P1'T  
-    Mat row2= u_p*p2p - p0p;
-    // Row 3: v'P3'T - P2'T
-    Mat row3= v_p*p2p - p1p;
-
-    A.paste(0, 0, row0);
-    A.paste(1,0, row1);
-    A.paste(2,0, row2);
-    A.paste(3,0, row3);
-
-    // Solving Minimum of AX subject to ||X||=1 using SVD Decomposition
-    Mat W(4,4);
-    Mat V(4,4);
-    Vec S(4);
-    EigenSVD(A, W, S, V);
-    // A.SVD(W,S,V);
-
-    Vec solution = V.col(V.ncol()-1);
-
-    double w_hom = solution(3);
-
-
-    if(std::abs(w_hom) > 1e-9){
-        Mat X=Mat::zeros(4, 1);
-        X(0,0)=solution(0) / w_hom;
-        X(1,0)=solution(1) / w_hom;
-        X(2,0)=solution(2) / w_hom;
-        X(3,0)=1.0;
-
-        // projection onto image1: 
-        Mat x1=P*X; // 3x4 * 4x1 --> 3x1
-        Mat x2=P_prime*X;
-
-        if (x1(2,0) <= 0 || x2(2,0) <= 0)
-        {
-           return 0.0; // point is behind the camera i want to skip it
-        }
-
-        double u_hat=x1(0,0)/x1(2,0);
-        double v_hat=x1(1,0)/x1(2,0);
-
-        double u_hat_p=x2(0,0)/x2(2,0);
-        double v_hat_p=x2(1,0)/x2(2,0);
-
-        // std::cout << "Observed Pixel: (" << u << ", " << v << ")" << std::endl;
-        // std::cout << "Projected Pixel: (" << u_hat << ", " << v_hat << ")" << std::endl;
-        // std::cout << "Homogeneous W: " << x1(2) << std::endl;
-
-        double err1_sq = (u - u_hat) * (u - u_hat) + (v - v_hat) * (v - v_hat);
-                         
-        double err2_sq = (u_p - u_hat_p) * (u_p - u_hat_p) + (v_p - v_hat_p) * (v_p - v_hat_p);
-
-        // Accumulate error for both projections
-        double total_squared_error = (err1_sq + err2_sq);
-        return total_squared_error;
-    }
-    else{
-        std::cout << "w_hom was zero!" << std::endl;
-        return 0.0;
-    }
-}
-
 // function that normalizes a 3x3 matrix by converting it to a 9-vector form and dividing it by qnorm and converting it back to matrix form
 Mat Normaliza_Mat(const Mat& A){
     Vec A_vec(9);
@@ -289,8 +248,8 @@ Mat EstimatePose(Image<Color,2> I1, Image<Color,2> I2, const Mat& K1, const Mat&
     // E_norm.SVD(U, S, V);
 
     // debugging:
-    // std::cout << "4 singular values of E: " << std::endl;
-    // std::cout << S(0) << " " << S(1) <<  " " << S(2) << std::endl;
+    std::cout << "3 singular values of E: " << std::endl;
+    std::cout << S(0) << " " << S(1) <<  " " << S(2) << std::endl;
 
     // enforcing singular value correction (s,s,0)
     int minIdx = 0;
@@ -374,6 +333,7 @@ Mat EstimatePose(Image<Color,2> I1, Image<Color,2> I2, const Mat& K1, const Mat&
     P2_4.paste(0,3,t2.col(0));
 
 
+    // cheirality loop:
     // we loop through the point correspondences and for each point we run the triangulation to compute the cheirality with each of the four poses:
     int total_1=0, total_2=0, total_3=0, total_4=0;
 
@@ -395,30 +355,94 @@ Mat EstimatePose(Image<Color,2> I1, Image<Color,2> I2, const Mat& K1, const Mat&
         if (Triangulate(I1, I2, u,u_prime,K1*P1,K2*P2_4, R2, t2) > 0)total_4++;
     }
 
+    Mat P1_pixel = K1 * P1;
+    Mat P2_1_pixel = K2 * P2_1;
+    Mat P2_2_pixel = K2 * P2_2;
+    Mat P2_3_pixel = K2 * P2_3;
+    Mat P2_4_pixel = K2 * P2_4;
+
+    double reproj_total[4] = {0.0, 0.0, 0.0, 0.0};
+    int reproj_count[4] = {0, 0, 0, 0};
+
+    Mat P2_pixel_arr[4] = {P2_1_pixel, P2_2_pixel, P2_3_pixel, P2_4_pixel};
+
+    for (size_t i = 0; i < img1Pts.size(); i++) {
+        Vec u(3), u_prime(3);
+        u(0)=img1Pts[i].x; u(1)=img1Pts[i].y; u(2)=1.0;
+        u_prime(0)=img2Pts[i].x; u_prime(1)=img2Pts[i].y; u_prime(2)=1.0;
+
+        for (int c = 0; c < 4; c++) {
+            Vec X_hom = TriangulatePoint(u, u_prime, P1_pixel, P2_pixel_arr[c]);
+            double e1 = reprojError(X_hom, P1_pixel, u(0), u(1));
+            double e2 = reprojError(X_hom, P2_pixel_arr[c], u_prime(0), u_prime(1));
+            reproj_total[c] += (e1 + e2);
+            reproj_count[c]++;
+        }
+    }
+
+    double reproj_mean[4];
+    for (int c = 0; c < 4; c++) {
+        reproj_mean[c] = (reproj_count[c] > 0) ? reproj_total[c] / reproj_count[c] : 1e18;
+    }
+
     // std::cout << "Totals: " << std::endl;
     // std::cout << total_1 << " "
     //       << total_2 << " "
     //       << total_3 << " "
     //       << total_4 << std::endl;
 
-    int maxTotal = total_1;
-    Mat bestP = P2_1;
+    // deciding the winner: cheirality first, reprojection error as tie-breaker
+    int totals[4] = {total_1, total_2, total_3, total_4};
+    Mat P2_candidates[4] = {P2_1, P2_2, P2_3, P2_4};
 
-    if (total_2 > maxTotal) {
-        maxTotal = total_2;
-        bestP = P2_2;
+    int best = 0;
+    for (int c = 1; c < 4; c++) if (totals[c] > totals[best]) best = c;
+
+    // Checking if any other candidate is "close enough" in vote count to be a real contender
+    double margin_threshold = 0.2; // HYPERPARAMETER.  within 20% of the winner's vote count
+    Mat bestP = P2_candidates[best];
+    double bestReprojScore = reproj_mean[best];
+
+    int finalBest = best; // track index explicitly
+
+    for (int c = 0; c < 4; c++) {
+        if (c == best) continue;
+        if (totals[c] > 0 &&
+            (double)(totals[best] - totals[c]) / (double)totals[best] < margin_threshold) {
+            // close contender --> we use reprojection error to decide
+            if (reproj_mean[c] < bestReprojScore) {
+                bestP = P2_candidates[c];
+                bestReprojScore = reproj_mean[c];
+                finalBest=c;
+            }
+        }
     }
 
-    if (total_3 > maxTotal) {
-        maxTotal = total_3;
-        bestP = P2_3;
-    }
-
-    if (total_4 > maxTotal) {
-        maxTotal = total_4;
-        bestP = P2_4;
-    }
+    std::cout << "Totals: " << totals[0] << " " << totals[1] << " " << totals[2] << " " << totals[3] << std::endl;
+    std::cout << "Reproj means: " << reproj_mean[0] << " " << reproj_mean[1] << " " << reproj_mean[2] << " " << reproj_mean[3] << std::endl;
+    std::cout << "Winner by votes: " << best << std::endl;
+    std::cout << "Final winner (post-tiebreak): " << finalBest << std::endl;
 
     return bestP;
+
+    // int maxTotal = total_1;
+    // Mat bestP = P2_1;
+
+    // if (total_2 > maxTotal) {
+    //     maxTotal = total_2;
+    //     bestP = P2_2;
+    // }
+
+    // if (total_3 > maxTotal) {
+    //     maxTotal = total_3;
+    //     bestP = P2_3;
+    // }
+
+    // if (total_4 > maxTotal) {
+    //     maxTotal = total_4;
+    //     bestP = P2_4;
+    // }
+
+    // return bestP;
 
 }
