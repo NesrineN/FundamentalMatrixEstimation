@@ -3,7 +3,7 @@ Skipping frame: 5
 Number of pairs: 199
 Rotation threshold for discarding: 40 deg
 Number of discarded pairs: 0
-Mean rotation error: 5.02481 deg
-Median rotation error: 1.10386 deg
-Mean translation error: 45.3388 deg
-Median translation error: 39.6709 deg
+Mean rotation error: 3.88425 deg
+Median rotation error: 1.26991 deg
+Mean translation error: 48.4752 deg
+Median translation error: 46.8343 deg

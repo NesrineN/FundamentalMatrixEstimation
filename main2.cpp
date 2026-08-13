@@ -4,7 +4,7 @@
 #include "Initialization.h"
 #include "PoseEstimation.h"
 #include "Pipeline.h"
-#include "Match.h
+#include "Match.h"
 #include "GetInliers.h"
 
 #include <vector>
@@ -284,16 +284,6 @@ int main(int argc, char* argv[]){
     // we store them in a vector of Associations where each Association has rgb path and the corresponding tx ty tz qx qy qz qw
     std::vector<Association> associations = loadAssociations(dataset_path);
 
-    // now, we loop over the associations and run the pipeline to get the rotation and translation errors: 
-    std::vector<double> Rotation_errors;
-    std::vector<double> Translation_errors;
-
-    std::string csv_filename = "pose_results_" + method_name + "_skip" + std::to_string(skipping_frame) + ".csv";
-    std::string summary_filename = "summary_results_" + method_name + "_skip" + std::to_string(skipping_frame) + ".txt";
-
-    std::ofstream csv(csv_filename);
-    csv << "pair_index,image1,image2,t_gt_sq_magnitude,r_gt_magnitude,skipping_frame,inliers,match_coverage,method,rotation_error,translation_error\n";
-
     int pair_index = 0;
     int discarded=0;
     double rotation_threshold=40.0;
@@ -361,6 +351,16 @@ int main(int argc, char* argv[]){
         return 0;
     }
     // ----------------------------------------------------------------------------------------
+
+    // now, we loop over the associations and run the pipeline to get the rotation and translation errors: 
+    std::vector<double> Rotation_errors;
+    std::vector<double> Translation_errors;
+
+    std::string csv_filename = "pose_results_" + method_name + "_skip" + std::to_string(skipping_frame) + ".csv";
+    std::string summary_filename = "summary_results_" + method_name + "_skip" + std::to_string(skipping_frame) + ".txt";
+
+    std::ofstream csv(csv_filename);
+    csv << "pair_index,image1,image2,t_gt_sq_magnitude,r_gt_magnitude,skipping_frame,inliers,match_coverage,method,rotation_error,translation_error\n";
 
     for (size_t i = 0; i + skipping_frame < associations.size(); i+=stride)
     {

@@ -133,14 +133,14 @@ void runSyntheticFPipelineTest() {
         for (int j = 0; j < 3; j++)
             N2_mat(i,j) = N2(i,j);
 
-    std::cout << "N1:" << std::endl; printM(N1_mat);
-    std::cout << "N2:" << std::endl; printM(N2_mat);
+    // std::cout << "N1:" << std::endl; printM(N1_mat);
+    // std::cout << "N2:" << std::endl; printM(N2_mat);
 
     // FMatrix<double,3,3> F_RANSAC_f = computeF(matches_for_ransac);
 
     double sigma_orsa = 0.0;
     Mat F_RANSAC_f = computeF_ORSA(matches_for_ransac, 640, 480, 640, 480, &sigma_orsa);
-    std::cout << "ORSA estimated sigma: " << sigma_orsa << std::endl;
+    // std::cout << "ORSA estimated sigma: " << sigma_orsa << std::endl;
 
     std::cout << "RANSAC inliers kept: " << matches_for_ransac.size()
                << " / " << matches.size() << std::endl;
@@ -181,8 +181,8 @@ void runSyntheticFPipelineTest() {
     Mat E_from_raw_ORSA_F = K2.t() * F_RANSAC * K1;         // NO transpose
     Mat E_from_transposed_ORSA_F = K2.t() * F_RANSAC.t() * K1;  // WITH transpose (your current FNS-input convention)
 
-    std::cout << "compareE, raw ORSA F: " << compareE(E_from_raw_ORSA_F, E_true) << std::endl;
-    std::cout << "compareE, transposed ORSA F: " << compareE(E_from_transposed_ORSA_F, E_true) << std::endl;
+    // std::cout << "compareE, raw ORSA F: " << compareE(E_from_raw_ORSA_F, E_true) << std::endl;
+    // std::cout << "compareE, transposed ORSA F: " << compareE(E_from_transposed_ORSA_F, E_true) << std::endl;
 
     // Normalizing E to unit Frobenius norm
     Vec e_vec(9);
@@ -190,7 +190,7 @@ void runSyntheticFPipelineTest() {
     double norm = std::sqrt(e_vec.qnorm());  
     E_estimated = E_estimated / norm;
 
-    std::cout << "F_estimated:" << std::endl; printM(F_estimated);
+    std::cout << "F_estimated after FNS:" << std::endl; printM(F_estimated);
     std::cout << "E_estimated (raw):" << std::endl; printM(E_estimated);
     std::cout << "E_true:" << std::endl; printM(E_true);
 

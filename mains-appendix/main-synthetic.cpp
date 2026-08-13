@@ -4,6 +4,7 @@
 #include "Initialization.h"
 #include "PoseEstimation.h"
 #include "Pipeline.h"
+#include "Match.h"
 #include "GetInliers.h"
 
 #include <vector>
@@ -80,7 +81,7 @@ void runSyntheticFPipelineTest() {
     std::uniform_real_distribution<double> distXY(-1.0, 1.0);
     std::uniform_real_distribution<double> distZ(3.0, 8.0);
 
-    std::vector<Match> matches; // <-- this is the format computeF/GetF expect
+    std::vector<SiftMatch> matches; // <-- this is the format computeF/GetF expect
 
     int N = 200; // use more points than the earlier N=50, since RANSAC/8-point
                  // benefit from a larger sample, and real pipelines see hundreds of matches
@@ -102,7 +103,7 @@ void runSyntheticFPipelineTest() {
         if (x1 < 0 || x1 > 640 || y1 < 0 || y1 > 480) continue;
         if (x2 < 0 || x2 > 640 || y2 < 0 || y2 > 480) continue;
 
-        Match m;
+        SiftMatch m;
         m.x1 = x1; m.y1 = y1;
         m.x2 = x2; m.y2 = y2;
         matches.push_back(m);
@@ -118,7 +119,7 @@ void runSyntheticFPipelineTest() {
     // --- Step A: RANSAC + 8-point (computeF operates on FMatrix<float,3,3> / vector<Match>) ---
     // computeF filters 'matches' in-place down to its inlier set, and returns F in HZ convention
     // (x2^T F x1 = 0), matching your real GetInliers flow.
-    vector<Match> matches_for_ransac = matches; // computeF mutates its input, keep a copy if needed
+    vector<SiftMatch> matches_for_ransac = matches; // computeF mutates its input, keep a copy if needed
 
     vector<FMatrix<double,3,3>> N_list = compute_N(matches_for_ransac); // or whatever your actual signature is
     FMatrix<double,3,3> N1=N_list[0];

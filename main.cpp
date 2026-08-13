@@ -14,6 +14,7 @@
 #include <sstream>
 #include <iomanip>
 #include <string>
+#include <cstdlib>
 #include <iostream> 
 #include <cmath>
 #include <algorithm>
@@ -208,6 +209,8 @@ double rotationMagnitude(const Mat& R) {
 
 int main(int argc, char* argv[]){
 
+    srand(42);
+
     int skipping_frame = 5;
     int method = 1;
     int stride=5;
@@ -342,11 +345,13 @@ int main(int argc, char* argv[]){
         }
 
         // now we run the pipeline to get the errors:
+        srand(42);
         Vec info=RunPipelineNoiseless(I1, I2, I1_path_complete, I2_path_complete, K, K, f0, R_rel_gt, t_rel_gt, method, fx,  fy,  cx,  cy, k1,  k2,  p1,  p2,  k3);
 
         std::cout << "Rotation error is: " << info(0) << std::endl;
         std::cout << "Translation error is: " << info(1) << std::endl;
         std::cout << "nbr of inliers is: " << info(2) << std::endl;
+        std::cout << "coverage is: " << info(3) << std::endl;
 
         return 0;
     }
@@ -414,6 +419,7 @@ int main(int argc, char* argv[]){
         }
 
         // now we run the pipeline to get the errors:
+        srand(42);
         Vec info=RunPipelineNoiseless(I1, I2, I1_path_complete, I2_path_complete, K, K, f0, R_rel_gt, t_rel_gt, method, fx,  fy,  cx,  cy, k1,  k2,  p1,  p2,  k3);
 
         Rotation_errors.push_back(info(0));
