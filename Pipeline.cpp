@@ -419,6 +419,23 @@ Vec RunPipelineNoiseless(Image<Color,2> I1, Image<Color,2> I2, const std::string
         img2Pts.push_back(p2);
     }
 
+    // debugging: writing correspondences to file:
+
+    // std::ofstream file("correspondences845.txt");
+
+    // if (!file.is_open()) {
+    //     std::cerr << "Error: could not open file.\n";
+    // }
+
+    // for (size_t i = 0; i < img1Pts.size(); ++i) {
+    //     file << img1Pts[i].x << " "
+    //         << img1Pts[i].y << " "
+    //         << img2Pts[i].x << " "
+    //         << img2Pts[i].y << "\n";
+    // }
+
+    // file.close();
+
     // 3. Now, we want to run the method of choice: either FNS or Gauss-Newton to compute the fundamental matrix from the inliers
     if(method==1){
         // std::cout << "----Computing F using FNS----" << std::endl;
@@ -446,6 +463,8 @@ Vec RunPipelineNoiseless(Image<Color,2> I1, Image<Color,2> I2, const std::string
         // std::cout << "epi distance estim: " << epidistance_estim << std::endl;
         // std:: cout << std::endl;
     }
+    // std::cout << "Estimated Kanatani F:" << std::endl;
+    // printM(F);
 
     // std::cout << "avg epi distance estim: " << avg_epidist_estim/img1Pts.size() << std::endl;
     // std::cout << "avg epi distance estim RANSAC: " << avg_epidist_estim_RANSAC/img1Pts.size() << std::endl;

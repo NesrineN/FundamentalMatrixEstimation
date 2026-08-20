@@ -693,12 +693,12 @@ vector<SiftMatch> GetInliers(const std::string& I1_path, const std::string& I2_p
     // std::cout << " matches: " << n << std::endl;
 
     // debugging: we visualize the matches after RANSAC
-    int W2 = I1.width() + I2.width();
-    int H2 = max(I1.height(), I2.height());
-    Window w2 = openWindow(W2, H2);
-    drawMatches(w2, I1, I2, matches);   // after RANSAC
-    click();
-    closeWindow(w2);
+    // int W2 = I1.width() + I2.width();
+    // int H2 = max(I1.height(), I2.height());
+    // Window w2 = openWindow(W2, H2);
+    // drawMatches(w2, I1, I2, matches);   // after RANSAC
+    // click();
+    // closeWindow(w2);
 
     for(int i=0; i<3; i++){
         for(int j=0; j<3; j++){

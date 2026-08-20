@@ -364,6 +364,9 @@ int main(int argc, char* argv[]){
     std::string csv_filename = "pose_results_" + method_name + "_skip" + std::to_string(skipping_frame) + ".csv";
     std::string summary_filename = "summary_results_" + method_name + "_skip" + std::to_string(skipping_frame) + ".txt";
 
+    // std::string csv_filename = "distorted_pose_results_" + method_name + "_skip" + std::to_string(skipping_frame) + ".csv";
+    // std::string summary_filename = "distorted_summary_results_" + method_name + "_skip" + std::to_string(skipping_frame) + ".txt";
+
     std::ofstream csv(csv_filename);
     csv << "pair_index,image1,image2,t_gt_sq_magnitude,r_gt_magnitude,skipping_frame,inliers,match_coverage,method,rotation_error,translation_error\n";
 

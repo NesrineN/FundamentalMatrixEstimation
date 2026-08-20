@@ -248,8 +248,8 @@ Mat EstimatePose(Image<Color,2> I1, Image<Color,2> I2, const Mat& K1, const Mat&
     // E_norm.SVD(U, S, V);
 
     // debugging:
-    std::cout << "3 singular values of E: " << std::endl;
-    std::cout << S(0) << " " << S(1) <<  " " << S(2) << std::endl;
+    // std::cout << "3 singular values of E: " << std::endl;
+    // std::cout << S(0) << " " << S(1) <<  " " << S(2) << std::endl;
 
     // enforcing singular value correction (s,s,0)
     int minIdx = 0;
@@ -418,10 +418,10 @@ Mat EstimatePose(Image<Color,2> I1, Image<Color,2> I2, const Mat& K1, const Mat&
         }
     }
 
-    std::cout << "Totals: " << totals[0] << " " << totals[1] << " " << totals[2] << " " << totals[3] << std::endl;
-    std::cout << "Reproj means: " << reproj_mean[0] << " " << reproj_mean[1] << " " << reproj_mean[2] << " " << reproj_mean[3] << std::endl;
-    std::cout << "Winner by votes: " << best << std::endl;
-    std::cout << "Final winner (post-tiebreak): " << finalBest << std::endl;
+    // std::cout << "Totals: " << totals[0] << " " << totals[1] << " " << totals[2] << " " << totals[3] << std::endl;
+    // std::cout << "Reproj means: " << reproj_mean[0] << " " << reproj_mean[1] << " " << reproj_mean[2] << " " << reproj_mean[3] << std::endl;
+    // std::cout << "Winner by votes: " << best << std::endl;
+    // std::cout << "Final winner (post-tiebreak): " << finalBest << std::endl;
 
     return bestP;
 
