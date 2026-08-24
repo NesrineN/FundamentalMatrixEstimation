@@ -204,7 +204,7 @@ CMAKE_PROJECT_DESCRIPTION:STATIC=
 CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=ComputingF
+CMAKE_PROJECT_NAME:STATIC=ClassicalRelativePoseEstimation
 
 //Path to a program.
 CMAKE_RANLIB:FILEPATH=C:/msys64/mingw64/bin/ranlib.exe
@@ -288,6 +288,15 @@ CMAKE_TAPI:FILEPATH=CMAKE_TAPI-NOTFOUND
 // during the make.  This is useful for debugging only. With Visual
 // Studio IDE projects all commands are done without /nologo.
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
+
+//Value Computed by CMake
+ClassicalRelativePoseEstimation_BINARY_DIR:STATIC=C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/build
+
+//Value Computed by CMake
+ClassicalRelativePoseEstimation_IS_TOP_LEVEL:STATIC=ON
+
+//Value Computed by CMake
+ClassicalRelativePoseEstimation_SOURCE_DIR:STATIC=C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation
 
 //Value Computed by CMake
 ComputingF_BINARY_DIR:STATIC=C:/Users/USER/Desktop/Sorbonne/Internship/material/Implementations/Kanatani-F-Estimation/build

@@ -1,48 +1,5 @@
-# cmake_minimum_required(VERSION 3.10)
-# project(ComputingF)
-
-# # 1. C++ Standard (Required for structured bindings auto [u, v])
-# set(CMAKE_CXX_STANDARD 17)
-# set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-# # 2. Find External Packages
-# # This looks for the GSL library files and headers
-# find_package(GSL REQUIRED)
-
-# # 3. Include Directories
-# include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-# include_directories(${CMAKE_CURRENT_SOURCE_DIR}/CppUnitLite)
-# # Add GSL headers to the include path
-# include_directories(${GSL_INCLUDE_DIRS})
-
-# # 4. Source Files
-# set(SOURCE_FILES
-#     main.cpp
-#     FNS.cpp
-#     HEIV.cpp
-#     Renorm.cpp
-#     GaussNewton.cpp
-#     Initialization.cpp
-#     CppUnitLite/Test.cpp
-#     CppUnitLite/TestResult.cpp
-#     CppUnitLite/TestRegistry.cpp
-#     CppUnitLite/Failure.cpp
-#     CppUnitLite/SimpleString.cpp  
-# )
-
-# # 5. Define the Executable
-# add_executable(F_estimator ${SOURCE_FILES})
-
-# # 6. Link Libraries
-# # We link GSL and its required CBLAS component
-# target_link_libraries(F_estimator PRIVATE GSL::gsl GSL::gslcblas)
-
-# if(UNIX)
-#     target_link_libraries(F_estimator PRIVATE m)
-# endif()
-
 cmake_minimum_required(VERSION 3.10)
-project(ComputingF)
+project(ClassicalRelativePoseEstimation)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -63,37 +20,39 @@ find_package(Imagine REQUIRED COMPONENTS LinAlg Images)
 # ------------------------------------------------------------
 
 set(SOURCE_FILES
-    main.cpp
-    FNS.cpp
-    HEIV.cpp
-    Renorm.cpp
-    GaussNewton.cpp
-    GetInliers.cpp
-    Pipeline.cpp
-    ORSAWrapper.cpp
-    PoseEstimation.cpp
-    Imagine/SIFT_VL.cpp
-    Imagine/vl/generic.c
-    Imagine/vl/host.c 
-    Imagine/vl/imop.c 
-    Imagine/vl/sift.c
-    Initialization.cpp
-    CppUnitLite/Test.cpp
-    CppUnitLite/TestResult.cpp
-    CppUnitLite/TestRegistry.cpp
-    CppUnitLite/Failure.cpp
-    CppUnitLite/SimpleString.cpp
+    src/main.cpp
+    src/FNS.cpp
+    src/HEIV.cpp
+    src/Renorm.cpp
+    src/GaussNewton.cpp
+    src/GetInliers.cpp
+    src/Pipeline.cpp
+    src/ORSAWrapper.cpp
+    src/PoseEstimation.cpp
+    src/Initialization.cpp
 
-    # --- libOrsa: library sources only, NOT the *_test.cpp demo executables ---
-    libOrsa/fundamental_model.cpp
-    libOrsa/homography_model.cpp     # pulled in transitively; needed now that it's linked
-    libOrsa/orsa.cpp
-    libOrsa/ransac.cpp
-    libOrsa/lrtsac.cpp
-    libOrsa/model_estimator.cpp
-    libOrsa/conditioning.cpp
-    libOrsa/sampling.cpp
-    libOrsa/libNumerics/numerics.cpp
+    external/Imagine/SIFT_VL.cpp
+    external/Imagine/vl/generic.c
+    external/Imagine/vl/host.c 
+    external/Imagine/vl/imop.c 
+    external/Imagine/vl/sift.c
+
+    external/CppUnitLite/Test.cpp
+    external/CppUnitLite/TestResult.cpp
+    external/CppUnitLite/TestRegistry.cpp
+    external/CppUnitLite/Failure.cpp
+    external/CppUnitLite/SimpleString.cpp
+
+    # --- libOrsa ---
+    external/libOrsa/fundamental_model.cpp
+    external/libOrsa/homography_model.cpp    
+    external/libOrsa/orsa.cpp
+    external/libOrsa/ransac.cpp
+    external/libOrsa/lrtsac.cpp
+    external/libOrsa/model_estimator.cpp
+    external/libOrsa/conditioning.cpp
+    external/libOrsa/sampling.cpp
+    external/libOrsa/libNumerics/numerics.cpp
 )
 
 add_executable(Realtive_Pose_Estimator ${SOURCE_FILES})
@@ -103,10 +62,11 @@ add_executable(Realtive_Pose_Estimator ${SOURCE_FILES})
 # ------------------------------------------------------------
 
 target_include_directories(Realtive_Pose_Estimator PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/CppUnitLite
-    ${CMAKE_CURRENT_SOURCE_DIR}/libOrsa          # <-- add this
-    ${CMAKE_CURRENT_SOURCE_DIR}/libOrsa/libNumerics
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${CMAKE_CURRENT_SOURCE_DIR}/external
+    ${CMAKE_CURRENT_SOURCE_DIR}/external/CppUnitLite
+    ${CMAKE_CURRENT_SOURCE_DIR}/external/libOrsa       
+    ${CMAKE_CURRENT_SOURCE_DIR}/external/libOrsa/libNumerics
     ${GSL_INCLUDE_DIRS}
 )
 

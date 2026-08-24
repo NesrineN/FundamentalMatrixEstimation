@@ -128,701 +128,701 @@ Realtive_Pose_Estimator/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/build
 .PHONY : Realtive_Pose_Estimator/fast
 
-CppUnitLite/Failure.obj: CppUnitLite/Failure.cpp.obj
-.PHONY : CppUnitLite/Failure.obj
+external/CppUnitLite/Failure.obj: external/CppUnitLite/Failure.cpp.obj
+.PHONY : external/CppUnitLite/Failure.obj
 
 # target to build an object file
-CppUnitLite/Failure.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/Failure.cpp.obj
-.PHONY : CppUnitLite/Failure.cpp.obj
+external/CppUnitLite/Failure.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/CppUnitLite/Failure.cpp.obj
+.PHONY : external/CppUnitLite/Failure.cpp.obj
 
-CppUnitLite/Failure.i: CppUnitLite/Failure.cpp.i
-.PHONY : CppUnitLite/Failure.i
+external/CppUnitLite/Failure.i: external/CppUnitLite/Failure.cpp.i
+.PHONY : external/CppUnitLite/Failure.i
 
 # target to preprocess a source file
-CppUnitLite/Failure.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/Failure.cpp.i
-.PHONY : CppUnitLite/Failure.cpp.i
+external/CppUnitLite/Failure.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/CppUnitLite/Failure.cpp.i
+.PHONY : external/CppUnitLite/Failure.cpp.i
 
-CppUnitLite/Failure.s: CppUnitLite/Failure.cpp.s
-.PHONY : CppUnitLite/Failure.s
+external/CppUnitLite/Failure.s: external/CppUnitLite/Failure.cpp.s
+.PHONY : external/CppUnitLite/Failure.s
 
 # target to generate assembly for a file
-CppUnitLite/Failure.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/Failure.cpp.s
-.PHONY : CppUnitLite/Failure.cpp.s
+external/CppUnitLite/Failure.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/CppUnitLite/Failure.cpp.s
+.PHONY : external/CppUnitLite/Failure.cpp.s
 
-CppUnitLite/SimpleString.obj: CppUnitLite/SimpleString.cpp.obj
-.PHONY : CppUnitLite/SimpleString.obj
+external/CppUnitLite/SimpleString.obj: external/CppUnitLite/SimpleString.cpp.obj
+.PHONY : external/CppUnitLite/SimpleString.obj
 
 # target to build an object file
-CppUnitLite/SimpleString.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/SimpleString.cpp.obj
-.PHONY : CppUnitLite/SimpleString.cpp.obj
+external/CppUnitLite/SimpleString.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/CppUnitLite/SimpleString.cpp.obj
+.PHONY : external/CppUnitLite/SimpleString.cpp.obj
 
-CppUnitLite/SimpleString.i: CppUnitLite/SimpleString.cpp.i
-.PHONY : CppUnitLite/SimpleString.i
+external/CppUnitLite/SimpleString.i: external/CppUnitLite/SimpleString.cpp.i
+.PHONY : external/CppUnitLite/SimpleString.i
 
 # target to preprocess a source file
-CppUnitLite/SimpleString.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/SimpleString.cpp.i
-.PHONY : CppUnitLite/SimpleString.cpp.i
+external/CppUnitLite/SimpleString.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/CppUnitLite/SimpleString.cpp.i
+.PHONY : external/CppUnitLite/SimpleString.cpp.i
 
-CppUnitLite/SimpleString.s: CppUnitLite/SimpleString.cpp.s
-.PHONY : CppUnitLite/SimpleString.s
+external/CppUnitLite/SimpleString.s: external/CppUnitLite/SimpleString.cpp.s
+.PHONY : external/CppUnitLite/SimpleString.s
 
 # target to generate assembly for a file
-CppUnitLite/SimpleString.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/SimpleString.cpp.s
-.PHONY : CppUnitLite/SimpleString.cpp.s
+external/CppUnitLite/SimpleString.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/CppUnitLite/SimpleString.cpp.s
+.PHONY : external/CppUnitLite/SimpleString.cpp.s
 
-CppUnitLite/Test.obj: CppUnitLite/Test.cpp.obj
-.PHONY : CppUnitLite/Test.obj
+external/CppUnitLite/Test.obj: external/CppUnitLite/Test.cpp.obj
+.PHONY : external/CppUnitLite/Test.obj
 
 # target to build an object file
-CppUnitLite/Test.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/Test.cpp.obj
-.PHONY : CppUnitLite/Test.cpp.obj
+external/CppUnitLite/Test.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/CppUnitLite/Test.cpp.obj
+.PHONY : external/CppUnitLite/Test.cpp.obj
 
-CppUnitLite/Test.i: CppUnitLite/Test.cpp.i
-.PHONY : CppUnitLite/Test.i
+external/CppUnitLite/Test.i: external/CppUnitLite/Test.cpp.i
+.PHONY : external/CppUnitLite/Test.i
 
 # target to preprocess a source file
-CppUnitLite/Test.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/Test.cpp.i
-.PHONY : CppUnitLite/Test.cpp.i
+external/CppUnitLite/Test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/CppUnitLite/Test.cpp.i
+.PHONY : external/CppUnitLite/Test.cpp.i
 
-CppUnitLite/Test.s: CppUnitLite/Test.cpp.s
-.PHONY : CppUnitLite/Test.s
+external/CppUnitLite/Test.s: external/CppUnitLite/Test.cpp.s
+.PHONY : external/CppUnitLite/Test.s
 
 # target to generate assembly for a file
-CppUnitLite/Test.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/Test.cpp.s
-.PHONY : CppUnitLite/Test.cpp.s
+external/CppUnitLite/Test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/CppUnitLite/Test.cpp.s
+.PHONY : external/CppUnitLite/Test.cpp.s
 
-CppUnitLite/TestRegistry.obj: CppUnitLite/TestRegistry.cpp.obj
-.PHONY : CppUnitLite/TestRegistry.obj
+external/CppUnitLite/TestRegistry.obj: external/CppUnitLite/TestRegistry.cpp.obj
+.PHONY : external/CppUnitLite/TestRegistry.obj
 
 # target to build an object file
-CppUnitLite/TestRegistry.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/TestRegistry.cpp.obj
-.PHONY : CppUnitLite/TestRegistry.cpp.obj
+external/CppUnitLite/TestRegistry.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/CppUnitLite/TestRegistry.cpp.obj
+.PHONY : external/CppUnitLite/TestRegistry.cpp.obj
 
-CppUnitLite/TestRegistry.i: CppUnitLite/TestRegistry.cpp.i
-.PHONY : CppUnitLite/TestRegistry.i
+external/CppUnitLite/TestRegistry.i: external/CppUnitLite/TestRegistry.cpp.i
+.PHONY : external/CppUnitLite/TestRegistry.i
 
 # target to preprocess a source file
-CppUnitLite/TestRegistry.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/TestRegistry.cpp.i
-.PHONY : CppUnitLite/TestRegistry.cpp.i
+external/CppUnitLite/TestRegistry.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/CppUnitLite/TestRegistry.cpp.i
+.PHONY : external/CppUnitLite/TestRegistry.cpp.i
 
-CppUnitLite/TestRegistry.s: CppUnitLite/TestRegistry.cpp.s
-.PHONY : CppUnitLite/TestRegistry.s
+external/CppUnitLite/TestRegistry.s: external/CppUnitLite/TestRegistry.cpp.s
+.PHONY : external/CppUnitLite/TestRegistry.s
 
 # target to generate assembly for a file
-CppUnitLite/TestRegistry.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/TestRegistry.cpp.s
-.PHONY : CppUnitLite/TestRegistry.cpp.s
+external/CppUnitLite/TestRegistry.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/CppUnitLite/TestRegistry.cpp.s
+.PHONY : external/CppUnitLite/TestRegistry.cpp.s
 
-CppUnitLite/TestResult.obj: CppUnitLite/TestResult.cpp.obj
-.PHONY : CppUnitLite/TestResult.obj
+external/CppUnitLite/TestResult.obj: external/CppUnitLite/TestResult.cpp.obj
+.PHONY : external/CppUnitLite/TestResult.obj
 
 # target to build an object file
-CppUnitLite/TestResult.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/TestResult.cpp.obj
-.PHONY : CppUnitLite/TestResult.cpp.obj
+external/CppUnitLite/TestResult.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/CppUnitLite/TestResult.cpp.obj
+.PHONY : external/CppUnitLite/TestResult.cpp.obj
 
-CppUnitLite/TestResult.i: CppUnitLite/TestResult.cpp.i
-.PHONY : CppUnitLite/TestResult.i
+external/CppUnitLite/TestResult.i: external/CppUnitLite/TestResult.cpp.i
+.PHONY : external/CppUnitLite/TestResult.i
 
 # target to preprocess a source file
-CppUnitLite/TestResult.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/TestResult.cpp.i
-.PHONY : CppUnitLite/TestResult.cpp.i
+external/CppUnitLite/TestResult.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/CppUnitLite/TestResult.cpp.i
+.PHONY : external/CppUnitLite/TestResult.cpp.i
 
-CppUnitLite/TestResult.s: CppUnitLite/TestResult.cpp.s
-.PHONY : CppUnitLite/TestResult.s
+external/CppUnitLite/TestResult.s: external/CppUnitLite/TestResult.cpp.s
+.PHONY : external/CppUnitLite/TestResult.s
 
 # target to generate assembly for a file
-CppUnitLite/TestResult.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/CppUnitLite/TestResult.cpp.s
-.PHONY : CppUnitLite/TestResult.cpp.s
+external/CppUnitLite/TestResult.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/CppUnitLite/TestResult.cpp.s
+.PHONY : external/CppUnitLite/TestResult.cpp.s
 
-FNS.obj: FNS.cpp.obj
-.PHONY : FNS.obj
+external/Imagine/SIFT_VL.obj: external/Imagine/SIFT_VL.cpp.obj
+.PHONY : external/Imagine/SIFT_VL.obj
 
 # target to build an object file
-FNS.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/FNS.cpp.obj
-.PHONY : FNS.cpp.obj
+external/Imagine/SIFT_VL.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/Imagine/SIFT_VL.cpp.obj
+.PHONY : external/Imagine/SIFT_VL.cpp.obj
 
-FNS.i: FNS.cpp.i
-.PHONY : FNS.i
+external/Imagine/SIFT_VL.i: external/Imagine/SIFT_VL.cpp.i
+.PHONY : external/Imagine/SIFT_VL.i
 
 # target to preprocess a source file
-FNS.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/FNS.cpp.i
-.PHONY : FNS.cpp.i
+external/Imagine/SIFT_VL.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/Imagine/SIFT_VL.cpp.i
+.PHONY : external/Imagine/SIFT_VL.cpp.i
 
-FNS.s: FNS.cpp.s
-.PHONY : FNS.s
+external/Imagine/SIFT_VL.s: external/Imagine/SIFT_VL.cpp.s
+.PHONY : external/Imagine/SIFT_VL.s
 
 # target to generate assembly for a file
-FNS.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/FNS.cpp.s
-.PHONY : FNS.cpp.s
+external/Imagine/SIFT_VL.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/Imagine/SIFT_VL.cpp.s
+.PHONY : external/Imagine/SIFT_VL.cpp.s
 
-GaussNewton.obj: GaussNewton.cpp.obj
-.PHONY : GaussNewton.obj
+external/Imagine/vl/generic.obj: external/Imagine/vl/generic.c.obj
+.PHONY : external/Imagine/vl/generic.obj
 
 # target to build an object file
-GaussNewton.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/GaussNewton.cpp.obj
-.PHONY : GaussNewton.cpp.obj
+external/Imagine/vl/generic.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/Imagine/vl/generic.c.obj
+.PHONY : external/Imagine/vl/generic.c.obj
 
-GaussNewton.i: GaussNewton.cpp.i
-.PHONY : GaussNewton.i
+external/Imagine/vl/generic.i: external/Imagine/vl/generic.c.i
+.PHONY : external/Imagine/vl/generic.i
 
 # target to preprocess a source file
-GaussNewton.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/GaussNewton.cpp.i
-.PHONY : GaussNewton.cpp.i
+external/Imagine/vl/generic.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/Imagine/vl/generic.c.i
+.PHONY : external/Imagine/vl/generic.c.i
 
-GaussNewton.s: GaussNewton.cpp.s
-.PHONY : GaussNewton.s
+external/Imagine/vl/generic.s: external/Imagine/vl/generic.c.s
+.PHONY : external/Imagine/vl/generic.s
 
 # target to generate assembly for a file
-GaussNewton.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/GaussNewton.cpp.s
-.PHONY : GaussNewton.cpp.s
+external/Imagine/vl/generic.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/Imagine/vl/generic.c.s
+.PHONY : external/Imagine/vl/generic.c.s
 
-GetInliers.obj: GetInliers.cpp.obj
-.PHONY : GetInliers.obj
+external/Imagine/vl/host.obj: external/Imagine/vl/host.c.obj
+.PHONY : external/Imagine/vl/host.obj
 
 # target to build an object file
-GetInliers.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/GetInliers.cpp.obj
-.PHONY : GetInliers.cpp.obj
+external/Imagine/vl/host.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/Imagine/vl/host.c.obj
+.PHONY : external/Imagine/vl/host.c.obj
 
-GetInliers.i: GetInliers.cpp.i
-.PHONY : GetInliers.i
+external/Imagine/vl/host.i: external/Imagine/vl/host.c.i
+.PHONY : external/Imagine/vl/host.i
 
 # target to preprocess a source file
-GetInliers.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/GetInliers.cpp.i
-.PHONY : GetInliers.cpp.i
+external/Imagine/vl/host.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/Imagine/vl/host.c.i
+.PHONY : external/Imagine/vl/host.c.i
 
-GetInliers.s: GetInliers.cpp.s
-.PHONY : GetInliers.s
+external/Imagine/vl/host.s: external/Imagine/vl/host.c.s
+.PHONY : external/Imagine/vl/host.s
 
 # target to generate assembly for a file
-GetInliers.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/GetInliers.cpp.s
-.PHONY : GetInliers.cpp.s
+external/Imagine/vl/host.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/Imagine/vl/host.c.s
+.PHONY : external/Imagine/vl/host.c.s
 
-HEIV.obj: HEIV.cpp.obj
-.PHONY : HEIV.obj
+external/Imagine/vl/imop.obj: external/Imagine/vl/imop.c.obj
+.PHONY : external/Imagine/vl/imop.obj
 
 # target to build an object file
-HEIV.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/HEIV.cpp.obj
-.PHONY : HEIV.cpp.obj
+external/Imagine/vl/imop.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/Imagine/vl/imop.c.obj
+.PHONY : external/Imagine/vl/imop.c.obj
 
-HEIV.i: HEIV.cpp.i
-.PHONY : HEIV.i
+external/Imagine/vl/imop.i: external/Imagine/vl/imop.c.i
+.PHONY : external/Imagine/vl/imop.i
 
 # target to preprocess a source file
-HEIV.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/HEIV.cpp.i
-.PHONY : HEIV.cpp.i
+external/Imagine/vl/imop.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/Imagine/vl/imop.c.i
+.PHONY : external/Imagine/vl/imop.c.i
 
-HEIV.s: HEIV.cpp.s
-.PHONY : HEIV.s
+external/Imagine/vl/imop.s: external/Imagine/vl/imop.c.s
+.PHONY : external/Imagine/vl/imop.s
 
 # target to generate assembly for a file
-HEIV.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/HEIV.cpp.s
-.PHONY : HEIV.cpp.s
+external/Imagine/vl/imop.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/Imagine/vl/imop.c.s
+.PHONY : external/Imagine/vl/imop.c.s
 
-Imagine/SIFT_VL.obj: Imagine/SIFT_VL.cpp.obj
-.PHONY : Imagine/SIFT_VL.obj
+external/Imagine/vl/sift.obj: external/Imagine/vl/sift.c.obj
+.PHONY : external/Imagine/vl/sift.obj
 
 # target to build an object file
-Imagine/SIFT_VL.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/SIFT_VL.cpp.obj
-.PHONY : Imagine/SIFT_VL.cpp.obj
+external/Imagine/vl/sift.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/Imagine/vl/sift.c.obj
+.PHONY : external/Imagine/vl/sift.c.obj
 
-Imagine/SIFT_VL.i: Imagine/SIFT_VL.cpp.i
-.PHONY : Imagine/SIFT_VL.i
+external/Imagine/vl/sift.i: external/Imagine/vl/sift.c.i
+.PHONY : external/Imagine/vl/sift.i
 
 # target to preprocess a source file
-Imagine/SIFT_VL.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/SIFT_VL.cpp.i
-.PHONY : Imagine/SIFT_VL.cpp.i
+external/Imagine/vl/sift.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/Imagine/vl/sift.c.i
+.PHONY : external/Imagine/vl/sift.c.i
 
-Imagine/SIFT_VL.s: Imagine/SIFT_VL.cpp.s
-.PHONY : Imagine/SIFT_VL.s
+external/Imagine/vl/sift.s: external/Imagine/vl/sift.c.s
+.PHONY : external/Imagine/vl/sift.s
 
 # target to generate assembly for a file
-Imagine/SIFT_VL.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/SIFT_VL.cpp.s
-.PHONY : Imagine/SIFT_VL.cpp.s
+external/Imagine/vl/sift.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/Imagine/vl/sift.c.s
+.PHONY : external/Imagine/vl/sift.c.s
 
-Imagine/vl/generic.obj: Imagine/vl/generic.c.obj
-.PHONY : Imagine/vl/generic.obj
+external/libOrsa/conditioning.obj: external/libOrsa/conditioning.cpp.obj
+.PHONY : external/libOrsa/conditioning.obj
 
 # target to build an object file
-Imagine/vl/generic.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/vl/generic.c.obj
-.PHONY : Imagine/vl/generic.c.obj
+external/libOrsa/conditioning.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/libOrsa/conditioning.cpp.obj
+.PHONY : external/libOrsa/conditioning.cpp.obj
 
-Imagine/vl/generic.i: Imagine/vl/generic.c.i
-.PHONY : Imagine/vl/generic.i
+external/libOrsa/conditioning.i: external/libOrsa/conditioning.cpp.i
+.PHONY : external/libOrsa/conditioning.i
 
 # target to preprocess a source file
-Imagine/vl/generic.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/vl/generic.c.i
-.PHONY : Imagine/vl/generic.c.i
+external/libOrsa/conditioning.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/libOrsa/conditioning.cpp.i
+.PHONY : external/libOrsa/conditioning.cpp.i
 
-Imagine/vl/generic.s: Imagine/vl/generic.c.s
-.PHONY : Imagine/vl/generic.s
+external/libOrsa/conditioning.s: external/libOrsa/conditioning.cpp.s
+.PHONY : external/libOrsa/conditioning.s
 
 # target to generate assembly for a file
-Imagine/vl/generic.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/vl/generic.c.s
-.PHONY : Imagine/vl/generic.c.s
+external/libOrsa/conditioning.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/libOrsa/conditioning.cpp.s
+.PHONY : external/libOrsa/conditioning.cpp.s
 
-Imagine/vl/host.obj: Imagine/vl/host.c.obj
-.PHONY : Imagine/vl/host.obj
+external/libOrsa/fundamental_model.obj: external/libOrsa/fundamental_model.cpp.obj
+.PHONY : external/libOrsa/fundamental_model.obj
 
 # target to build an object file
-Imagine/vl/host.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/vl/host.c.obj
-.PHONY : Imagine/vl/host.c.obj
+external/libOrsa/fundamental_model.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/libOrsa/fundamental_model.cpp.obj
+.PHONY : external/libOrsa/fundamental_model.cpp.obj
 
-Imagine/vl/host.i: Imagine/vl/host.c.i
-.PHONY : Imagine/vl/host.i
+external/libOrsa/fundamental_model.i: external/libOrsa/fundamental_model.cpp.i
+.PHONY : external/libOrsa/fundamental_model.i
 
 # target to preprocess a source file
-Imagine/vl/host.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/vl/host.c.i
-.PHONY : Imagine/vl/host.c.i
+external/libOrsa/fundamental_model.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/libOrsa/fundamental_model.cpp.i
+.PHONY : external/libOrsa/fundamental_model.cpp.i
 
-Imagine/vl/host.s: Imagine/vl/host.c.s
-.PHONY : Imagine/vl/host.s
+external/libOrsa/fundamental_model.s: external/libOrsa/fundamental_model.cpp.s
+.PHONY : external/libOrsa/fundamental_model.s
 
 # target to generate assembly for a file
-Imagine/vl/host.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/vl/host.c.s
-.PHONY : Imagine/vl/host.c.s
+external/libOrsa/fundamental_model.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/libOrsa/fundamental_model.cpp.s
+.PHONY : external/libOrsa/fundamental_model.cpp.s
 
-Imagine/vl/imop.obj: Imagine/vl/imop.c.obj
-.PHONY : Imagine/vl/imop.obj
+external/libOrsa/homography_model.obj: external/libOrsa/homography_model.cpp.obj
+.PHONY : external/libOrsa/homography_model.obj
 
 # target to build an object file
-Imagine/vl/imop.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/vl/imop.c.obj
-.PHONY : Imagine/vl/imop.c.obj
+external/libOrsa/homography_model.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/libOrsa/homography_model.cpp.obj
+.PHONY : external/libOrsa/homography_model.cpp.obj
 
-Imagine/vl/imop.i: Imagine/vl/imop.c.i
-.PHONY : Imagine/vl/imop.i
+external/libOrsa/homography_model.i: external/libOrsa/homography_model.cpp.i
+.PHONY : external/libOrsa/homography_model.i
 
 # target to preprocess a source file
-Imagine/vl/imop.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/vl/imop.c.i
-.PHONY : Imagine/vl/imop.c.i
+external/libOrsa/homography_model.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/libOrsa/homography_model.cpp.i
+.PHONY : external/libOrsa/homography_model.cpp.i
 
-Imagine/vl/imop.s: Imagine/vl/imop.c.s
-.PHONY : Imagine/vl/imop.s
+external/libOrsa/homography_model.s: external/libOrsa/homography_model.cpp.s
+.PHONY : external/libOrsa/homography_model.s
 
 # target to generate assembly for a file
-Imagine/vl/imop.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/vl/imop.c.s
-.PHONY : Imagine/vl/imop.c.s
+external/libOrsa/homography_model.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/libOrsa/homography_model.cpp.s
+.PHONY : external/libOrsa/homography_model.cpp.s
 
-Imagine/vl/sift.obj: Imagine/vl/sift.c.obj
-.PHONY : Imagine/vl/sift.obj
+external/libOrsa/libNumerics/numerics.obj: external/libOrsa/libNumerics/numerics.cpp.obj
+.PHONY : external/libOrsa/libNumerics/numerics.obj
 
 # target to build an object file
-Imagine/vl/sift.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/vl/sift.c.obj
-.PHONY : Imagine/vl/sift.c.obj
+external/libOrsa/libNumerics/numerics.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/libOrsa/libNumerics/numerics.cpp.obj
+.PHONY : external/libOrsa/libNumerics/numerics.cpp.obj
 
-Imagine/vl/sift.i: Imagine/vl/sift.c.i
-.PHONY : Imagine/vl/sift.i
+external/libOrsa/libNumerics/numerics.i: external/libOrsa/libNumerics/numerics.cpp.i
+.PHONY : external/libOrsa/libNumerics/numerics.i
 
 # target to preprocess a source file
-Imagine/vl/sift.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/vl/sift.c.i
-.PHONY : Imagine/vl/sift.c.i
+external/libOrsa/libNumerics/numerics.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/libOrsa/libNumerics/numerics.cpp.i
+.PHONY : external/libOrsa/libNumerics/numerics.cpp.i
 
-Imagine/vl/sift.s: Imagine/vl/sift.c.s
-.PHONY : Imagine/vl/sift.s
+external/libOrsa/libNumerics/numerics.s: external/libOrsa/libNumerics/numerics.cpp.s
+.PHONY : external/libOrsa/libNumerics/numerics.s
 
 # target to generate assembly for a file
-Imagine/vl/sift.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/Imagine/vl/sift.c.s
-.PHONY : Imagine/vl/sift.c.s
+external/libOrsa/libNumerics/numerics.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/libOrsa/libNumerics/numerics.cpp.s
+.PHONY : external/libOrsa/libNumerics/numerics.cpp.s
 
-Initialization.obj: Initialization.cpp.obj
-.PHONY : Initialization.obj
+external/libOrsa/lrtsac.obj: external/libOrsa/lrtsac.cpp.obj
+.PHONY : external/libOrsa/lrtsac.obj
 
 # target to build an object file
-Initialization.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/Initialization.cpp.obj
-.PHONY : Initialization.cpp.obj
+external/libOrsa/lrtsac.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/libOrsa/lrtsac.cpp.obj
+.PHONY : external/libOrsa/lrtsac.cpp.obj
 
-Initialization.i: Initialization.cpp.i
-.PHONY : Initialization.i
+external/libOrsa/lrtsac.i: external/libOrsa/lrtsac.cpp.i
+.PHONY : external/libOrsa/lrtsac.i
 
 # target to preprocess a source file
-Initialization.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/Initialization.cpp.i
-.PHONY : Initialization.cpp.i
+external/libOrsa/lrtsac.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/libOrsa/lrtsac.cpp.i
+.PHONY : external/libOrsa/lrtsac.cpp.i
 
-Initialization.s: Initialization.cpp.s
-.PHONY : Initialization.s
+external/libOrsa/lrtsac.s: external/libOrsa/lrtsac.cpp.s
+.PHONY : external/libOrsa/lrtsac.s
 
 # target to generate assembly for a file
-Initialization.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/Initialization.cpp.s
-.PHONY : Initialization.cpp.s
+external/libOrsa/lrtsac.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/libOrsa/lrtsac.cpp.s
+.PHONY : external/libOrsa/lrtsac.cpp.s
 
-ORSAWrapper.obj: ORSAWrapper.cpp.obj
-.PHONY : ORSAWrapper.obj
+external/libOrsa/model_estimator.obj: external/libOrsa/model_estimator.cpp.obj
+.PHONY : external/libOrsa/model_estimator.obj
 
 # target to build an object file
-ORSAWrapper.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/ORSAWrapper.cpp.obj
-.PHONY : ORSAWrapper.cpp.obj
+external/libOrsa/model_estimator.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/libOrsa/model_estimator.cpp.obj
+.PHONY : external/libOrsa/model_estimator.cpp.obj
 
-ORSAWrapper.i: ORSAWrapper.cpp.i
-.PHONY : ORSAWrapper.i
+external/libOrsa/model_estimator.i: external/libOrsa/model_estimator.cpp.i
+.PHONY : external/libOrsa/model_estimator.i
 
 # target to preprocess a source file
-ORSAWrapper.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/ORSAWrapper.cpp.i
-.PHONY : ORSAWrapper.cpp.i
+external/libOrsa/model_estimator.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/libOrsa/model_estimator.cpp.i
+.PHONY : external/libOrsa/model_estimator.cpp.i
 
-ORSAWrapper.s: ORSAWrapper.cpp.s
-.PHONY : ORSAWrapper.s
+external/libOrsa/model_estimator.s: external/libOrsa/model_estimator.cpp.s
+.PHONY : external/libOrsa/model_estimator.s
 
 # target to generate assembly for a file
-ORSAWrapper.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/ORSAWrapper.cpp.s
-.PHONY : ORSAWrapper.cpp.s
+external/libOrsa/model_estimator.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/libOrsa/model_estimator.cpp.s
+.PHONY : external/libOrsa/model_estimator.cpp.s
 
-Pipeline.obj: Pipeline.cpp.obj
-.PHONY : Pipeline.obj
+external/libOrsa/orsa.obj: external/libOrsa/orsa.cpp.obj
+.PHONY : external/libOrsa/orsa.obj
 
 # target to build an object file
-Pipeline.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/Pipeline.cpp.obj
-.PHONY : Pipeline.cpp.obj
+external/libOrsa/orsa.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/libOrsa/orsa.cpp.obj
+.PHONY : external/libOrsa/orsa.cpp.obj
 
-Pipeline.i: Pipeline.cpp.i
-.PHONY : Pipeline.i
+external/libOrsa/orsa.i: external/libOrsa/orsa.cpp.i
+.PHONY : external/libOrsa/orsa.i
 
 # target to preprocess a source file
-Pipeline.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/Pipeline.cpp.i
-.PHONY : Pipeline.cpp.i
+external/libOrsa/orsa.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/libOrsa/orsa.cpp.i
+.PHONY : external/libOrsa/orsa.cpp.i
 
-Pipeline.s: Pipeline.cpp.s
-.PHONY : Pipeline.s
+external/libOrsa/orsa.s: external/libOrsa/orsa.cpp.s
+.PHONY : external/libOrsa/orsa.s
 
 # target to generate assembly for a file
-Pipeline.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/Pipeline.cpp.s
-.PHONY : Pipeline.cpp.s
+external/libOrsa/orsa.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/libOrsa/orsa.cpp.s
+.PHONY : external/libOrsa/orsa.cpp.s
 
-PoseEstimation.obj: PoseEstimation.cpp.obj
-.PHONY : PoseEstimation.obj
+external/libOrsa/ransac.obj: external/libOrsa/ransac.cpp.obj
+.PHONY : external/libOrsa/ransac.obj
 
 # target to build an object file
-PoseEstimation.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/PoseEstimation.cpp.obj
-.PHONY : PoseEstimation.cpp.obj
+external/libOrsa/ransac.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/libOrsa/ransac.cpp.obj
+.PHONY : external/libOrsa/ransac.cpp.obj
 
-PoseEstimation.i: PoseEstimation.cpp.i
-.PHONY : PoseEstimation.i
+external/libOrsa/ransac.i: external/libOrsa/ransac.cpp.i
+.PHONY : external/libOrsa/ransac.i
 
 # target to preprocess a source file
-PoseEstimation.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/PoseEstimation.cpp.i
-.PHONY : PoseEstimation.cpp.i
+external/libOrsa/ransac.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/libOrsa/ransac.cpp.i
+.PHONY : external/libOrsa/ransac.cpp.i
 
-PoseEstimation.s: PoseEstimation.cpp.s
-.PHONY : PoseEstimation.s
+external/libOrsa/ransac.s: external/libOrsa/ransac.cpp.s
+.PHONY : external/libOrsa/ransac.s
 
 # target to generate assembly for a file
-PoseEstimation.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/PoseEstimation.cpp.s
-.PHONY : PoseEstimation.cpp.s
+external/libOrsa/ransac.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/libOrsa/ransac.cpp.s
+.PHONY : external/libOrsa/ransac.cpp.s
 
-Renorm.obj: Renorm.cpp.obj
-.PHONY : Renorm.obj
+external/libOrsa/sampling.obj: external/libOrsa/sampling.cpp.obj
+.PHONY : external/libOrsa/sampling.obj
 
 # target to build an object file
-Renorm.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/Renorm.cpp.obj
-.PHONY : Renorm.cpp.obj
+external/libOrsa/sampling.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/libOrsa/sampling.cpp.obj
+.PHONY : external/libOrsa/sampling.cpp.obj
 
-Renorm.i: Renorm.cpp.i
-.PHONY : Renorm.i
+external/libOrsa/sampling.i: external/libOrsa/sampling.cpp.i
+.PHONY : external/libOrsa/sampling.i
 
 # target to preprocess a source file
-Renorm.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/Renorm.cpp.i
-.PHONY : Renorm.cpp.i
+external/libOrsa/sampling.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/libOrsa/sampling.cpp.i
+.PHONY : external/libOrsa/sampling.cpp.i
 
-Renorm.s: Renorm.cpp.s
-.PHONY : Renorm.s
+external/libOrsa/sampling.s: external/libOrsa/sampling.cpp.s
+.PHONY : external/libOrsa/sampling.s
 
 # target to generate assembly for a file
-Renorm.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/Renorm.cpp.s
-.PHONY : Renorm.cpp.s
+external/libOrsa/sampling.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/external/libOrsa/sampling.cpp.s
+.PHONY : external/libOrsa/sampling.cpp.s
 
-libOrsa/conditioning.obj: libOrsa/conditioning.cpp.obj
-.PHONY : libOrsa/conditioning.obj
+src/FNS.obj: src/FNS.cpp.obj
+.PHONY : src/FNS.obj
 
 # target to build an object file
-libOrsa/conditioning.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/libOrsa/conditioning.cpp.obj
-.PHONY : libOrsa/conditioning.cpp.obj
+src/FNS.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/src/FNS.cpp.obj
+.PHONY : src/FNS.cpp.obj
 
-libOrsa/conditioning.i: libOrsa/conditioning.cpp.i
-.PHONY : libOrsa/conditioning.i
+src/FNS.i: src/FNS.cpp.i
+.PHONY : src/FNS.i
 
 # target to preprocess a source file
-libOrsa/conditioning.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/libOrsa/conditioning.cpp.i
-.PHONY : libOrsa/conditioning.cpp.i
+src/FNS.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/src/FNS.cpp.i
+.PHONY : src/FNS.cpp.i
 
-libOrsa/conditioning.s: libOrsa/conditioning.cpp.s
-.PHONY : libOrsa/conditioning.s
+src/FNS.s: src/FNS.cpp.s
+.PHONY : src/FNS.s
 
 # target to generate assembly for a file
-libOrsa/conditioning.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/libOrsa/conditioning.cpp.s
-.PHONY : libOrsa/conditioning.cpp.s
+src/FNS.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/src/FNS.cpp.s
+.PHONY : src/FNS.cpp.s
 
-libOrsa/fundamental_model.obj: libOrsa/fundamental_model.cpp.obj
-.PHONY : libOrsa/fundamental_model.obj
+src/GaussNewton.obj: src/GaussNewton.cpp.obj
+.PHONY : src/GaussNewton.obj
 
 # target to build an object file
-libOrsa/fundamental_model.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/libOrsa/fundamental_model.cpp.obj
-.PHONY : libOrsa/fundamental_model.cpp.obj
+src/GaussNewton.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/src/GaussNewton.cpp.obj
+.PHONY : src/GaussNewton.cpp.obj
 
-libOrsa/fundamental_model.i: libOrsa/fundamental_model.cpp.i
-.PHONY : libOrsa/fundamental_model.i
+src/GaussNewton.i: src/GaussNewton.cpp.i
+.PHONY : src/GaussNewton.i
 
 # target to preprocess a source file
-libOrsa/fundamental_model.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/libOrsa/fundamental_model.cpp.i
-.PHONY : libOrsa/fundamental_model.cpp.i
+src/GaussNewton.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/src/GaussNewton.cpp.i
+.PHONY : src/GaussNewton.cpp.i
 
-libOrsa/fundamental_model.s: libOrsa/fundamental_model.cpp.s
-.PHONY : libOrsa/fundamental_model.s
+src/GaussNewton.s: src/GaussNewton.cpp.s
+.PHONY : src/GaussNewton.s
 
 # target to generate assembly for a file
-libOrsa/fundamental_model.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/libOrsa/fundamental_model.cpp.s
-.PHONY : libOrsa/fundamental_model.cpp.s
+src/GaussNewton.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/src/GaussNewton.cpp.s
+.PHONY : src/GaussNewton.cpp.s
 
-libOrsa/homography_model.obj: libOrsa/homography_model.cpp.obj
-.PHONY : libOrsa/homography_model.obj
+src/GetInliers.obj: src/GetInliers.cpp.obj
+.PHONY : src/GetInliers.obj
 
 # target to build an object file
-libOrsa/homography_model.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/libOrsa/homography_model.cpp.obj
-.PHONY : libOrsa/homography_model.cpp.obj
+src/GetInliers.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/src/GetInliers.cpp.obj
+.PHONY : src/GetInliers.cpp.obj
 
-libOrsa/homography_model.i: libOrsa/homography_model.cpp.i
-.PHONY : libOrsa/homography_model.i
+src/GetInliers.i: src/GetInliers.cpp.i
+.PHONY : src/GetInliers.i
 
 # target to preprocess a source file
-libOrsa/homography_model.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/libOrsa/homography_model.cpp.i
-.PHONY : libOrsa/homography_model.cpp.i
+src/GetInliers.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/src/GetInliers.cpp.i
+.PHONY : src/GetInliers.cpp.i
 
-libOrsa/homography_model.s: libOrsa/homography_model.cpp.s
-.PHONY : libOrsa/homography_model.s
+src/GetInliers.s: src/GetInliers.cpp.s
+.PHONY : src/GetInliers.s
 
 # target to generate assembly for a file
-libOrsa/homography_model.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/libOrsa/homography_model.cpp.s
-.PHONY : libOrsa/homography_model.cpp.s
+src/GetInliers.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/src/GetInliers.cpp.s
+.PHONY : src/GetInliers.cpp.s
 
-libOrsa/libNumerics/numerics.obj: libOrsa/libNumerics/numerics.cpp.obj
-.PHONY : libOrsa/libNumerics/numerics.obj
+src/HEIV.obj: src/HEIV.cpp.obj
+.PHONY : src/HEIV.obj
 
 # target to build an object file
-libOrsa/libNumerics/numerics.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/libOrsa/libNumerics/numerics.cpp.obj
-.PHONY : libOrsa/libNumerics/numerics.cpp.obj
+src/HEIV.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/src/HEIV.cpp.obj
+.PHONY : src/HEIV.cpp.obj
 
-libOrsa/libNumerics/numerics.i: libOrsa/libNumerics/numerics.cpp.i
-.PHONY : libOrsa/libNumerics/numerics.i
+src/HEIV.i: src/HEIV.cpp.i
+.PHONY : src/HEIV.i
 
 # target to preprocess a source file
-libOrsa/libNumerics/numerics.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/libOrsa/libNumerics/numerics.cpp.i
-.PHONY : libOrsa/libNumerics/numerics.cpp.i
+src/HEIV.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/src/HEIV.cpp.i
+.PHONY : src/HEIV.cpp.i
 
-libOrsa/libNumerics/numerics.s: libOrsa/libNumerics/numerics.cpp.s
-.PHONY : libOrsa/libNumerics/numerics.s
+src/HEIV.s: src/HEIV.cpp.s
+.PHONY : src/HEIV.s
 
 # target to generate assembly for a file
-libOrsa/libNumerics/numerics.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/libOrsa/libNumerics/numerics.cpp.s
-.PHONY : libOrsa/libNumerics/numerics.cpp.s
+src/HEIV.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/src/HEIV.cpp.s
+.PHONY : src/HEIV.cpp.s
 
-libOrsa/lrtsac.obj: libOrsa/lrtsac.cpp.obj
-.PHONY : libOrsa/lrtsac.obj
+src/Initialization.obj: src/Initialization.cpp.obj
+.PHONY : src/Initialization.obj
 
 # target to build an object file
-libOrsa/lrtsac.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/libOrsa/lrtsac.cpp.obj
-.PHONY : libOrsa/lrtsac.cpp.obj
+src/Initialization.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/src/Initialization.cpp.obj
+.PHONY : src/Initialization.cpp.obj
 
-libOrsa/lrtsac.i: libOrsa/lrtsac.cpp.i
-.PHONY : libOrsa/lrtsac.i
+src/Initialization.i: src/Initialization.cpp.i
+.PHONY : src/Initialization.i
 
 # target to preprocess a source file
-libOrsa/lrtsac.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/libOrsa/lrtsac.cpp.i
-.PHONY : libOrsa/lrtsac.cpp.i
+src/Initialization.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/src/Initialization.cpp.i
+.PHONY : src/Initialization.cpp.i
 
-libOrsa/lrtsac.s: libOrsa/lrtsac.cpp.s
-.PHONY : libOrsa/lrtsac.s
+src/Initialization.s: src/Initialization.cpp.s
+.PHONY : src/Initialization.s
 
 # target to generate assembly for a file
-libOrsa/lrtsac.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/libOrsa/lrtsac.cpp.s
-.PHONY : libOrsa/lrtsac.cpp.s
+src/Initialization.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/src/Initialization.cpp.s
+.PHONY : src/Initialization.cpp.s
 
-libOrsa/model_estimator.obj: libOrsa/model_estimator.cpp.obj
-.PHONY : libOrsa/model_estimator.obj
+src/ORSAWrapper.obj: src/ORSAWrapper.cpp.obj
+.PHONY : src/ORSAWrapper.obj
 
 # target to build an object file
-libOrsa/model_estimator.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/libOrsa/model_estimator.cpp.obj
-.PHONY : libOrsa/model_estimator.cpp.obj
+src/ORSAWrapper.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/src/ORSAWrapper.cpp.obj
+.PHONY : src/ORSAWrapper.cpp.obj
 
-libOrsa/model_estimator.i: libOrsa/model_estimator.cpp.i
-.PHONY : libOrsa/model_estimator.i
+src/ORSAWrapper.i: src/ORSAWrapper.cpp.i
+.PHONY : src/ORSAWrapper.i
 
 # target to preprocess a source file
-libOrsa/model_estimator.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/libOrsa/model_estimator.cpp.i
-.PHONY : libOrsa/model_estimator.cpp.i
+src/ORSAWrapper.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/src/ORSAWrapper.cpp.i
+.PHONY : src/ORSAWrapper.cpp.i
 
-libOrsa/model_estimator.s: libOrsa/model_estimator.cpp.s
-.PHONY : libOrsa/model_estimator.s
+src/ORSAWrapper.s: src/ORSAWrapper.cpp.s
+.PHONY : src/ORSAWrapper.s
 
 # target to generate assembly for a file
-libOrsa/model_estimator.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/libOrsa/model_estimator.cpp.s
-.PHONY : libOrsa/model_estimator.cpp.s
+src/ORSAWrapper.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/src/ORSAWrapper.cpp.s
+.PHONY : src/ORSAWrapper.cpp.s
 
-libOrsa/orsa.obj: libOrsa/orsa.cpp.obj
-.PHONY : libOrsa/orsa.obj
+src/Pipeline.obj: src/Pipeline.cpp.obj
+.PHONY : src/Pipeline.obj
 
 # target to build an object file
-libOrsa/orsa.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/libOrsa/orsa.cpp.obj
-.PHONY : libOrsa/orsa.cpp.obj
+src/Pipeline.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/src/Pipeline.cpp.obj
+.PHONY : src/Pipeline.cpp.obj
 
-libOrsa/orsa.i: libOrsa/orsa.cpp.i
-.PHONY : libOrsa/orsa.i
+src/Pipeline.i: src/Pipeline.cpp.i
+.PHONY : src/Pipeline.i
 
 # target to preprocess a source file
-libOrsa/orsa.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/libOrsa/orsa.cpp.i
-.PHONY : libOrsa/orsa.cpp.i
+src/Pipeline.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/src/Pipeline.cpp.i
+.PHONY : src/Pipeline.cpp.i
 
-libOrsa/orsa.s: libOrsa/orsa.cpp.s
-.PHONY : libOrsa/orsa.s
+src/Pipeline.s: src/Pipeline.cpp.s
+.PHONY : src/Pipeline.s
 
 # target to generate assembly for a file
-libOrsa/orsa.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/libOrsa/orsa.cpp.s
-.PHONY : libOrsa/orsa.cpp.s
+src/Pipeline.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/src/Pipeline.cpp.s
+.PHONY : src/Pipeline.cpp.s
 
-libOrsa/ransac.obj: libOrsa/ransac.cpp.obj
-.PHONY : libOrsa/ransac.obj
+src/PoseEstimation.obj: src/PoseEstimation.cpp.obj
+.PHONY : src/PoseEstimation.obj
 
 # target to build an object file
-libOrsa/ransac.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/libOrsa/ransac.cpp.obj
-.PHONY : libOrsa/ransac.cpp.obj
+src/PoseEstimation.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/src/PoseEstimation.cpp.obj
+.PHONY : src/PoseEstimation.cpp.obj
 
-libOrsa/ransac.i: libOrsa/ransac.cpp.i
-.PHONY : libOrsa/ransac.i
+src/PoseEstimation.i: src/PoseEstimation.cpp.i
+.PHONY : src/PoseEstimation.i
 
 # target to preprocess a source file
-libOrsa/ransac.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/libOrsa/ransac.cpp.i
-.PHONY : libOrsa/ransac.cpp.i
+src/PoseEstimation.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/src/PoseEstimation.cpp.i
+.PHONY : src/PoseEstimation.cpp.i
 
-libOrsa/ransac.s: libOrsa/ransac.cpp.s
-.PHONY : libOrsa/ransac.s
+src/PoseEstimation.s: src/PoseEstimation.cpp.s
+.PHONY : src/PoseEstimation.s
 
 # target to generate assembly for a file
-libOrsa/ransac.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/libOrsa/ransac.cpp.s
-.PHONY : libOrsa/ransac.cpp.s
+src/PoseEstimation.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/src/PoseEstimation.cpp.s
+.PHONY : src/PoseEstimation.cpp.s
 
-libOrsa/sampling.obj: libOrsa/sampling.cpp.obj
-.PHONY : libOrsa/sampling.obj
+src/Renorm.obj: src/Renorm.cpp.obj
+.PHONY : src/Renorm.obj
 
 # target to build an object file
-libOrsa/sampling.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/libOrsa/sampling.cpp.obj
-.PHONY : libOrsa/sampling.cpp.obj
+src/Renorm.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/src/Renorm.cpp.obj
+.PHONY : src/Renorm.cpp.obj
 
-libOrsa/sampling.i: libOrsa/sampling.cpp.i
-.PHONY : libOrsa/sampling.i
+src/Renorm.i: src/Renorm.cpp.i
+.PHONY : src/Renorm.i
 
 # target to preprocess a source file
-libOrsa/sampling.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/libOrsa/sampling.cpp.i
-.PHONY : libOrsa/sampling.cpp.i
+src/Renorm.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/src/Renorm.cpp.i
+.PHONY : src/Renorm.cpp.i
 
-libOrsa/sampling.s: libOrsa/sampling.cpp.s
-.PHONY : libOrsa/sampling.s
+src/Renorm.s: src/Renorm.cpp.s
+.PHONY : src/Renorm.s
 
 # target to generate assembly for a file
-libOrsa/sampling.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/libOrsa/sampling.cpp.s
-.PHONY : libOrsa/sampling.cpp.s
+src/Renorm.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/src/Renorm.cpp.s
+.PHONY : src/Renorm.cpp.s
 
-main.obj: main.cpp.obj
-.PHONY : main.obj
+src/main.obj: src/main.cpp.obj
+.PHONY : src/main.obj
 
 # target to build an object file
-main.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/main.cpp.obj
-.PHONY : main.cpp.obj
+src/main.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/src/main.cpp.obj
+.PHONY : src/main.cpp.obj
 
-main.i: main.cpp.i
-.PHONY : main.i
+src/main.i: src/main.cpp.i
+.PHONY : src/main.i
 
 # target to preprocess a source file
-main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/main.cpp.i
-.PHONY : main.cpp.i
+src/main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/src/main.cpp.i
+.PHONY : src/main.cpp.i
 
-main.s: main.cpp.s
-.PHONY : main.s
+src/main.s: src/main.cpp.s
+.PHONY : src/main.s
 
 # target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/main.cpp.s
-.PHONY : main.cpp.s
+src/main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Realtive_Pose_Estimator.dir\build.make CMakeFiles/Realtive_Pose_Estimator.dir/src/main.cpp.s
+.PHONY : src/main.cpp.s
 
 # Help Target
 help:
@@ -833,93 +833,93 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... Realtive_Pose_Estimator
-	@echo ... CppUnitLite/Failure.obj
-	@echo ... CppUnitLite/Failure.i
-	@echo ... CppUnitLite/Failure.s
-	@echo ... CppUnitLite/SimpleString.obj
-	@echo ... CppUnitLite/SimpleString.i
-	@echo ... CppUnitLite/SimpleString.s
-	@echo ... CppUnitLite/Test.obj
-	@echo ... CppUnitLite/Test.i
-	@echo ... CppUnitLite/Test.s
-	@echo ... CppUnitLite/TestRegistry.obj
-	@echo ... CppUnitLite/TestRegistry.i
-	@echo ... CppUnitLite/TestRegistry.s
-	@echo ... CppUnitLite/TestResult.obj
-	@echo ... CppUnitLite/TestResult.i
-	@echo ... CppUnitLite/TestResult.s
-	@echo ... FNS.obj
-	@echo ... FNS.i
-	@echo ... FNS.s
-	@echo ... GaussNewton.obj
-	@echo ... GaussNewton.i
-	@echo ... GaussNewton.s
-	@echo ... GetInliers.obj
-	@echo ... GetInliers.i
-	@echo ... GetInliers.s
-	@echo ... HEIV.obj
-	@echo ... HEIV.i
-	@echo ... HEIV.s
-	@echo ... Imagine/SIFT_VL.obj
-	@echo ... Imagine/SIFT_VL.i
-	@echo ... Imagine/SIFT_VL.s
-	@echo ... Imagine/vl/generic.obj
-	@echo ... Imagine/vl/generic.i
-	@echo ... Imagine/vl/generic.s
-	@echo ... Imagine/vl/host.obj
-	@echo ... Imagine/vl/host.i
-	@echo ... Imagine/vl/host.s
-	@echo ... Imagine/vl/imop.obj
-	@echo ... Imagine/vl/imop.i
-	@echo ... Imagine/vl/imop.s
-	@echo ... Imagine/vl/sift.obj
-	@echo ... Imagine/vl/sift.i
-	@echo ... Imagine/vl/sift.s
-	@echo ... Initialization.obj
-	@echo ... Initialization.i
-	@echo ... Initialization.s
-	@echo ... ORSAWrapper.obj
-	@echo ... ORSAWrapper.i
-	@echo ... ORSAWrapper.s
-	@echo ... Pipeline.obj
-	@echo ... Pipeline.i
-	@echo ... Pipeline.s
-	@echo ... PoseEstimation.obj
-	@echo ... PoseEstimation.i
-	@echo ... PoseEstimation.s
-	@echo ... Renorm.obj
-	@echo ... Renorm.i
-	@echo ... Renorm.s
-	@echo ... libOrsa/conditioning.obj
-	@echo ... libOrsa/conditioning.i
-	@echo ... libOrsa/conditioning.s
-	@echo ... libOrsa/fundamental_model.obj
-	@echo ... libOrsa/fundamental_model.i
-	@echo ... libOrsa/fundamental_model.s
-	@echo ... libOrsa/homography_model.obj
-	@echo ... libOrsa/homography_model.i
-	@echo ... libOrsa/homography_model.s
-	@echo ... libOrsa/libNumerics/numerics.obj
-	@echo ... libOrsa/libNumerics/numerics.i
-	@echo ... libOrsa/libNumerics/numerics.s
-	@echo ... libOrsa/lrtsac.obj
-	@echo ... libOrsa/lrtsac.i
-	@echo ... libOrsa/lrtsac.s
-	@echo ... libOrsa/model_estimator.obj
-	@echo ... libOrsa/model_estimator.i
-	@echo ... libOrsa/model_estimator.s
-	@echo ... libOrsa/orsa.obj
-	@echo ... libOrsa/orsa.i
-	@echo ... libOrsa/orsa.s
-	@echo ... libOrsa/ransac.obj
-	@echo ... libOrsa/ransac.i
-	@echo ... libOrsa/ransac.s
-	@echo ... libOrsa/sampling.obj
-	@echo ... libOrsa/sampling.i
-	@echo ... libOrsa/sampling.s
-	@echo ... main.obj
-	@echo ... main.i
-	@echo ... main.s
+	@echo ... external/CppUnitLite/Failure.obj
+	@echo ... external/CppUnitLite/Failure.i
+	@echo ... external/CppUnitLite/Failure.s
+	@echo ... external/CppUnitLite/SimpleString.obj
+	@echo ... external/CppUnitLite/SimpleString.i
+	@echo ... external/CppUnitLite/SimpleString.s
+	@echo ... external/CppUnitLite/Test.obj
+	@echo ... external/CppUnitLite/Test.i
+	@echo ... external/CppUnitLite/Test.s
+	@echo ... external/CppUnitLite/TestRegistry.obj
+	@echo ... external/CppUnitLite/TestRegistry.i
+	@echo ... external/CppUnitLite/TestRegistry.s
+	@echo ... external/CppUnitLite/TestResult.obj
+	@echo ... external/CppUnitLite/TestResult.i
+	@echo ... external/CppUnitLite/TestResult.s
+	@echo ... external/Imagine/SIFT_VL.obj
+	@echo ... external/Imagine/SIFT_VL.i
+	@echo ... external/Imagine/SIFT_VL.s
+	@echo ... external/Imagine/vl/generic.obj
+	@echo ... external/Imagine/vl/generic.i
+	@echo ... external/Imagine/vl/generic.s
+	@echo ... external/Imagine/vl/host.obj
+	@echo ... external/Imagine/vl/host.i
+	@echo ... external/Imagine/vl/host.s
+	@echo ... external/Imagine/vl/imop.obj
+	@echo ... external/Imagine/vl/imop.i
+	@echo ... external/Imagine/vl/imop.s
+	@echo ... external/Imagine/vl/sift.obj
+	@echo ... external/Imagine/vl/sift.i
+	@echo ... external/Imagine/vl/sift.s
+	@echo ... external/libOrsa/conditioning.obj
+	@echo ... external/libOrsa/conditioning.i
+	@echo ... external/libOrsa/conditioning.s
+	@echo ... external/libOrsa/fundamental_model.obj
+	@echo ... external/libOrsa/fundamental_model.i
+	@echo ... external/libOrsa/fundamental_model.s
+	@echo ... external/libOrsa/homography_model.obj
+	@echo ... external/libOrsa/homography_model.i
+	@echo ... external/libOrsa/homography_model.s
+	@echo ... external/libOrsa/libNumerics/numerics.obj
+	@echo ... external/libOrsa/libNumerics/numerics.i
+	@echo ... external/libOrsa/libNumerics/numerics.s
+	@echo ... external/libOrsa/lrtsac.obj
+	@echo ... external/libOrsa/lrtsac.i
+	@echo ... external/libOrsa/lrtsac.s
+	@echo ... external/libOrsa/model_estimator.obj
+	@echo ... external/libOrsa/model_estimator.i
+	@echo ... external/libOrsa/model_estimator.s
+	@echo ... external/libOrsa/orsa.obj
+	@echo ... external/libOrsa/orsa.i
+	@echo ... external/libOrsa/orsa.s
+	@echo ... external/libOrsa/ransac.obj
+	@echo ... external/libOrsa/ransac.i
+	@echo ... external/libOrsa/ransac.s
+	@echo ... external/libOrsa/sampling.obj
+	@echo ... external/libOrsa/sampling.i
+	@echo ... external/libOrsa/sampling.s
+	@echo ... src/FNS.obj
+	@echo ... src/FNS.i
+	@echo ... src/FNS.s
+	@echo ... src/GaussNewton.obj
+	@echo ... src/GaussNewton.i
+	@echo ... src/GaussNewton.s
+	@echo ... src/GetInliers.obj
+	@echo ... src/GetInliers.i
+	@echo ... src/GetInliers.s
+	@echo ... src/HEIV.obj
+	@echo ... src/HEIV.i
+	@echo ... src/HEIV.s
+	@echo ... src/Initialization.obj
+	@echo ... src/Initialization.i
+	@echo ... src/Initialization.s
+	@echo ... src/ORSAWrapper.obj
+	@echo ... src/ORSAWrapper.i
+	@echo ... src/ORSAWrapper.s
+	@echo ... src/Pipeline.obj
+	@echo ... src/Pipeline.i
+	@echo ... src/Pipeline.s
+	@echo ... src/PoseEstimation.obj
+	@echo ... src/PoseEstimation.i
+	@echo ... src/PoseEstimation.s
+	@echo ... src/Renorm.obj
+	@echo ... src/Renorm.i
+	@echo ... src/Renorm.s
+	@echo ... src/main.obj
+	@echo ... src/main.i
+	@echo ... src/main.s
 .PHONY : help
 
 
