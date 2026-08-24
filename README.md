@@ -103,7 +103,7 @@ the `results/` directory:
 
 The SRPose inference implementation, the `fr1/room` sequence, generated
 result files for both methods, and the scripts used to produce the plots
-and figures in this work are available via the following shared OneDrive
+and figures in this work are available via the following shared GoogleDrive
 folder:
 
 https://shorturl.at/ggXZ5
